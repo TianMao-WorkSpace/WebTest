@@ -1,0 +1,1285 @@
+/* 全域重設 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,body {
+    font-family: 'Noto Sans TC', sans-serif;/*思源宋體*/
+    /*font-family: "LXGW WenKai Mono TC", monospace;/*霞鶩文楷*/
+    /*font-weight: 400;*/
+    /*font-style: normal;*/
+    min-height: 100vh;  /* 電腦版與舊手機舊瀏覽器保底 */
+    min-height: 100svh; /* (排除工具列後的最矮安全高度) */
+    min-height: 100dvh; /* 現代手機完美動態適應 */
+    width: 100dvw;
+    overflow: hidden; /* 防止最外層出現瀏覽器滾軸 */
+    display: flex;
+    flex-direction: column;
+    background-image: url("./img/bg1.jpg");
+    color: #324142;
+}
+
+::-webkit-scrollbar {/*捲軸背景*/
+    height: 6px;
+    width: 6px;
+}
+::-webkit-scrollbar-track {/*捲軸拉霸之外的空間*/
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {/*捲軸拉霸*/
+    background-color: rgba(156, 33, 17, 0.4); /* 半透明藍色 */
+    border-radius: 3px;
+}
+#header {
+    height: 30px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom, rgba(96,121,121,0.9), rgba(131, 109, 109, 0.6));
+    display: flex;
+    align-items: left;
+    padding: 0 10px;
+    overflow: hidden; /* 內容溢出直接裁切右邊 */
+    white-space: nowrap;
+    z-index: 1000;
+    color: #324142;
+    font-size: 25px;
+}
+.logo {
+    cursor: pointer;
+    user-select: none;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+}
+.main-wrapper {
+    margin-top: 30px;
+    min-height: calc(100vh - 30px);
+    min-height: calc(100svh - 30px);
+    min-height: calc(100dvh - 30px);
+    /* 補上這一行：這能讓內部的子元素在計算百分比高度時有據可依 */
+    height: calc(100dvh - 30px);
+    display: flex;
+    width: 100dvw;
+}
+#side-bar {
+    width: 220px;
+    height: 100%;
+    background-image: linear-gradient(to bottom, rgba(131, 109, 109,0.6), rgba(82,97,109,0.7)); /* 灰藍紫色調 */
+    transition: width 0.3s ease, min-width 0.3s ease;
+    overflow-y: auto; /* 高度溢出產生滾軸 */
+    overflow-x: hidden;
+    flex-shrink: 0;
+}
+#side-bar.hide {
+    width: 0 !important;
+    min-width: 0 !important;
+    overflow: hidden;
+}
+.nav_btn {
+    height: 30px;
+    width: 95%;
+    border: 0px ;
+    border-radius:4px;
+    margin: 5px;
+    padding: 5px;
+    background-color: rgba(170, 203, 231, 0.6);
+    text-align:left;
+    color:#0B3C41;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    /*長度超出後省略*/
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.nav_btn:hover {
+    background-color: rgba(136, 183, 197, 0.8);
+    border: 2px solid #5e4138;
+    color:#5e4138;
+    font-size: 18px;
+}
+.nav_mnu {
+    min-height: 30px;
+    width: 95%;
+    margin: 5px;
+    padding: 5px;
+    border-radius:4px;
+    background-color: rgba(170, 203, 231, 0.5);
+    text-align:left;
+    color:#273d52;
+    font-size: 15px;
+}
+.nav_btn2 {
+    height: 30px;
+    width: 80%;
+    border: 0px ;
+    border-radius:4px;
+    margin: 5px;
+    margin-left: 30px;
+    padding: 5px;
+    background-color: rgba(170, 203, 231, 0.6);
+    text-align:left;
+    color:#0B3C41;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.nav_btn2:hover {
+    background-color: rgba(136, 183, 197, 0.6);
+    border: 2px solid #5e3b38;
+    color:#5e4138;
+    font-size: 18px;
+}
+
+#container {
+    flex-grow: 1;
+    height: 100%;
+    background-image: linear-gradient(to bottom, rgba(108, 143, 137, 0.5), rgba(82,97,109,0.6)); /* 灰藍紫色調 */
+    position: relative;
+    min-width: 0;
+}
+
+/* 內容外殼：利用 Viewport 單位或 transform 確保內容因應容器等比縮放 */
+#content-box {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: visible !important; /* 改成 visible不在這裡攔截水平寬度 */
+}
+
+a {
+    margin: 3px;
+}
+
+.page_title{
+    width: 95%;
+    margin: 5px;
+    padding: 5px;
+    font-size: 40px !important;
+    color:#324142;
+    border-bottom: 4px dotted #975a56;
+}
+.page_article{
+    padding: 5px;
+    color:#324142;
+    font-size: 15px !important;
+    display: flex;
+    align-items: center;
+    /* 保持空白字元與換行符號 */
+    white-space: pre-wrap;
+    /* 強制溢出的單字自動換行 */
+    word-break: break-all;
+
+}
+/*    world_lore/world_special共用    */
+.tabs-container {/* 頁籤與主容器樣式 */
+    padding: 10px;
+    width: 100%;
+    height: 85%;
+    max-width: 1200px;
+    font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+}
+
+.tabs-nav {/* 上方頁籤按鈕的包裹盒 */
+    display: flex;
+    flex-wrap: wrap;/*萬一頁籤太多，自動折行 */
+    border: none; /*青色底線 */
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.tabs-content {/*下方內容區（Iframe）樣式 */
+    width: 100%;
+    height: 90%; 
+    border: none;
+}
+
+.tab-iframe {/* 滿版 Iframe 樣式 */
+    width: 100%;
+    height: 100%;/* 固定高度，讓 Google 文件的滾動條鎖在內部 */
+    border: none;
+    display: block;
+}
+/*    world_lore/world_special共用結束    */
+
+/*    char_relationship_chart/Story共用    */
+.tab-btn {/* 預設的頁籤按鈕樣式 */
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: bold;
+    background-image: linear-gradient(to bottom, rgba(119, 81, 76, 0.562), rgba(63, 81, 95, 0.6));
+    color: #e0c5c5;            /* 白字 */
+    border: 1px solid #5e413d;
+    
+    border-bottom: none;   /* 讓按鈕跟下方的底線融合 */
+    border-radius: 6px; /* 上圓角 */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn:hover {/* 滑鼠移上去的 Hover 效果 */
+    background-image: linear-gradient(to bottom, rgba(156, 116, 103, 0.562), rgba(75, 95, 110, 0.6));
+    color: #bd4f4f;
+}
+
+.tab-btn.active {/* 當前被選中（作用中）的頁籤樣式 */
+    color: #324142;        /* 文創古風棕黑 */
+    background-image: linear-gradient(to bottom, rgba(219, 166, 150, 0.562), rgba(130, 155, 175, 0.6));
+    border: 1px solid #a34d4d;
+    border-radius: 6px 6px 0 0; /* 上圓角 */
+}
+/*    char_relationship_chart/Story共用結束    */
+
+/*    Doodles/Goods/world_map共用結束    */
+#gallery-app-container {/* 全域容器 */
+    max-width: 1200px;
+}
+
+#gallery-app-container .display-main-box {/* 上方：大展示區 (預設隱藏，點擊下方縮圖後顯示) */
+    display: flex;
+    min-height: 750px;
+    background-color: rgba(173, 177, 176, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+#gallery-app-container .exhibit-primary-panel {/* 左側：主圖區 */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+#gallery-app-container .exhibit-title {
+    width: 100%; /*  需求：佔據全部寬度 */
+    background-image: linear-gradient(to bottom, rgba(219, 166, 150, 0.562), rgba(130, 155, 175, 0.6));
+    padding: 15px 20px;
+    font-size: 22px;
+    font-weight: bold;
+    box-sizing: border-box;
+    letter-spacing: 1px;
+    flex-shrink: 0; /* 防止被擠壓 */
+}
+#gallery-app-container .exhibit-image-wrapper {
+    margin: 10px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(173, 177, 176, 0.7);
+    border-radius: 6px;
+    border: 1px dashed #ddd;
+    overflow: hidden;
+    padding: 10px;
+}
+#gallery-app-container .exhibit-large-img {
+    max-width: auto;
+    max-height: 500px;
+    object-fit: contain;
+}
+#gallery-app-container .exhibit-notes {
+    background-color: rgba(188, 201, 197, 0.8);
+    padding: 15px;
+    margin: 10px;
+}
+
+#gallery-app-container .exhibit-side-panel {/* 右側：其他圖清單區 */
+    width: 200px;
+    flex-shrink: 0;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 750px;
+}
+
+#gallery-app-container .gallery-thumbs-grid {/* 下方：全部項目縮圖排列區 */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 5px;
+    border-radius: 8px;
+}
+
+#gallery-app-container .thumb-card-item {/* 通用組件：正方形卡片項目 */
+    width: 120px;
+    background-color: rgba(136, 183, 197, 0.6);
+    border: 2px solid #3e6e96;
+    border-radius: 6px;
+    overflow: hidden;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+#gallery-app-container .thumb-card-item:hover {
+    border-color: #b4443cb4;
+    transform: translateY(-2px);
+}
+
+#gallery-app-container .thumb-card-item.selected {/*  被選中狀態的樣式 */
+    border-color: #62aac0 !important;
+    box-shadow: 0 0 8px rgba(0,123,255,0.4);
+    background-color: #ebf5ff;
+}
+
+#gallery-app-container .PanelLeft{
+    width: 180px;
+    height: 180px;
+}
+
+
+#gallery-app-container .thumb-card-title {/* 卡片內部的文字與圖片配置 */
+    padding: 5px;
+    text-align: center;
+    white-space: normal;
+    word-break: break-all;
+    overflow: hidden;
+}
+#gallery-app-container .thumb-card-img {
+    width: 100%;
+    height: 116px; /* 扣除文字與邊框後逼近正方形 */
+    object-fit: cover;
+    display: block;
+}
+/*    Doodles/Goods/world_map共用結束    */
+
+/*    char_relationship_chart使用    */
+/* 關係圖展示面板 */
+.chart #char_Rel {
+    position: relative;
+    min-width: 100px;
+    min-height: 100px;
+    border-radius: 8px;
+    overflow: auto; /* 由力學引擎控制，不靠原生滾動條破壞視覺 */
+}
+
+.chart .relation-stage {
+    position: relative;
+    min-width: 100px;
+    min-height: 100px;
+    background-image: linear-gradient(to bottom, rgb(180, 206, 201), rgb(156, 119, 119));
+}
+
+.chart .relation-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none; 
+}
+
+/*組織框樣式優化 */
+.chart .org-box {
+    position: absolute;
+    border-style: dashed;
+    border-width: 2px;
+    border-radius: 16px;
+    pointer-events: none;
+    z-index: 1;
+    box-sizing: border-box;
+    transition: all 0.1s linear; /* 讓跟隨動畫平滑 */
+}
+
+/*組織名稱標籤 */
+.chart .org-label {
+    z-index: 3;
+    position: absolute;
+    top: -12px;
+    left: 15px;
+    padding: 2px 10px;
+    font-size: 12px;
+    border-radius: 20px;
+    text-shadow: 0 0 6px rgba(170, 203, 231);
+    z-index: 2;
+}
+
+/* 角色節點 */
+.chart .char-node {
+    position: absolute;
+    width: 80px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+    cursor: pointer;
+    /* 移除原本的固定偏移，交由 JS 計算中心點 */
+}
+
+.chart .char-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid ;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+
+.chart .char-name {
+    margin-top: 5px;
+    font-size: 13px;
+    text-align: center;
+    font-weight: bold;
+    color: #324142;
+}
+/*    人物關係表第二頁籤    */
+.character#char_List {
+    width: 90%;
+    height: 90%; /* 畫面高度的 90% */
+    margin-top: 10px;
+    min-width: 500px;
+    max-width: 700px;
+    background-image: linear-gradient(to bottom, rgba(131, 109, 109,0.6), rgba(82,97,109,0.7)); /* 灰藍紫色調 */
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto; /* 超過高度產生主動捲軸 */
+}
+
+.character .character-row {
+    display: flex;
+    background-color: rgba(170, 203, 231, 0.6);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 12px;
+    gap: 12px;
+    box-sizing: border-box;
+}
+
+/* 通用區塊規範：固定寬高、文字換行、高度溢出y捲軸 */
+.character .block-common {
+    height: 200px;
+    overflow-y: auto;
+    word-wrap: break-word;
+    word-break: break-all;
+    padding: 5px;
+    box-sizing: border-box;
+    background-color: rgba(191, 197, 202, 0.6);
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.character .block-left {/* 第一大區塊 (左) */
+    width: 140px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    line-height: 1.5;
+}
+.character .block-left img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+    object-fit: cover;
+}
+.character .block-left div {
+    margin-left: 8px;
+    text-align: left;
+}
+.character .block-left div strong {
+    display: block;
+    text-align: center !important;
+}
+.character .block-left .info-lbl { color: #36414d;text-align: left; }
+
+.character .block-mid {/* 第二大區塊 (中) */
+    min-width: 140px;
+    flex-shrink: 0;
+    padding: 8px;
+}
+.character .block-title {
+    font-weight: bold;
+    color: #36414d;
+    border-bottom: 1px dashed #6389a8;
+    padding-bottom: 2px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.character .click-link {
+    cursor: pointer;
+    margin-bottom: 4px;
+    display: block;
+    transition: color 0.1s;
+}
+.character .click-link:hover {
+    background-color: rgba(0, 149, 255, 0.4);
+    color: rgb(156, 119, 119);
+}
+
+.character .block-right {/* 第三大區塊 (右) */
+    flex-grow: 1; /* 自動填滿剩餘寬度 (約 310px 左右) */
+    font-size: 13px;
+    border-left: 2px solid #3e6e96;
+    padding-left: 10px;
+}
+
+.character .detail-placeholder {
+    color: #36414d;
+    text-align: center;
+    margin-top: 80px;
+    font-style: italic;
+}
+
+/* 三大區塊內部子資料條目 */
+.character .rel-item-box {
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+.character .rel-item-box.public-O { padding:5px; border: 2px solid #3e6e96;border-radius: 4px; } /* 公開關係：實線 */
+.character .rel-item-box.public-X { padding:5px; border: 2px dashed #7f8c8d;border-radius: 4px; } /* 隱藏關係：虛線 */
+
+.character .org-item-box {
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+.character .relTitle{
+    font-weight: bold;
+    color: #3e6e96;
+    margin:5px;
+    border-bottom: 2px solid #3e6e96;
+}
+.character .relTitle div{
+    margin:5px;
+}
+
+.character .liking-container {/* 好感度能量條 */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    white-space: nowrap;
+}
+.character .liking-bar-bg {
+    width: 100px;
+    height: 20px;
+    flex-grow: 1; 
+    background-color: #999999;
+    overflow: hidden;
+    position: relative;
+}
+
+.character .liking-bar-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s;
+    position: relative;
+    z-index: 1;
+}
+.character .liking-bar-fill.positive { background-color: rgba(0, 149, 255); } /* 正好感：紅條 */
+.character .liking-bar-fill.negative { background-color: rgba(119, 81, 76); } /* 負好感：黑條 */
+
+.character .text-hide-info {
+    color: #7f8c8d; /* 隱藏資訊：灰色字體 */
+    font-size: 12px;
+}
+
+/*    char_relationship_chart使用結束    */
+
+/*    char_profiles使用    */
+.gallery-wrapper {
+    width: 90%;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color:#324142;
+}
+/* ==========================================
+    2. 上方頂部人物大頭/立繪橫向選單
+    ========================================== */
+.gallery-wrapper #char-menu-bar {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    height:400px;
+    background-image: linear-gradient(to bottom, rgb(180, 206, 201), rgb(156, 119, 119));
+    /*關鍵需求：溢出產生橫向卷軸 */
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+
+/* 選單中的單一角色外殼 */
+.gallery-wrapper .menu-char-item {
+    height:360px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    flex-shrink: 0; /*防止在橫向排版中被壓扁 */
+}
+
+.gallery-wrapper .menu-char-item:hover, .menu-char-item.active {
+    background-color: rgba(74, 119, 119, 0.3);
+    border-color: #3e6e96;
+    transform: translateY(-2px);
+}
+
+/* 選單角色縮圖 */
+.gallery-wrapper .menu-char-img {
+    height: 345px;
+    width: auto;
+    object-fit: contain; /* 確保圖片不變形*/
+}
+.gallery-wrapper .menu-char-item.active .menu-char-img {
+    border-color: #3e6e96;
+}
+
+.gallery-wrapper .menu-char-name {
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+/* ==========================================
+    3. 下方角色詳細資料展示面板 (固定尺寸)
+    ========================================== */
+.gallery-wrapper #char-detail-panel {
+    width: 100%;
+    min-height: 750px;  /* 需求：固定高度 */
+    /* max-height: 1100px; */
+    background-color: rgba(173, 177, 176, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* 最上方：姓名列 */
+.gallery-wrapper .detail-name-bar {
+    width: 100%; /*需求：佔據全部寬度 */
+    background-image: linear-gradient(to bottom, rgba(219, 166, 150, 0.562), rgba(130, 155, 175, 0.6));
+    padding: 15px 20px;
+    font-size: 22px;
+    font-weight: bold;
+    box-sizing: border-box;
+    letter-spacing: 1px;
+    flex-shrink: 0; /* 防止被擠壓 */
+}
+
+/* 姓名列下方的雙欄容器 */
+.gallery-wrapper .detail-body {
+    display: flex;
+    flex-grow: 1;
+    box-sizing: border-box;
+    /* 預設是水平並排 */
+    flex-direction: row;
+}
+
+/*左欄：立繪展示與小圖預覽 */
+.gallery-wrapper .detail-left-column {
+    width: 50%; /* 固定寬度比例 */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-sizing: border-box;
+}
+
+/* 主要大立繪容器 */
+.gallery-wrapper .main-preview-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(173, 177, 176, 0.7);
+    border-radius: 6px;
+    border: 1px dashed #ddd;
+    overflow: hidden;
+    height: 520px; /*給立繪一個固定的預覽高度，防止塌陷*/
+}
+
+.gallery-wrapper .main-preview-img {
+    max-width: 100%;  /*需求：圖片要自動縮小到可容納在 div 內 */
+    max-height: 100%;
+    object-fit: contain; /* 保持原圖比例完整縮放 */
+}
+
+/* 其他圖片小圖預覽區 */
+.gallery-wrapper .thumb-scroll-bar {
+    display: flex;
+    gap: 10px;
+    padding: 5px 0;
+    /*需求：超過欄位寬度會產生水平卷軸 */
+    overflow-x: auto; 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 每個正方形小圖 */
+.gallery-wrapper .thumb-item {
+    width: 60px;  /*需求：正方形 */
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 2px solid #eee;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.1s;
+}
+.gallery-wrapper .thumb-item:hover, .thumb-item.active {
+    border-color: #ff4d4d; /* 點擊的小圖給予鮮明邊框 */
+}
+
+/*右欄：對應文字資料 */
+.gallery-wrapper .detail-right-column {
+    width: 50%;
+    height: 690px; /* 配合大畫面時的固定高度感 */
+    /* height: 100%; */
+    padding: 25px;
+    /*需求：超過容器長度會有垂直卷軸 */
+    overflow-y: auto; 
+    box-sizing: border-box;
+    background-color: rgba(188, 201, 197, 0.8);
+}
+
+.gallery-wrapper .info-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0 0 15px 0;
+    color: #222;
+    border-bottom: 2px solid #3e6e96;
+    padding-bottom: 8px;
+}
+.gallery-wrapper .data{
+    display: flex;
+    width: 90%;
+    margin: 5px;
+    
+    border-bottom: 1px dashed #6389a8;
+    min-height: 20px;
+    line-height: 1.2;
+    white-space: pre-wrap; /* 允許文字資料換行 */
+    }
+.gallery-wrapper .data_title{
+    color:#36414d;
+    font-size: 18px;
+    padding: 5px;
+    background-color: rgba(167, 91, 91, 0.5);
+    }
+.gallery-wrapper .data_article{
+    padding: 5px;
+    font-size: 15px;
+    }
+@media (max-width: 768px) {
+    /* 1. 讓雙欄容器從「左右並排」變成「上下垂直排列」 */
+    .gallery-wrapper .detail-body {
+        flex-direction: column;
+    }
+
+    /* 2. 左欄與右欄的寬度全部解放，強制吃滿 100% 寬度 */
+    .gallery-wrapper .detail-left-column, 
+    .gallery-wrapper .detail-right-column {
+        width: 100% !important;
+        height: auto !important; /* 釋放高度，讓內容自然往下長 */
+        border-right: none;      /* 拔除原本左右並排時的右邊框線 */
+    }
+
+    /* 3. 在垂直排列時，右欄不再自己長捲軸，而是融合在一起，交由最外層的 #content-box 去滾動 */
+    .gallery-wrapper .detail-right-column {
+        overflow-y: visible !important; 
+        border-top: 1px solid #eee;    /* 改在上下交界處加上一條裝飾線 */
+        padding-top: 20px;
+    }
+}
+/*    char_profiles使用結束    */
+
+/*    Story使用    */
+#comic-app-container {
+    width: 100%;
+    max-width: 1600px;
+    box-sizing: border-box;
+}
+
+#comic-app-container *, #comic-app-container *::before, #comic-app-container *::after {
+    box-sizing: inherit;
+}
+
+/* 頁籤列 */
+#comic-app-container .tab-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+/* 頁籤內容 */
+#comic-app-container .tab-content {
+    display: none;
+    /* background-color: #fff; 
+    padding: 20px 0;*/
+
+}
+
+#comic-app-container .tab-content.active {
+    display: block;
+}
+
+/* 【標籤區】 */
+#comic-app-container .tags-section {
+    border: 3px dashed #666;
+    background-color: rgba(191, 197, 202, 0.6);
+    padding: 15px;
+    margin: 5px ;
+    width: 95%;
+    max-width: 900px;
+}
+
+#comic-app-container .tag-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 3px;
+    font-size: 14px;
+    line-height: 1.2;
+    word-break: break-all;
+}
+
+#comic-app-container .tag-row:last-child {
+    margin-bottom: 0;
+}
+
+#comic-app-container .tag-label {
+    font-weight: bold;
+    min-width: 60px;
+    flex-shrink: 0;
+}
+
+#comic-app-container .tag-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    font-weight: bold;
+    color: #fff;
+    margin-right: 8px;
+    font-size: 11px;
+    border-radius: 2px;
+}
+
+#comic-app-container .warning-text {
+    font-weight: bold;
+    color: #b70012;
+}
+
+/* 【漫畫閱覽區大外殼】 */
+#comic-app-container .viewer-section {
+    width: 100%;
+}
+
+/* 大圖基礎控制 */
+#comic-app-container .comic-large-img {
+    height: 920px;
+    width: auto;
+    display: block;
+    max-width: none; /* 允許超出寬度以產生 X 軸 */
+}
+
+/* 圖片橫向溢出外殼 */
+#comic-app-container .img-scroll-x {
+    /* width: 100%; */
+    width: auto;
+    overflow-x: auto;
+    display: flex;
+    justify-content: left;
+}
+/* 當圖片真的寬到溢出時，維持置左滾動 */
+#comic-app-container .img-scroll-x.overflowing {
+    justify-content: flex-start;
+}
+
+/* 限制級預警畫面 */
+#comic-app-container .alarm-screen {
+    background-color: #000;
+    color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+    width: 100%;
+}
+
+#comic-app-container .alarm-title {
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+#comic-app-container .alarm-content {
+    font-size: 20px;
+    color: #ccc;
+    margin-bottom: 30px;
+    word-break: break-all;
+}
+
+#comic-app-container .alarm-btn {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+#comic-app-container .alarm-btn:hover {
+    background-color: #ddd;
+}
+
+/* 【故事封面模式】排版 */
+#comic-app-container .story-home-layout {
+    width: 100%;
+}
+
+#comic-app-container .intro-box {
+    background-image: linear-gradient(to bottom, rgba(219, 166, 150, 0.562), rgba(130, 155, 175, 0.6));
+    border-left: 4px solid #a34d4d;
+    border-top: 1px solid #a34d4d;
+    border-right: 1px solid #a34d4d;
+    border-bottom: 1px solid #a34d4d;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    word-break: break-all;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+#comic-app-container .home-main-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: left;
+}
+
+#comic-app-container .cover-wrapper {
+    flex-shrink: 0;
+}
+
+#comic-app-container .chapter-list-box {
+    width: 260px;
+    height: 920px;
+    overflow-y: auto;
+    background-image: linear-gradient(to bottom, rgba(131, 109, 109,0.6), rgba(82,97,109,0.7)); /* 灰藍紫色調 */
+    padding: 5px;
+    flex-shrink: 0;
+}
+
+#comic-app-container .chapter-item {
+    width: 240px;
+    height: 110px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;          /* 垂直置中 */
+}
+
+/* #comic-app-container .chapter-item:hover {
+    background-color: #f0f0f0;
+} */
+
+#comic-app-container .thumb-square {
+    width: 100px !important;
+    height: 100px !important;
+    object-fit: cover;
+    background-position: center;
+    display: block;
+    margin: 5px;
+    border: 1px solid #ccc;
+    /*核心關鍵：不允許 flex 佈局對此圖片進行任何擠壓 */
+    flex-shrink: 0 !important;
+}
+
+#comic-app-container .chapter-item-title {
+    font-size: 15px;
+    height: 60px;
+    width: 120px !important; /* 強制死守 120px 寬度 */
+    
+    /*核心關鍵 1：不允許外層 Flexbox 壓縮或拉伸這個文字區塊 */
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+
+    /*核心關鍵 2：確保折行文字能夠正常運作 */
+    white-space: normal !important; 
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
+
+    /*核心關鍵 3：萬一字真的太多、超過 60px 高度時，把超出的部分藏起來，絕對不穿幫 */
+    overflow: hidden !important;
+}
+
+/* 控制導覽列 */
+#comic-app-container .nav-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+#comic-app-container .nav-btn {
+    padding: 5px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #324142;
+    color: #ffffff;
+    border-radius: 3px;
+    border: none;
+}
+#comic-app-container .nav-btn:hover { background-color: rgba(0, 149, 255, 0.4) !important; }
+
+#comic-app-container .nav-select {
+    padding: 5px;
+    font-size: 14px;
+    background-color: #324142;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+}
+
+
+#comic-app-container .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 5px;
+    border-bottom: 2px solid #324142;
+    padding-bottom: 3px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#comic-app-container .sub-title {
+    font-size: 22px;
+    margin: 0;
+}
+
+#comic-app-container .update-date {
+    font-size: 13px;
+}
+#comic-app-container .center-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* 縮圖網格展示 */
+#comic-app-container .thumbs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+#comic-app-container .grid-thumb-item {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+#comic-app-container .grid-thumb-item:hover {
+    border-color: 2px solid #5e4138;
+}
+
+/* 點擊切頁的隱形觸控層 */
+#comic-app-container .page-click-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+#comic-app-container .click-zone-left,
+#comic-app-container .click-zone-right {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    cursor: pointer;
+}
+#comic-app-container .click-zone-left { left: 0; }
+#comic-app-container .click-zone-right { right: 0; }
+
+#comic-app-container .notes-box {
+    background-color: rgba(136, 183, 197, 0.6);
+    /* height: 50px; */
+    border-left: 4px solid #3e6e96;
+    padding: 10px;
+    border-radius: 0 4px 4px 0;
+    border-top: 1px solid #3e6e96;
+    border-right: 1px solid #3e6e96;
+    border-bottom: 1px solid #3e6e96;
+    padding: 15px;
+    margin-top: 15px;
+    word-break: break-all;
+    font-size: 14px;
+}
+/*    Story使用結束    */
+/*    world_timeline使用    */
+/* 網格大容器 */
+#world_timeline{
+    padding: 5px;
+    width: 100% !important;     /*強制寬度吃滿父層 */
+    box-sizing: border-box;
+    max-width: 100% !important; /*防止被任何外層樣式強行限制固定寬度 */
+    /*核心修正：解鎖滾動條的關鍵組合技 */
+    display: block !important;  /* 確保它是一個獨立的塊級盒子，滾動條才好觸發 */
+    overflow-x: auto !important;/*用最高權限強制開啟水平滾動 */
+    overflow-y: visible !important; /* 讓上下滾動交給父層處理，這裡不干涉 */
+
+}
+#world_timeline .timeline-grid-container {
+    display: grid;
+    position: relative;     /*核心關鍵：這行絕對不能漏！它是懸浮框的「物理地基」 */
+    /*預設欄位交給 JS 去覆蓋，這裡只需要給定基本樣式 */
+    gap: 15px; 
+    margin: 0;
+    padding-bottom: 15px;
+    min-width: 100% !important;
+}
+
+/* 左側時間方塊 */
+#world_timeline .grid-time-cell {
+    /* background-color: #f4faf9; */
+    color: #2c3e50;
+    font-weight: bold;
+    padding: 10px 10px;
+    text-align: left;
+    border-right: 2px dotted #2c3e50; 
+    display: flex;
+    align-items: top;
+    justify-content: center;
+}
+
+/* 一般事件包裹盒 */
+#world_timeline .grid-events-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+/* 基礎事件卡片 */
+#world_timeline .event-card {
+    background-color: rgba(136, 183, 197, 0.6);
+    /* height: 50px; */
+    border-left: 4px solid #3e6e96;
+    padding: 10px;
+    border-radius: 0 4px 4px 0;
+    border-top: 1px solid #3e6e96;
+    border-right: 1px solid #3e6e96;
+    border-bottom: 1px solid #3e6e96;
+    /* 💡 優化：當滑鼠移到事件卡片上時，卡片變換游標 */
+    cursor: pointer;        /* 讓使用者知道這個可以點或移入 */
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#world_timeline .event-title {
+    font-weight: bold;
+    height: 100%;
+    color: #000000;
+    white-space: nowrap;       /* 強制文字不換行 */
+    overflow: hidden;          /* 隱藏超出容器的文字 */
+    text-overflow: ellipsis;   /* 溢出時顯示「...」 */
+    display: block;
+}
+#world_timeline .event-card:hover {
+    transform: translateY(-2px); /* 輕微浮起特效 */
+    box-shadow: 0 4px 10px rgba(0, 180, 216, 0.15);
+}
+
+/*跨度事件專用樣式：它會被 Grid 自動拉長，我們給它填滿高度 */
+#world_timeline .long-term-event {
+    background-image: linear-gradient(to bottom, rgba(219, 166, 150, 0.562), rgba(130, 155, 175, 0.6));
+    border-left: 4px solid #a34d4d;
+    border-top: 1px solid #a34d4d;
+    border-right: 1px solid #a34d4d;
+    border-bottom: 1px solid #a34d4d;
+    height: 100%; /* 確保卡片會完美塞滿整段跨度的高度 */
+    box-sizing: border-box;
+}
+/* 懸浮說明框主體 */
+.timeline-tooltip {
+    /*改成固定在瀏覽器視窗上，不跟隨任何捲軸滾動 */
+    position: fixed !important;
+    /*出現在畫面的右上角*/
+    top: 40px !important;
+    right: 0px !important;
+    display: none;          /* 預設隱藏 */
+    background-image: linear-gradient(to bottom, rgb(180, 206, 201), rgb(156, 119, 119));
+    border-left: 5px solid #682424; /* 朱紅色主題邊框 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    padding: 10px; 
+    border-radius: 4px;
+    width: 280px;
+    height: 90%;
+    box-sizing: border-box;
+    overflow-y: auto;       /* ⚡ 多的字自動產生垂直捲軸 */
+    z-index: 999;           /* 確保它永遠漂浮在最上層 */
+}
+/* 2. 為了解決選單破版與定位干擾，確保大容器有相對定位點 */
+.timeline-tooltip .timeline-grid-container {
+    position: relative;     /*讓懸浮框的 top / left 參照這個大畫布計算，不再亂飄 */
+    display: grid;
+    gap: 15px; 
+    width: 100%;
+    max-width: 1200px; 
+    margin: 0 auto;
+}
+/* 懸浮框內的文字樣式 */
+.timeline-tooltip .tooltip-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #324142;
+    display: block;
+    line-height: 1.2;
+    margin-top: 0px;       /* 設為 0 可以讓標題完全貼近懸浮框的頂端 */
+    padding: 0px;
+    margin-bottom: 4px;    /* 縮小這裡的數字（原本是 6px），可以讓時間往上貼近標題 */
+}
+
+.timeline-tooltip .tooltip-time {
+    font-size: 12px;
+    color: #3e6e96;         /* 青色時間文字 */
+    font-weight: bold;
+    display: block;        /*強制轉為區塊元素 */
+    line-height: 1.2;      /*緊湊行高 */
+    margin-top: 0px;       /* 確保時間上方沒有多餘推擠 */
+    margin-bottom: 1px;    /* 縮小這裡的數字，可以讓下方的敘述文字再往上移 */
+    border-bottom: 1px dashed #d1f4f6;
+    padding-bottom: 2px; 
+}
+
+.timeline-tooltip .tooltip-desc {
+    font-size: 13px;
+    color: #444444;
+    line-height: 1.6;
+}
+/*    world_timeline使用結束    */

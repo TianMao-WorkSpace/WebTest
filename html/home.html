@@ -1,0 +1,323 @@
+<style>
+/* 遊戲舞台 */
+#game-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 90%; /* 加寬舞台，給多個仙人掌更多移動空間 */
+    height: 200px;
+    border-bottom: 2px solid #535353;
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff00;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* 小恐龍 */
+#dino {
+    width: 40px;
+    height: 43px;
+    background-color: #535353;
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    border-radius: 4px;
+}
+
+/* 仙人掌基礎設定 */
+.cactus {
+    position: absolute;
+    bottom: 0;
+    border-radius: 2px;
+}
+
+/* 樣式 1：標準矮仙人掌 */
+.type-1 {
+    width: 15px;
+    height: 35px;
+    background-color: #8a8a8a;
+}
+
+/* 樣式 2：高瘦仙人掌 */
+.type-2 {
+    width: 18px;
+    height: 48px;
+    background-color: #6b6b6b;
+}
+
+/* 樣式 3：寬胖仙人掌組合 */
+.type-3 {
+    width: 30px;
+    height: 40px;
+    background-color: #4a4a4a;
+    border-radius: 4px 4px 0 0;
+}
+
+/* 計分板與提示 */
+#score-board {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: monospace;
+    font-size: 20px;
+    color: #535353;
+    font-weight: bold;
+}
+
+#game-over-text {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #535353;
+    z-index: 10;
+}
+
+#game-over-text h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+#game-over-text p {
+    font-size: 14px;
+    color: #888;
+}
+</style>
+<div class="page_title">首頁</div>
+    <div id = "mima" style="display: none; margin: 5px;">
+        <div style="color: var(--red); font-size: 50px; background-color: var(--blue);">
+            你還未登入!請輸入密碼
+        </div>
+        <br><br>
+        <div style="font-size: 20px;">密碼:
+            <input type="text" id="pwd" style="margin:5px;height:25px;width:100px;font-size: 20px;color:var(--dark-green);caret: var(--dark-green) bar auto;background-color: var(--border-blue3);border:2px var(--dark-green) solid;">
+            <button onclick="setpwd()"style="height:30px;width:50px;font-size: 20px;color:var(--dark-green);background-color: var(--bright-blue-trans);">確認</button>
+        </div>
+        
+        
+    </div>
+    <div class="page_article">
+東流分取使人，無限故鄉絃黃金馬，黃殘老舉相月未，恩不孤高，上望明日搖落天風吹，洞庭琵琶過舟逐。
+
+新雨平明勸君柳夫。猶芙：有之難難且相風事。
+
+燕主城外，吾五更誰茫昭陽庭，故園節能城雁飛，十年期馬得見不堪，天清樓大行路難⋯又一夜四青天暗江絕宦遊人。願山何青別風流，還風不死山白，蓉故相送天長，傳將帶昔燕草木玉門月夜。轉石茫茫未有寂寞江流戰⋯風明朝不知行路難生長枝入聞，樹哀落出門揚州不得。花日金雪獨素手。
+    </div>
+<div id="game-container">
+        <div id="score-board">SCORE: 0</div>
+        <div id="dino"></div>
+        <div id="game-over-text">
+            <h2>GAME OVER</h2>
+            <p>按「空白鍵」或「點擊畫面」重新開始</p>
+        </div>
+    </div>
+<script>
+(function() {
+    const dino = document.getElementById("dino");
+    const container = document.getElementById("game-container");
+    const scoreBoard = document.getElementById("score-board");
+    const gameOverText = document.getElementById("game-over-text");
+
+    // 遊戲狀態變數
+    let isJumping = false;
+    let position = 0; // 恐龍的垂直高度
+    let score = 0;
+    let isGameOver = false;
+    let obstacles = [];
+    let gameSpeed = 5;
+    let scoreInterval;
+    let spawnTimeout;
+    let animationFrameId;
+
+    // 監聽鍵盤與點擊事件
+    document.addEventListener("keydown", function(event) {
+        if (event.code === "Space") {
+            if (isGameOver) {
+                resetGame();
+            } else if (!isJumping) {
+                jump();
+            }
+        }
+    });
+
+    document.addEventListener("touchstart", function() {
+        if (isGameOver) {
+            resetGame();
+        } else if (!isJumping) {
+            jump();
+        }
+    });
+
+    // 跳躍邏輯 (修正為單一計時器，流暢度更佳)
+    function jump() {
+        if (isJumping) return;
+        isJumping = true;
+        
+        let jumpVelocity = 12;
+        const gravity = 0.6;
+
+        function doJump() {
+            position += jumpVelocity;
+            jumpVelocity -= gravity;
+
+            if (position <= 0) {
+                position = 0;
+                isJumping = false;
+                dino.style.bottom = position + "px";
+            } else {
+                dino.style.bottom = position + "px";
+                requestAnimationFrame(doJump);
+            }
+        }
+        doJump();
+    }
+
+    // 隨機生成 1~3 個仙人掌障礙物
+    function generateObstacles() {
+        if (isGameOver) return;
+
+        // 隨機決定這次要出現幾個仙人掌 (1 到 3 個)
+        const count = Math.floor(Math.random() * 3) + 1;
+        
+        // 基礎起始生成位置（在畫布右側外）
+        let baseLeftPosition = 800; 
+
+        for (let i = 0; i < count; i++) {
+            const cactus = document.createElement("div");
+            cactus.classList.add("cactus");
+            
+            // 1. 隨機賦予一種樣式類別 (type-1, type-2, type-3)
+            const randomType = Math.floor(Math.random() * 3) + 1;
+            cactus.classList.add("type-" + randomType);
+            
+            container.appendChild(cactus);
+            
+            // 2. 如果生出多個仙人掌，彼此之間要錯開一小段隨機距離，避免重疊
+            // 第一個放基底位置，後續的往後疊加 30~60px 的間距
+            if (i > 0) {
+                baseLeftPosition += Math.floor(Math.random() * 30) + 30;
+            }
+            
+            cactus.style.left = baseLeftPosition + "px";
+
+            // 將仙人掌丟進陣列以便追蹤，並記錄它當下的寬高（用於精準碰撞偵測）
+            // 這裡等瀏覽器渲染後抓取實際寬高，或根據類別直接給定
+            let width, height;
+            if (randomType === 1) { width = 15; height = 35; }
+            else if (randomType === 2) { width = 18; height = 48; }
+            else { width = 30; height = 40; }
+
+            obstacles.push({ 
+                element: cactus, 
+                position: baseLeftPosition,
+                width: width,
+                height: height
+            });
+        }
+
+        // 隨機在 2 秒 ~ 3.5 秒之間生成下一波「仙人掌群」
+        let randomTime = Math.random() * 1500 + 2000;
+        spawnTimeout = setTimeout(generateObstacles, randomTime);
+    }
+
+    // 遊戲主要迴圈 (控制移動與碰撞偵測)
+    function gameLoop() {
+        if (isGameOver) return;
+
+        // 隨時間微幅提升遊戲速度
+        gameSpeed += 0.001;
+
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+            let obs = obstacles[i];
+            obs.position -= gameSpeed;
+            obs.element.style.left = obs.position + "px";
+
+            // 移除超出螢幕的仙人掌
+            if (obs.position < -50) {
+                obs.element.remove();
+                obstacles.splice(i, 1);
+                continue;
+            }
+
+            //進階精準碰撞偵測 
+            const dinoLeft = 50;
+            const dinoWidth = 40;
+            const dinoHeight = 43;
+
+            // 檢查 X 軸與 Y 軸是否有重疊
+            const isXOverlap = obs.position < (dinoLeft + dinoWidth) && (obs.position + obs.width) > dinoLeft;
+            const isYOverlap = position < obs.height;
+
+            if (isXOverlap && isYOverlap) {
+                endGame();
+                return;
+            }
+        }
+
+        animationFrameId = requestAnimationFrame(gameLoop);
+    }
+
+    // 開始計分
+    function startScore() {
+        scoreInterval = setInterval(() => {
+            score++;
+            scoreBoard.innerText = "SCORE: " + score;
+        }, 100);
+    }
+
+    // 遊戲結束
+    function endGame() {
+        isGameOver = true;
+        gameOverText.style.display = "block";
+        clearInterval(scoreInterval);
+        clearTimeout(spawnTimeout);
+        cancelAnimationFrame(animationFrameId);
+    }
+
+    // 重新開始遊戲
+    function resetGame() {
+        isGameOver = false;
+        score = 0;
+        gameSpeed = 5;
+        position = 0;
+        isJumping = false;
+        dino.style.bottom = "0px";
+        scoreBoard.innerText = "SCORE: 0";
+        gameOverText.style.display = "none";
+
+        // 清除畫面上所有的仙人掌
+        obstacles.forEach(obs => obs.element.remove());
+        obstacles = [];
+
+        // 重新啟動
+        startScore();
+        generateObstacles();
+        gameLoop();
+    }
+
+    // 初始化啟動遊戲
+    startScore();
+    generateObstacles();
+    gameLoop();
+})();
+</script>
+<script>
+(function() {
+    document.getElementsByClassName("page_article")[0].style.display = "none";
+    console.log("登入");
+    if(localStorage.getItem('wctotg_APPLE')===null || localStorage.getItem('wctotg_APPLE')==""){
+        localStorage.setItem('wctotg_APPLE',"");
+        document.getElementById("mima").style.display = "";
+        console.log("設定localStorage");
+        }
+    else{
+        setpwd()
+        }
+    const input = document.querySelector('#pwd');
+    input.addEventListener('keydown',  (e) => {
+        if (e.key === 'Enter') {
+            setpwd();
+            }
+        });
+})();
+</script>

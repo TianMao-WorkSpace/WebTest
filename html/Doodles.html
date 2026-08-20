@@ -1,0 +1,30 @@
+<div class="page_title">塗鴉/雜圖</div>
+<div style="padding: 5px; margin: 5px; display: flex;
+    align-items: left;">
+    <div id="gallery-app-container"></div>
+</div>
+<script>
+    (function() {
+    const Picture = [
+         {
+            title: "塗鴉1",
+            url: "./img/Map/1.png",
+            notes: "對塗鴉1的說明",
+            view: []
+        },
+        {
+            title: "塗鴉2",
+            url: "./img/Map/2.jpg",
+            notes: "對塗鴉2的說明",
+            view: []
+        },
+        {
+            title: "塗鴉3",
+            url: "",
+            notes: "",
+            view: []
+        }
+    ];
+initGalleryApp("gallery-app-container", Picture);
+})();
+</script>

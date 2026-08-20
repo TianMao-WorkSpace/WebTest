@@ -1,0 +1,119 @@
+<style>
+.tab-content {
+    display: none;
+    width: 100%;
+    height: auto !important;     /* 確保高度不會被固定死 */
+    min-height: 100%;            /*基本維持滿高 */
+    box-sizing: border-box;
+    overflow-x: auto !important;/*用最高權限強制開啟水平滾動 */
+    padding: 5px;
+}
+
+.tab-content.active {
+    display: block;
+    padding: 5px;
+}
+</style>
+<div class="page_title">人際關係</div>
+<div style="padding: 5px; margin: 5px;">
+    <div class="tab-container">
+    <button class="tab-btn active" onclick="switchTab('char_Rel')">人物關係圖</button>
+    <button class="tab-btn" onclick="switchTab('char_List')">人物列表</button>
+    </div>
+
+<div id="char_Rel" class="tab-content active chart">
+   <div style="border: 2px dashed var(--border-blue);padding: 5px; margin: 5px; width: 200px; height: 100px; background-color: var(--bright-blue-trans)" class="page_article">
+※箭頭樣式
+    ╌╌╌ ：不公開關係
+    ─── ：公開關係
+    </div>
+    <div class="relation-stage" id="relation-stage">
+        <svg class="relation-svg" id="relation-svg">
+            <defs id="svg-defs"></defs>
+            <g id="svg-lines"></g>
+        </svg>
+    </div>
+</div>
+
+<div id="char_List" class="tab-content character">
+    <div id="database-container"></div>
+</div>
+</div>
+
+
+<script>
+// 使用 window 屬性檢查，防止嵌入式網頁重複宣告噴錯
+if (!window.orgColor) {
+    window.orgColor = [//組織名稱/框線顏色/背景顏色/文字顏色
+        { org: "組織A", borderColer: "#ff4d4d", bgcolor: "rgba(255, 77, 77, 0.12)", color: "#ffffff" },
+        { org: "組織B", borderColer: "#4da6ff", bgcolor: "rgba(77, 166, 255, 0.12)", color: "#ffffff" },
+        { org: "組織C", borderColer: "#ff00ff", bgcolor: "rgba(255, 0, 255, 0.12)", color: "#ffffff" }
+    ];
+}
+// 讓區域變數直接指向 window 全域變數，後續的程式碼（如 orgColor.forEach）完全不需要改動
+var orgColor = window.orgColor; 
+
+if (!window.charRelL) {
+    window.charRelL = [
+    {   //角色id/角色姓名/頭像圖源
+        id: 1, name: "角色A", url: "https://picsum.photos/100?random=1",
+        org: [//隸屬組織/組織身分/狀態/在組織中的起始~結束時間/組織等級/對組織的觀點
+            { orgName: "組織A", orgRole: "在組織A的身分", Status: "在職", date: "某年~", level: "等級", view: "對組織A的看法" },
+            { orgName: "組織B", orgRole: "在組織B的身分", Status: "離職", date: "某時期", level: "等級", view: "對組織B的看法" }
+        ],//角色定位/故事立場/連線顏色
+        role: "書中定位", POS: "混亂善良", borderColer: "#ffcc00",
+        Rel: [//關係人角色id/關係定義/是否公開/關鍵事件/好感度/隱藏資訊/一句話評價對方
+            { id: 2, rel: [{ name: "關係名稱1", is_public: "O", key_event: "關鍵節點" }], liking: "85", hide: "與角色B關係的隱藏資訊", view: "對角色B的看法" },
+            { id: 3, rel: [{ name: "關係名稱2", is_public: "X", key_event: "關鍵節點" }], liking: "-100", hide: "與角色C關係的隱藏資訊", view: "對角色C的看法" }
+        ]
+    },
+    {   
+        id: 2, name: "角色B", url: "https://picsum.photos/100?random=2",
+        org: [
+            { orgName: "組織A", orgRole: "在組織A的身分", Status: "曾借調", date: "某年某月~某月", level: "等級", view: "對組織A的看法" },
+            { orgName: "組織B", orgRole: "在組織B的身分", Status: "離職", date: "某年~某年", level: "等級", view: "對組織B的看法" }
+        ], 
+        role: "書中定位", POS: "中立善良", borderColer: "#00ffcc", 
+        Rel: [
+            { id: 1, rel: [{ name: "關係名稱3", is_public: "O", key_event: "關鍵節點" }, { name: "關係名稱3.5", is_public: "X", key_event: "關鍵節點" }], liking: "90", hide: "與角色A關係的隱藏資訊", view: "對角色B的看法" }
+        ]
+    },
+    {   
+        id: 3, name: "角色C", url: "https://picsum.photos/100?random=3",
+        org: [
+            { orgName: "組織C", orgRole: "在組織C的身分", Status: "在職", date: "某年~", level: "等級", view: "對組織C的看法" }
+        ], 
+        role: "書中定位", POS: "混亂中立", borderColer: "#ff00ff",
+        Rel: [
+            { id: 1, rel: [{ name: "關係名稱4", is_public: "X", key_event: "關鍵節點" }], liking: "-40", hide: "與角色A關係的隱藏資訊", view: "對角色A的看法" },
+            { id: 5, rel: [{ name: "關係名稱5", is_public: "O", key_event: "關鍵節點" }], liking: "20", hide: "與角色E關係的隱藏資訊", view: "對角色E的看法" }
+        ]
+    },
+    {   
+        id: 4, name: "角色D", url: "https://picsum.photos/100?random=4",
+        org: [
+            { orgName: "組織B", orgRole: "在組織B的身分", Status: "在職", date: "某年~", level: "等級", view: "對組織B的看法" }
+        ],
+        role: "書中定位", POS: "守序善良", borderColer: "#32ff7e",
+        Rel: [
+            { id: 1, rel: [{ name: "關係名稱6", is_public: "O", key_event: "關鍵節點" }], liking: "60", hide: "與角色A關係的隱藏資訊", view: "對角色A的看法" },
+            { id: 2, rel: [{ name: "關係名稱7", is_public: "O", key_event: "關鍵節點" }], liking: "95", hide: "與角色B關係的隱藏資訊", view: "對角色B的看法" }
+        ]
+    },
+    {   
+        id: 5, name: "角色E", url: "https://picsum.photos/100?random=5",
+        org: [
+            { orgName: "組織C", orgRole: "在組織C的身分", Status: "在職", date: "某年~某年", level: "等級", view: "對組織C的看法" }
+        ],
+        role: "書中定位", POS: "中立邪惡", borderColer: "#7efff5",
+        Rel: [
+            { id: 1, rel: [{ name: "關係名稱8", is_public: "O", key_event: "關鍵節點" }], liking: "40", hide: "與角色A關係的隱藏資訊", view: "對角色A的看法" }
+        ]
+    }
+];
+}
+var charRelL = window.charRelL;
+// 頁面載入完成後，直接呼叫外部共用程式碼的入口函式
+initGlobalTabs(window.orgColor, window.charRelL);
+
+</script>

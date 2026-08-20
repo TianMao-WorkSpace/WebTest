@@ -1,0 +1,50 @@
+<div class="page_title">地圖與景點</div>
+<div style="padding: 5px; margin: 5px; display: flex;
+    align-items: left;">
+    <div id="gallery-app-container"></div>
+</div>
+<script>
+(function() {
+const Picture = [
+    {
+        title: "地圖1",//圖片合集名稱
+        url: "./img/Map/1.png",//圖片合集封面圖源/首圖
+        notes: "對地圖1的說明",//首圖說明
+        view: [//其餘圖片標題/圖源/說明
+            { title: "局部1", url: "./img/Map/1.png", notes: "對局部1的說明" },
+            { title: "局部2", url: "./img/Map/1.png", notes: "對局部2的說明" }
+        ]
+    },
+    {
+        title: "地圖2",
+        url: "./img/Map/2.jpg",
+        notes: "對地圖2的說明",
+        view: [
+            { title: "局部1", url: "./img/Map/2.png", notes: "對局部1的說明" }
+        ]
+    },
+    {
+        title: "地圖3",
+        url: "./img/Map/3.png",
+        notes: "對地圖3的說明",
+        view: []
+    },
+    {
+        title: "地圖4",
+        url: "./img/Map/4.jpg",
+        notes: "對地圖4的說明",
+        view: []
+    },
+    {
+        title: "地圖5",
+        url: "./img/Map/5.jpg",
+        notes: "對地圖5的說明",
+        view: []
+    }
+
+
+];
+
+initGalleryApp("gallery-app-container", Picture);
+})();
+</script>

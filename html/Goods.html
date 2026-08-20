@@ -1,0 +1,32 @@
+<div class="page_title">實體化周邊展示</div>
+<div style="padding: 5px; margin: 5px; display: flex;
+    align-items: left;">
+    <div id="gallery-app-container"></div>
+</div>
+<script>
+(function() {
+    const Picture = [
+        {
+            title: "周邊1",
+            url: "./img/Map/1.png",
+            notes: "對周邊1的說明",
+            view: []
+        },
+        {
+            title: "周邊2",
+            url: "./img/Map/2.jpg",
+            notes: "對周邊2的說明",
+            view: []
+        },
+        {
+            title: "周邊3",
+            url: "",
+            notes: "",
+            view: []
+        }
+
+
+    ];
+initGalleryApp("gallery-app-container", Picture);
+})();
+</script>
