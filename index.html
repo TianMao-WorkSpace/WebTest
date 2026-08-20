@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap" rel="stylesheet">
+    <meta http-equiv="X-Frame-Options" content="sameorigin" />
+    <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css?v=4.1">
+    <link rel="icon" href="./img/PhotoCate.ico" type="image/x-icon" />
+    <title>網站名稱</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script type="text/javascript" src="./js/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<!-- <script src="/js/bootstrap.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.js"></script>
+<script type="text/javascript" src="./js/web.js"></script>
+<script type="text/javascript" src="./js/iframetab.js"></script>
+<script type="text/javascript" src="./js/galary.js"></script>
+<script type="text/javascript" src="./js/chartAndRelationList.js"></script>
+<script type="text/javascript" src="./js/profile.js"></script>
+<script type="text/javascript" src="./js/story.js"></script>
+<script type="text/javascript" src="./js/timeline.js"></script>
+</head>
+
+<body>
+    <div id = header>
+        <div class="menu-btn logo" style="width:25px;height:25px;background-size: contain;background-repeat: no-repeat;background-image: url('./img/PhotoCate.png');"></div>
+        <div id="site-name" class = "home-btn logo">網站名稱</div>
+    </div>
+    <div class="main-wrapper">
+        <div id="side-bar" class = "side-bar">請登入</div>
+        <div id="container">
+            <div id="content-box">
+            </div>
+        </div>
+    </div>
+<script>
+    $("#content-box").load("./html/home.html");
+    document.getElementById("side-bar").classList.toggle("hide");
+</script>
+</body>
+</html>
