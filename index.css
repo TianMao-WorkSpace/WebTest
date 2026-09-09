@@ -1,0 +1,969 @@
+	
+/* 定義顏色網頁框架使用的變數 */
+:root {
+    --fontType:'Noto Sans TC', sans-serif;/*字形*/
+    --default-font:#4a3b32;/*全域預設文字顏色*/
+    --body-bg:url("./img/background.png") no-repeat ;/*全域背景*/
+    --defaultFallback-img: url("../img/ErrImg.png") no-repeat center / contain;/* 圖裂預設圖片 */
+    
+/*固定UI 命名格式:元件名稱-樣式/元件名稱-特定動作-樣式*/
+    /*📌頂端列*/
+    --hearder-bg:linear-gradient(to bottom, rgba(255, 230, 208, 0.9), rgba(245, 190, 180, 0.7));/*背景顏色*/
+    --header-font:#4a3b32;/* 文字顏色 */
+    --loginName-color:#4a3b32;
+    /*全畫面*/
+    /*📌說明圖示預設按鈕*/
+    --pageTooltipIcon-bg:url("./img/Icon.png") no-repeat center / contain;
+    --pageTooltip-bg:#f08080;
+    --pageTooltip-font:#5a4338;
+    --pageTooltip-boxShadow:0 4px 10px rgba(0, 0, 0, 0.3);
+
+    /*📌卷軸*/
+    --scrollbar-bg:rgba(240, 128, 128, 0.5);/*背景顏色*/
+    /*📌分頁*/
+    --pageTitle-font:#5a4338;/*標題文字*/
+    --pageTitle-borderBottom: 4px dotted #f08080;/*標題底線*/
+    --pageArticle-font:#4a3b32;/*內文文字*/
+    /*📌側欄*/
+    --sideBar-bg:linear-gradient(to bottom, rgba(255, 228, 210, 0.7), rgba(245, 190, 180, 0.75));/*背景顏色*/
+    --sideBar-font:#8c4333;/*收合 字顏色*/
+    --navMnu-bg:rgba(254, 216, 177, 0.6);/*目錄背景顏色*/
+    --navMnu-font:#5c3d2e;/*目錄文字顏色*/
+    --navBtn-bg:rgba(254, 216, 177, 0.6);/*按鈕背景顏色*/
+    --navBtn-font:#5c3d2e;/*按鈕文字顏色*/
+    --navBtn-hover-bg:rgba(240, 128, 128, 0.25);/*被滑鼠懸浮的按鈕背景顏色*/
+    --navBtn-hover-border:2px solid #e07a5f;/*被滑鼠懸浮的按鈕邊框*/
+    --navBtn-hover-font:#8c4333;/*被滑鼠懸浮的按鈕文字顏色*/
+    --navBtn2-bg:rgba(254, 216, 177, 0.6);/*子項目按鈕背景顏色*/
+    --navBtn2-font:#5c3d2e;/*子項目按鈕文字顏色*/
+    --navBtn2-hover-bg:rgba(240, 128, 128, 0.25);/*被滑鼠懸浮的子項目按鈕背景顏色*/
+    --navBtn2-hover-border:2px solid #e07a5f;/*被滑鼠懸浮的子項目按鈕邊框*/
+    --navBtn2-hover-font:#8c4333;/*被滑鼠懸浮的子項目按鈕文字顏色*/
+    /*📌下拉選單*/
+    --navSelect-bg:#5a4338;/* 背景顏色 */
+    --navSelect-font:#fff;/* 背景顏色 */
+    /*📌BGM*/
+        /* 右下角固定懸浮元件 */
+    --audioWidget-bg:rgba(74, 59, 50, 0.25);
+    --audioWidget-boxShadow:0 4px 15px rgba(74, 59, 50, 0.15);
+    --audioWidgetCloseBtn-font:white;
+    --audioWidgetAccent-color: #f08080;/*滑桿及柱子顏色*/
+    --audioWidgetVolumeWebkitSliderThumb-bg:#fff;
+    --audioWidgetVolumeWebkitSliderThumb-boxShadow:0 0 3px rgba(0,0,0,0.5);
+    --audioWidgetVolumeMozRangeThumb-bg:#fff;
+    /*📌燈箱 */
+    --lightbox-bg:rgba(43, 34, 30, 0.85);/* 背景遮罩 */
+    --lightbox-boxShadow:0 4px 20px rgba(0, 0, 0, 0.5);/* 圖片陰影 */
+    --lightboxClose-font:#fff;/* 關閉文字顏色 */
+    --lightboxClose-hover-font:#ffe4e6;/* 關閉文字懸浮顏色 */
+    /*📌內容區塊 */
+    --container-bg:linear-gradient(to bottom, rgba(255, 245, 238, 0.8), rgba(255, 228, 210, 0.85));/* 背景顏色 */
+
+    /*📌頁籤*/
+    --tabBtn-bg:linear-gradient(to bottom, rgba(255, 218, 185, 0.7), rgba(248, 180, 180, 0.6));/*按鈕背景顏色*/
+    --tabBtn-font:#7a5246;/*文字顏色*/
+    --tabBtn-border: 1px solid #e07a5f;/*邊框顏色*/
+    --tabBtn-hover-bg:linear-gradient(to bottom, rgba(248, 180, 180, 0.8), rgba(255, 192, 203, 0.7));/*懸浮背景顏色*/
+    --tabBtn-hover-font:#d94e4e;/*懸浮文字顏色*/
+    --tabBtn-active-bg:linear-gradient(to bottom, rgba(240, 128, 128, 0.85), rgba(255, 183, 178, 0.9));/*被點擊的背景顏色*/
+    --tabBtn-active-font:#ffffff;/*被點擊的文字顏色*/
+    --tabBtn-active-border:1px solid #d94e4e;/*被點擊的邊框顏色*/
+
+    /*提示*/
+    --toastNotification-bg:rgba(0, 0, 0, 0.8);
+    --toastNotification-color:#fff;
+
+
+    /*📌成人向檢核*/
+    --ageModalOverlay-bg:rgba(20, 15, 12, 0.85);/*彈窗遮罩背景顏色*/
+    /*全域彈窗主體*/
+    --ageModalContent-font:#f3f4f6;/*文字顏色*/
+    --ageModalContent-boxShadow:0 10px 25px rgba(0, 0, 0, 0.5);/*陰影顏色*/
+    --ageModalContent-border:1px solid #5c3d2e;/*邊框顏色*/
+    --ageModalContentH3-font:#fb7185;/*h3文字顏色*/
+    --ageModalContentP-font:#d1d5db;/*p文字顏色*/
+    --ageModalErrorMsg-font:#ff4d4f;
+    /*密碼輸入框*/
+    --adultPwdInput-border:1px solid #8c4333;/*邊框*/
+    --adultPwdInput-bg:#1d1815;/*背景顏色*/
+    --adultPwdInput-font:#ffffff;/*文字顏色*/
+    --adultPwdInput-focus-border:1px solid #f08080;/*焦點邊框*/
+    /* 取消按鈕 */
+    --ageModalContentBtnCancel-bg:#5c3d2e;/*背景顏色*/
+    --ageModalContentBtnCancel-font:#f3f4f6;/*文字顏色*/
+    --ageModalContentBtnCancel-hover-bg:#78685e;/*懸浮顏色*/
+    /* 確認按鈕 */
+    --ageModalContentBtnConfirm-bg:#e07a5f;
+    --ageModalContentBtnConfirm-font:#ffffff;
+    --ageModalContentBtnConfirm-hover-bg:#c84b31;
+
+/*各分頁元件css變數*/
+/*📌登入*/
+    --LoginPlzText-font:#d94e4e;
+    --LoginPlzText-bg:#fff3b0;
+    --LoginInput-font:#4a3b32;
+    --LoginInput-caretColor:#4a3b32;
+    --LoginInput-bg:#fff8f0;
+    --LoginInput-border:2px solid #e07a5f;
+    --LoginBtn-font:#ffffff;
+    --LoginBtn-bg:#f08080;
+/*📌Game.css*/
+    /*各遊戲通用腳色卡*/
+    --roleCard-selected-bg:rgba(74, 59, 50, 0.15);/* 點擊時透明黑色遮罩 */
+    --roleCard-selected-border:1px solid #e07a5f;/* 點擊時邊框 */
+    --gameInitPanelTabBtn-border:1px solid #e07a5f;
+/*📌DinoGame.css*/
+    --DinoGameContainer-borderBottom:2px solid #8c4333;/* 遊戲舞台底邊顏色 */
+    --DinoGameContainer-bg:rgba(255, 239, 213, 0.6);/* 遊戲舞台背景顏色 */
+    --DinoGameContainer-boxShadow:0 4px 10px rgba(74, 59, 50, 0.1);/* 遊戲舞台陰影顏色 */
+    --dinoRunning-bgimg:url('../img/Game/Dino/dino-walk.gif');/* 恐龍走路 GIF */
+    --dinoJumping-bgimg:url('../img/Game/Dino/dino-jump.png');/* 恐龍跳躍 PNG/JPG */
+    --dinoDead-bgimg:url('../img/Game/Dino/dino-jump.png');/* 恐龍跳躍 PNG/JPG */
+    --cactusType1-bgimg:url('../img/Game/Dino/cactus-1.png');/* 矮仙人掌背景圖片 */
+    --cactusType2-bgimg:url('../img/Game/Dino/cactus-2.png');/* 高仙人掌2背景圖片 */
+    --cactusType3-bgimg:url('../img/Game/Dino/cactus-3.png');/* 寬胖仙人掌3背景圖片 */
+    --scoreBoard-font:#5a4338;/* 計分板與提示文字顏色 */
+    --gameOver-font:#5a4338;/* gameOver文字顏色 */
+    --gameOverP-font:#8c4333;/* gameOver下面小字的文字顏色 */
+    
+/*📌Intro.css*/
+    --intro-color: #4a3b32;/* 文字顏色，邊框、按鈕等背景色以此計算提量等 */
+    --introBlock-borderTop:1px dashed rgba(224, 122, 95, 0.2);/* 單列直排時，各作者的分隔線 */
+
+/*📌Story*/
+    /* 仿AO3標籤列 */
+    --StoryTagContent-border:3px dashed #f4a261;/* 邊框顏色 */
+    --StoryTagContent-bg:rgba(255, 235, 216, 0.6);/* 背景顏色 */
+    --StoryTagBadge-font:#fff;/* 分級標籤文字顏色 */
+    --StoryWarningText-font:#c84b31;/* 預警文字顏色 */
+
+    --tagBadgeDefault-bg:#a39287;
+    /*預警圖標*/
+    --rating01-bg:#00A0E9;/*保護級 (P)*/
+    --rating02-bg:#FDD000;/*輔導級 (PG-13)*/
+    --rating03-bg:#EE7800;/*輔導級 (PG-15)*/
+    --rating04-bg:#E60012;/*限制級 (R-18)*/
+    /*性向圖標*/
+    --CategoriesFF-bg:#b70012;
+    --CategoriesFM-bg:#a71858;
+    --CategoriesMM-bg:#0052ce;
+    --CategoriesGen-bg:#8ec501;
+    --CategoriesMulti-bg:#8f6ca9;
+    --CategoriesOther-bg:#000000;
+
+    /* 限制級預警畫面 */
+    --StoryAlarmScreen-bg:#2b221e;/* 背景顏色 */
+    --StoryAlarmScreen-font:#fff;/* 預警標題文字顏色 */
+    --StoryAlarmContent-font:#fceade;/* 預警內文文字顏色 */
+    --StoryAlarmBtn-bg:#f08080;/* 確認按鈕背景顏色 */
+    --StoryAlarmBtn-font:#fff;/* 確認按鈕文字顏色 */
+    --StoryAlarmBtn-hover-bg:#e07a5f;/* 確認按鈕懸浮背景顏色 */
+    --StoryAlarmBtn-hover-font:#fff;/* 確認按鈕懸浮文字顏色 */
+
+    --storyCoverThumbBox-bg:#c59d96cc;/*封面預覽方塊背景*/
+    --storyCoverThumbBox-border:1px solid #7e524cd7;
+
+    --storyBtnActionStartRead-font:#ffffff;
+    --storyBtnActionStartRead-bg:#20b2aa;
+    --storyBtnActionStartRead-hover-font:#b5dae0;
+    --storyBtnActionStartRead-hover-bg:#5a757c;
+
+    --storyBtnActionJumpBookmark-font:#ffffff;
+    --storyBtnActionJumpBookmark-bg:#8b0000;
+    --storyBtnActionJumpBookmark-hover-font:#facccc;
+    --storyBtnActionJumpBookmark-hover-bg:#9b4646;
+
+    --storyBtnAction-disabled-font:#ffffff;
+    --storyBtnAction-disabled-bg:#555555;
+
+    --storyBookmarkSaveBtn-bg:transparent;
+    --storyBookmarkSaveBtn-border: 1px solid #aaa;
+    --storyBookmarkSaveBtn-font:black;
+    --storyBookmarkSaveBtn-hover-bg:rgba(0, 0, 0, 0.1);;
+    --storyBookmarkSaveBtn-hover-border: none;
+    --storyBookmarkSaveBtn-hover-font:black;
+
+
+    /* 故事簡介 */
+    --StoryIntroBox-bg:linear-gradient(to bottom, rgba(255, 239, 213, 0.8), rgba(255, 218, 185, 0.8));/* 背景顏色 */
+    --StoryIntroBox-font:#4a3b32;/* 文字顏色 */
+    --StoryIntroBox-border:solid #f08080;/* 邊框顏色 */
+    /* 故事章節列表 */
+    --StoryChapterListBox-bg:linear-gradient(to bottom, rgba(255, 228, 210, 0.7), rgba(245, 190, 180, 0.75));/* 背景顏色 */
+    --StoryThumbSquare-border:1px solid #ffe8d6;/* 章節卡片邊框顏色 */
+    --StoryChapterListBox-font:#4a3b32;
+    /* 切換章節/頁數按鈕 */
+    --StoryNavBtn-bg:#e07a5f;/* 背景顏色 */
+    --StoryNavBtn-font:#fff;/* 文字顏色 */
+    --StoryNavBtn-hover-bg:rgba(240, 128, 128, 0.8);/* 懸浮背景顏色 */
+    --StoryNavBtn-hover-font:#fff;/* 文字顏色 */
+    --StoryNavBtn-disabled-bg:#a39287;/* 禁用背景顏色 */
+    --StoryNavBtn-disabled-font:#fceade;
+    --StoryHomeBtn-bg:rgba(224, 122, 95, 0.9);
+    --StoryHomeBtn-font:#fff;/* 文字顏色 */
+    --StoryHomeBtn-hover-bg:rgba(182, 96, 46, 0.9);
+    --StoryHomeBtn-hover-font:#fff;/* 文字顏色 */
+
+    /* 標題列 */
+    --StoryTitleRow-borderBottom:2px solid #e07a5f;/* 底線顏色 */
+    --StorySubTitle-font:#4a3b32;/* 文字顏色 */
+    --StoryUpdateDate-font:#5c3d2e;/* 更新日期文字顏色 */
+    /* 該章全頁面縮圖網格展示 */
+    --StoryGridThumbItem-hover-border:2px solid #f08080;/* 懸浮邊框顏色 */
+    /* 翻頁觸發區 */
+    --StoryPageClickNovel-bg:linear-gradient(to left, rgba(74, 59, 50, 0.08), rgba(0,0,0,0));/* 背景顏色 */
+    /* 後記 */
+    --StoryNotesBox-bg:rgba(254, 216, 177, 0.6);/* 背景顏色 */
+    --StoryNotesBox-border:solid #f4a261;/* 邊框顏色 */
+    --StoryNotesBox-font:#4a3b32;/* 文字顏色 */
+    --cmtContainer-border:#4a3b32;
+    /* 小說文字外殼 */
+    --StoryNovelContainer-bg:linear-gradient(to bottom, #ffe8d6, #ffcad4);/* 背景顏色 */
+    --StoryNovelContainer-border:1px solid rgba(255, 235, 216, 0.6);/* 邊框顏色 */
+/*📌charRels-關係圖*/
+    --charRelsChartRelationStage-bg:linear-gradient(to bottom, #ffe8d6, #ffcad4);/* 舞台背景顏色 */
+    --charRelsChartOrgLabel-textShadow:0 0 6px rgba(255, 218, 185);/* 組織字體陰影顏色 */
+    --charRelsChartAvatar-boxShadow:0 4px 8px rgba(74, 59, 50, 0.08);/* 角色頭像陰影顏色 */
+    --charRelsChartCharName-font:#4a3b32;/* 角色姓名文字顏色 */
+    --charRelsChartCharAvatar-borderColor:#8c4333;/* 角色邊框預設顏色 */
+    --charRelsChartorgData-font:#000;/* 組織邊框預設顏色 */
+/*📌charRels-角色列表*/
+    --characterCharList-bg:linear-gradient(to bottom, rgba(255, 228, 210, 0.7), rgba(245, 190, 180, 0.75));/* 背景顏色 */
+    --characterRow-bg:rgba(254, 216, 177, 0.6);/* 單列角色背景顏色 */
+    --characterBlockCommon-bg:rgba(255, 235, 216, 0.6);/* 單列角色區塊背景顏色 */
+    /* 區塊標題 */
+    --characterBlockTitle-font:#4a3b32;/* 文字顏色 */
+    --characterBlockTitle-borderBottom:1px dashed #f08080;/* 底線顏色 */
+    /* 組織/角色關係連結 */
+    --characterClickLink-font:#4a3b32;/* 文字顏色 */
+    --characterClickLink-hover-font:#d94e4e;/* 懸浮文字顏色 */
+    --characterClickLink-hover-bg:rgba(255, 218, 185, 0.5);/* 懸浮背景顏色 */
+    /* 右邊區塊 */
+    --characterBlockRight-borderLeft:2px solid #f4a261;/* 左邊框顏色 */
+    --characterDetailPlaceholder-font:#78685e;/* 未點擊時說明文字顏色 */
+    --characterRelTitle-font:#e07a5f;/* 標題文字顏色 */
+    --characterRelTitle-borderBottom:2px solid #e07a5f;/* 標題底線顏色 */
+    --characterRelItemBoxO-border: 2px solid #f4a261;/* 公開關係邊框顏色 */
+    --characterRelItemBoxX-border:2px dashed rgba(240, 128, 128, 0.5);/* 隱藏關係邊框顏色 */
+    /* 右邊區塊-好感度能量條 */
+    --characterLikingBar-bg:rgba(254, 216, 177, 0.6);/* 背景顏色 */
+    --characterLikingBar-font:#4a3b32;/* 文字顏色 */
+    --characterLikingBar-textShadow:2px rgb(255, 255, 255);
+    --characterLikingBarPositive-bg:rgb(255, 127, 80);/*好感條_正*/
+    --characterLikingBarNegative-bg:rgb(218, 165, 32);/*好感條_負*/
+    --characterHideInfo-font:#78685e;/* 隱藏資訊文字顏色 */
+/*📌charProfiles*/
+    /* 上方立繪列表*/
+    --profileCharMenuBar-bg:linear-gradient(to bottom, #ffe8d6, #ffcad4);/* 背景顏色*/
+    --profileCharMenuItem-hoverActive-bg:rgba(255, 218, 185, 0.5);/*人物被選中背景顏色*/
+    --profileCharMenuItem-hoverActive-border:1px solid #f4a261;/*人物被選中邊框顏色*/
+    /* 下方角色詳細資料展示面板*/
+    --profileCharDetailPanel-bg:rgba(255, 235, 216, 0.6);/* 背景顏色*/
+    --profileCharDetailPanel-boxShadow:0 4px 15px rgba(74, 59, 50, 0.08);/* 陰影顏色*/
+    /* 姓名列*/
+    --profileDetailNameBar-bg:linear-gradient(to bottom, rgba(255, 239, 213, 0.8), rgba(255, 218, 185, 0.8));/* 背景顏色*/
+    --profileDetailNameBar-font:#4a3b32;/* 文字顏色*/
+    /* 一般向切換滑塊 */
+    --profileToggleLabel-font:#4a3b32;/* 文字顏色 */
+    --profileSlider-bg:#f4a261;/* 背景顏色 */
+    --profileSlider-before-bg:white;/* 背景顏色 */
+    /* 切換到成人向時的開關顏色 */
+    --profileSlider-checked-bg:#e07a5f;
+    
+    /* 主要大立繪容器 */
+    --profileMainPreviewContainer-bg:rgba(255, 235, 216, 0.6);/* 背景顏色*/
+    --profileMainPreviewContainer-border:1px dashed #f08080;
+    /* 縮圖列表 */
+    --profileThumbItem-border:2px solid #ffe8d6;
+    --profileThumbItem-hover-border:2px solid #f08080;
+    --profileThumbItem-active-border:2px solid #e07a5f;
+
+    --profileDetailRightColumn-bg:rgba(255, 239, 213, 0.85);/*文字說明背景*/
+    --profileDetailRightColumn-borderTop:1px solid #ffe8d6;/* 在垂直排列時，右欄隱藏捲軸，由最外層的 #content-box 去滾動 */
+    /* 單圖說明標題 */
+    --profileInfoTitle-font:#4a3b32;
+    --profileInfoTitle-borderBottom:2px solid #f4a261;
+    /* 單圖說明內容 */
+    --profileData-borderBottom:1px dashed #f08080;
+    --profileDataArticle-font:#4a3b32;
+    --profileDataTitle-font:#4a3b32;
+    --profileDataTitle-bg:rgba(240, 128, 128, 0.4);
+/*📌charProfiles(成人版，限下方板塊)*/
+    --profileCharDetailPanelAdult-bg:#1d1815;
+    --profileCharDetailPanelAdult-font:#f3f4f6;
+    --profileDetailNameBarAdult-bg:#8c2d19;
+    --profileDetailNameBarAdult-font:#ffe4e6;
+    --profileMainPreviewContainerAdult-bg:#120e0c;
+    --profileMainPreviewContainerAdult-border:1px dashed #751a08;
+    --profileThumbItemAdult-border:2px solid #ddd;
+    --profileThumbItemAdult-hover-border:2px solid #d34d79;
+    --profileThumbItemAdult-active-border:2px solid #d34d79;
+    --profileDetailRightColumnAdult-bg:#261f1b;
+    --profileInfoTitleAdult-font:#fb7185;
+    --profileInfoTitleAdult-borderBottom:2px solid #e07a5f;
+    --profileDataAdult-borderBottom:1px dashed #8c2d19;
+    --profileDataTitleAdult-font:#f43f5e;
+    --profileDataTitleAdult-bg:#362a24;
+    --profileDataArticleAdult-font:#e4e4e7;
+/*📌TimeLine*/
+    --timeline-bg:#e7b9a685;
+    --timelineGridTimeCell-font:#4a3b32;
+    --timelineGridTimeCell-borderRight:2px dotted #4a3b32;
+    /* 基礎事件卡片 */
+    --timelineEventCard-bg:rgba(254, 216, 177, 0.6);
+    --timelineEventCard-border:solid #f4a261;
+    --timelineEventCard-hover-boxShadow:0 4px 10px rgba(244, 162, 97, 0.2);
+    --timelineEventTitle-font:#4a3b32;
+    /* 基礎事件卡片-其他 */
+    --timelineEventCardOther-bg:rgba(255, 235, 216, 0.8);
+    --timelineEventCardOther-border:solid #ffd7aa;
+    --timelineEventCardOther-font:#b6a083;
+    /*跨度事件卡片*/
+    --timelineLongTermEvent-bg:linear-gradient(to bottom, rgba(255, 239, 213, 0.8), rgba(255, 218, 185, 0.8));
+    --timelineLongTermEvent-border:solid #f08080;
+    --timelineLongTermEvent-font:#c53e3e;
+    /*跨度事件卡片-其他*/
+    --timelineLongTermEventOther-bg:rgba(240, 231, 222, 0.8);
+    --timelineLongTermEventOther-border:solid #e0adb8;
+    --timelineLongTermEventOver-font:#88626a;
+    /* 懸浮說明框主體 */
+    --timelineTooltip-bg:linear-gradient(to bottom, #ffe8d6, #ffcad4);
+    --timelineTooltip-borderleft:5px solid #e07a5f;
+    --timelineTooltip-boxShadow:0 4px 20px rgba(74, 59, 50, 0.08);
+    --timelineTooltipTitle-font:#4a3b32;
+    --timelineTooltipTime-font:#e07a5f;
+    --timelineTooltipTime-borderBottom:1px dashed #fff3b0;
+/*📌Doc*/
+    --DocIntroBox-bg:linear-gradient(to bottom, rgba(255, 239, 213, 0.8), rgba(255, 218, 185, 0.8));/* 背景顏色 */
+    --DocIntroBox-font:#4a3b32;/* 文字顏色 */
+    --DocIntroBox-border:solid #f08080;/* 邊框顏色 */
+/*📌Gallary*/
+    --galleryDisplayMainBox-bg:rgba(255, 235, 216, 0.6);
+    --galleryDisplayMainBox-boxShadow:0 4px 15px rgba(74, 59, 50, 0.08);
+    --galleryExhibitTitle-bg:linear-gradient(to bottom, rgba(255, 239, 213, 0.8), rgba(255, 218, 185, 0.8));
+    --galleryExhibitImageWrapper-bg:rgba(255, 235, 216, 0.6);
+    --galleryExhibitImageWrapper-border:1px dashed #ffe8d6;
+    --galleryExhibitNotes-bg:rgba(255, 239, 213, 0.85);
+    /* 正方形卡片項目(通用) */
+    --galleryThumbCardItem-bg:rgba(254, 216, 177, 0.6);
+    --gallery-err-bg:#ffe8d6;/*圖裂處理*/
+    --galleryThumbCardItem-border:2px solid #f4a261;
+    --galleryThumbCardItem-hover-border:2px solid #f08080;
+    --galleryThumbCardItem-selected-border:2px solid #e07a5f;
+    --galleryThumbCardItem-selected-boxShadow:0 0 8px rgba(224, 122, 95, 0.4);
+    --galleryThumbCardItem-selected-bg:2px solid #ffe8d6;
+    /* 播放按鈕圖示 overlay */
+    --galleryPlayIcon-bg:rgba(43, 34, 30, 0.5) url("../img/play.png");
+    /* 右下角類型標籤*/
+    --galleryTypeTag-bg:rgba(43, 34, 30, 0.6);
+    --galleryTypeTag-font:#ffffff;
+    
+    --galleryThumbFolderTag-bg:rgba(43, 34, 30, 0.6);/* 複數檔案資料夾標籤 (🗂️) */
+    /* TXT 小說/文章樣式 */
+    --galleryExhibitTextContainer-bg:linear-gradient(to bottom, #ffe8d6, #ffcad4);
+    --galleryExhibitTextContainer-border:1px solid rgba(255, 235, 216, 0.6);
+    --galleryExhibitTextContainer-fontFamily:"Noto Serif TC", serif;
+    --galleryExhibitTextContainer-font:#4a3b32;
+    /* 影片與播放容器 */
+    --galleryExhibitVideoPlayer-bg:#120e0c;
+    /* 音樂與播放容器 */
+    --galleryAudioCanvas-bg:linear-gradient(transparent, rgba(43, 34, 30, 0.8));
+    /*特效下拉選單*/
+    --galleryAudioModeSelect-bg:#2b221e;
+    --galleryAudioModeSelect-font:#fff;
+    --galleryAudioModeSelect-border:1px solid #78685e;
+    --audioFreq-color:#fed8b1,#f08080,#ffd166,#e07a5f;/*柱子特效，不得使用rgb色碼*/
+    --audioWave-color:#f08080;/*波形特效，不得使用rgb色碼*/
+     /* === 全域 Modal 放大彈窗 (圖片/影片) === */
+    --galleryModalOverlay-bg:rgba(43, 34, 30, 0.85);
+
+}
+/* 全域重設 */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+html,body {
+	font-family: var(--fontType);/*思源宋體*/
+	/*font-family: "LXGW WenKai Mono TC", monospace;/*霞鶩文楷*/
+	/*font-weight: 400;*/
+	/*font-style: normal;*/
+	min-height: 100vh;  /* 電腦版與舊手機舊瀏覽器保底 */
+	min-height: 100svh; /* (排除工具列後的最矮安全高度) */
+	min-height: 100dvh; /* 現代手機動態適應 */
+	width: 100dvw;
+	overflow: hidden; /* 防止最外層出現瀏覽器滾軸 */
+	display: flex;
+	flex-direction: column;
+	background: var(--body-bg);
+	color: var(--default-font);
+}
+
+::-webkit-scrollbar {/*捲軸背景*/
+	height: 6px;
+	width: 6px;
+}
+::-webkit-scrollbar-track {/*捲軸拉霸之外的空間*/
+	background: transparent;
+}
+::-webkit-scrollbar-thumb {/*捲軸拉霸*/
+	border-radius: 3px;
+	background: var(--scrollbar-bg);
+}
+#header {
+	height: 30px;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	padding: 0 10px;
+	overflow: hidden; /* 內容溢出直接裁切右邊 */
+	white-space: nowrap;
+	z-index: 1000;
+	font-size: 22px;
+	background: var(--hearder-bg);
+	color: var(--header-font);
+	gap:5px;
+}
+.logo {
+	height: 100%;
+	cursor: pointer;
+	user-select: none;
+	/* margin: 5px; */
+	display: flex;
+	align-items: center;
+}
+#login-name{
+    color: var(--loginName-color);
+    font-size: 15px;
+    margin-left: auto;
+}
+
+.main-wrapper {
+	margin-top: 30px;
+	min-height: calc(100vh - 30px);
+	min-height: calc(100svh - 30px);
+	min-height: calc(100dvh - 30px);
+	/* 內部的子元素計算高度百分比 */
+	height: calc(100dvh - 30px);
+	display: flex;
+	width: 100dvw;
+}
+#side-bar {
+	width: 220px;
+	height: 100%;
+	background: var(--sideBar-bg);
+	transition: width 0.3s ease, min-width 0.3s ease;
+	overflow-y: auto;
+	overflow-x: hidden;
+	flex-shrink: 0;
+}
+#side-bar.hide {
+	width: 0 !important;
+	min-width: 0 !important;
+	overflow: hidden;
+}
+/* 只要是 bigImg 類別的圖片都顯示可點擊手型 */
+.bigImg {
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.bigImg:hover {
+  opacity: 0.9;
+}
+
+/* 燈箱背景遮罩 */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--lightbox-bg);
+  backdrop-filter: blur(4px);
+  justify-content: center;
+  align-items: center;
+}
+
+.lightbox-overlay.active {
+  display: flex;
+}
+
+.lightbox-content {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  box-shadow: var(--lightbox-boxShadow);
+  border-radius: 4px;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: var(--lightboxClose-font);
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s;
+}
+
+.lightbox-close:hover {
+  color: var(--lightboxClose-hover-font);
+}
+.nav_mnu {
+	min-height: 30px;
+	width: 95%;
+	margin: 5px;
+	padding: 5px;
+	border-radius:4px;
+	background: var(--navMnu-bg);
+	text-align:left;
+	color:var(--navMnu-font);
+	font-size: 15px;
+}
+/* 燈箱背景遮罩結束 */
+.nav_btn {
+	height: 30px;
+	width: 95%;
+	border: 0px ;
+	border-radius:4px;
+	margin: 5px;
+	padding: 5px;
+	background: var(--navBtn-bg);
+	text-align:left;
+	color:var(--navBtn-font);
+	font-size: 15px;
+	display: flex;
+	align-items: center;
+	/*長度超出後省略*/
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.nav_btn:hover {
+	background: var(--navBtn-hover-bg);
+	border: var(--navBtn-hover-border);
+	color:var(--navBtn-hover-font);
+	font-size: 18px;
+}
+
+.nav_btn2 {
+	height: 30px;
+	width: 80%;
+	border: 0px ;
+	border-radius:4px;
+	margin: 5px;
+	margin-left: 30px;
+	padding: 5px;
+	background: var(--navBtn2-bg);
+	text-align:left;
+	color:var(--navBtn2-font);
+	font-size: 15px;
+	display: flex;
+	align-items: center;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.nav_btn2:hover {
+	background: var(--navBtn2-hover-bg);
+	border: var(--navBtn2-hover-border);
+	color:var(--navBtn2-hover-font);
+	font-size: 18px;
+}
+
+.nav-select {/* 下拉選單 */
+	padding: 5px;
+	font-size: 14px;
+	background: var(--navSelect-bg);
+	color: var(--navSelect-font);
+	border: none;
+	border-radius: 3px;
+	}
+
+#container {
+	flex-grow: 1;
+	height: 100%;
+	background: var(--container-bg);
+	position: relative;
+	min-width: 0;
+}
+
+/* 內容外殼：利用 Viewport 單位或 transform 確保內容因應容器等比縮放 */
+#content-box {
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	overflow-y: auto;
+	overflow-x: visible !important; /* 不限制水平寬度 */
+}
+
+.page_title{
+	width: 95%;
+	margin: 5px;
+	padding: 5px;
+	font-size: 40px !important;
+	color:var(--pageTitle-font);
+	border-bottom:var(--pageTitle-borderBottom);
+}
+.page_article{
+	padding: 5px;
+	width: 95%;
+	color:var(--pageArticle-font);
+	font-size: 15px !important;
+	display: flex;
+	align-items: center;
+	white-space: pre-wrap;/* 保持空白字元與換行符號 */
+	word-break: break-all;/* 強制溢出的單字自動換行 */
+
+}
+.tab-btn {/* 預設的頁籤按鈕樣式 */
+	padding: 10px 20px;
+	font-size: 15px;
+	font-weight: bold;
+	background:var(--tabBtn-bg) ;
+	color: var(--tabBtn-font);
+	border:var(--tabBtn-border);
+	border-bottom: none;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	/* ====== 新增：固定寬度與文字截斷效果 ====== */
+	flex: 1 1 auto;		 /* 均分剩餘空間，寬度隨內容自適應 */
+	min-width: 50px;		/* 限制最小寬度：小於這個寬度就不壓縮，改由父層產生 X 軸滾動 */
+	max-width: 250px;	     /* 限制最大寬度：防止單個頁籤字太少卻很大 */
+	
+	white-space: nowrap;	/* 強制文字不換行 */
+	overflow: hidden;	     /* 隱藏超出部分 */
+	text-overflow: ellipsis;/* 超出顯示 "..." */
+}
+
+.tab-btn:hover {/* 滑鼠移上去的 Hover 效果 */
+	background: var(--tabBtn-hover-bg);
+	color: var(--tabBtn-hover-font);
+}
+
+.tab-btn.active {/* 當前被選中（作用中）的頁籤樣式 */
+	color: var(--tabBtn-active-font);
+	background: var(--tabBtn-active-bg);
+	border: var(--tabBtn-active-border);
+	border-radius: 6px 6px 0 0;
+}
+
+.tabs-container {/* 頁籤與主容器樣式 */
+	padding: 10px;
+	width: 100%;
+	height: 85%;
+	max-width: 1200px;
+}
+
+.tabs-nav {/* 上方頁籤按鈕的包裹盒 */
+	display: flex;
+	flex-wrap: nowrap;/*頁籤太多，自動折行 */
+	overflow-x: auto;
+	border: none;
+	gap: 5px;
+	margin-bottom: 15px;
+}
+
+.tabs-content {/*下方內容區（Iframe）樣式 */
+	width: 100%;
+	height: 90%; 
+	border: none;
+}
+
+/* 成人向檢核全域彈窗遮罩 */
+.global-age-modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: var(--ageModalOverlay-bg);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 99999;
+}
+
+/* 全域彈窗主體 */
+.global-age-modal-content {
+	background: var(--ageModalContent-bg);
+	color: var(--ageModalContent-font);
+	padding: 25px 30px;
+	border-radius: 8px;
+	width: 90%;
+	max-width: 360px;
+	box-shadow: var(--ageModalContent-boxShadow);
+	border: var(--ageModalContent-border);
+	text-align: center;
+	font-family: sans-serif;
+}
+
+.global-age-modal-content h3 {
+	margin-top: 0;
+	margin-bottom: 10px;
+	color: var(--ageModalContentH3-font);
+	font-size: 20px;
+}
+
+.global-age-modal-content p {
+	font-size: 14px;
+	color: var(--ageModalContentP-font);
+	margin-bottom: 15px;
+}
+
+/* 密碼輸入框 */
+#global-adult-pwd-input {
+	width: 100%;
+	padding: 10px;
+	border-radius: 4px;
+	border: var(--adultPwdInput-border);
+	background: var(--adultPwdInput-bg);
+	color: var(--adultPwdInput-font);
+	font-size: 16px;
+	box-sizing: border-box;
+	outline: none;
+	text-align: center;
+}
+
+#global-adult-pwd-input:focus {
+	border: var(--adultPwdInput-focus-border);
+}
+
+/* 錯誤訊息 */
+.global-age-modal-content .error-msg {
+	color: var(--ageModalErrorMsg-font);
+	font-size: 13px;
+	margin-top: 8px;
+    margin-bottom: 8px;
+	font-weight: bold;
+}
+
+/* 按鈕組 */
+.global-age-modal-content .modal-btn-group {
+	display: flex;
+	justify-content: space-between;
+	gap: 10px;
+	margin-top: 20px;
+}
+
+.global-age-modal-content .modal-btn-group button {
+	flex: 1;
+	padding: 9px 0;
+	border-radius: 4px;
+	border: none;
+	cursor: pointer; 
+	font-size: 14px;
+	font-weight: bold;
+	transition: background 0.2s;
+}
+
+.global-age-modal-content .btn-cancel {
+	background: var(--ageModalContentBtnCancel-bg);
+	color: var(--ageModalContentBtnCancel-font);
+}
+
+.global-age-modal-content .btn-cancel:hover {
+	background: var(--ageModalContentBtnCancel-hover-bg);
+}
+
+.global-age-modal-content .btn-confirm {
+	background: var(--ageModalContentBtnConfirm-bg);
+	color: var(--ageModalContentBtnConfirm-font);
+}
+
+.global-age-modal-content .btn-confirm:hover {
+	background: var(--ageModalContentBtnConfirm-hover-bg);
+}
+
+/* ==========【Toast 提示通知】========== */
+.toast-notification {
+    visibility: hidden;
+    min-width: 160px;
+    background: var(--toastNotification-bg);
+    color: var(--toastNotification-color);
+    text-align: center;
+    border-radius: 4px;
+    padding: 10px 16px;
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.toast-notification.show {
+    visibility: visible;
+    opacity: 1;
+}
+/* Tooltip 固定於視窗右下角 */
+.page-tooltip-wrapper {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9999;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+/* 懸浮按鈕 (50px * 50px) */
+.tooltip-trigger-btn {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: var(--pageTooltip-boxShadow);
+    transition: transform 0.2s ease;
+}
+.tooltip-trigger-btn:hover {
+    transform: scale(1.08);
+}
+
+/* 展開後的面板 (Flex 橫向併排、右側底部對齊) */
+.tooltip-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 25px;
+    /* 以右下角為動畫縮放中心 */
+    transform-origin: bottom right;
+    /* 彈跳（cubic-bezier）與淡入淡出（opacity）過渡效果 */
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
+    /* 預設隱藏狀態（縮小 + 透明） */
+    opacity: 0;
+    transform: scale(0.3);
+}
+/* 面板展開（顯示）時的狀態 */
+.tooltip-panel.is-active {
+    opacity: 1;
+    transform: scale(1);
+}
+/* 指引圖片區塊 (寬200 x 高250) */
+.tooltip-guide {
+    width: 200px;
+    height: 250px;
+    flex-shrink: 0;
+}
+
+
+/* 真正內容區塊 (寬240，margin-bottom:80px，水平置中) */
+/* 內容外層容器 */
+.tooltip-content {
+    width: 240px; /* 修正1：寬度改為 240px，與內層一致 */
+    min-height: 250px;
+    max-height: 400px;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    box-sizing: border-box;
+    
+}
+
+/* 真正內容區塊 (寬240，margin-bottom:80px，水平置中) */
+.tooltip-inner {
+    width: 240px;
+    margin-bottom: 80px;
+    max-height: calc(400px - 80px); /* 最大高度 320px */
+    padding: 15px;
+    border-radius: 12px;
+    box-sizing: border-box;
+    box-shadow: var(--pageTooltip-boxShadow);
+    z-index: 1;
+    position: relative; /* 讓 ::after 能夠相對它定位 */
+    
+    /* 🌟 修正2：移除 overflow-y: auto，改為 visible，尾巴才不會被吃掉 */
+    overflow: visible !important;
+}
+
+/* 內文滾動包裹區塊：把滾動軸轉移到這裡 */
+#tooltip-text-body {
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE / Edge */
+    overflow-x: hidden;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+}
+#tooltip-text-body::-webkit-scrollbar {
+    display: none; /* Chrome / Safari / Opera */
+}
+
+/* 2. 細長對話框小尾巴 (指向右側) */
+.tooltip-inner::after {
+    content: "" !important;
+    display: block !important;
+    position: absolute;
+    /* 定位：底部右側 */
+    bottom: -12px;       /* 向下突出 12px */
+    right: 30px;         /* 距離右邊界 25px */
+    /* 尾巴區域大小 (寬 18px * 高 14px) */
+    width: 30px;
+    height: 14px;
+    background-color: inherit;
+    /* SVG Path 裁剪出帶弧度的尾巴曲線 */
+    /* M (起點) -> Q (二次貝茲曲線 Control Point / End Point) */
+    clip-path: polygon(0 0, 50% 0, 100% 100%, 80% 80%, 45% 40%); /* 簡單示範 */
+    
+    z-index: 2;
+}
+/* 關閉按鈕包裹容器 */
+.tooltip-btn-wrapper {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* 關閉說明按鈕 */
+.tooltip-close-btn {
+    border: none;
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+.tooltip-close-btn:hover {
+    opacity: 0.85;
+}
+/* [Tooltip 智慧動效 修改開頭] */
+
+/* 1. 微動效 Keyframe：輕微縮放與旋轉 (Wiggle) */
+@keyframes tooltipWiggle {
+    0% { transform: scale(1) rotate(0deg); }
+    15% { transform: scale(1.15) rotate(-6deg); }
+    30% { transform: scale(1.15) rotate(6deg); }
+    45% { transform: scale(1.15) rotate(-4deg); }
+    60% { transform: scale(1.1) rotate(2deg); }
+    75% { transform: scale(1.05) rotate(0deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+/* 觸發搖晃動畫的 Class */
+.tooltip-trigger-btn.is-wiggling {
+    animation: tooltipWiggle 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+/* 2. 智慧隱現：使用者滾動頁面時淡化並稍微縮小，利於閱讀 */
+.tooltip-trigger-btn.is-scrolling {
+    opacity: 0.3 !important;        /* 淡化 */
+    transform: scale(0.85) !important; /* 微縮 */
+    pointer-events: none;           /* 滾動時避免誤觸 */
+    transition: opacity 0.4s ease, transform 0.4s ease !important;
+}
+
+/* [Tooltip 智慧動效 修改結尾] */
