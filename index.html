@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+Mono+TC&family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./index.css">
+<link rel="stylesheet" href="./css/BGM.css">
+<link rel="stylesheet" href="./css/Shimeji.css">
+<link rel="stylesheet" href="./css/Game.css">
+<link rel="stylesheet" href="./css/DinoGame.css">
+<link rel="stylesheet" href="./css/Intro.css">
+<link rel="stylesheet" href="./css/Story.css">
+<link rel="stylesheet" href="./css/charProfiles.css">
+<link rel="stylesheet" href="./css/charRels.css">
+<link rel="stylesheet" href="./css/Timeline.css">
+<link rel="stylesheet" href="./css/Doc.css">
+<link rel="stylesheet" href="./css/Gallery.css">
+<link rel="stylesheet" href="./css/Comment.css">
+<link id="site-favicon" rel="icon" href="" type="image/x-icon" />
+<title></title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+<script type="text/javascript" src="./js/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.js"></script>
+<script type="text/javascript" src="./js/BGM.js"></script>
+<script type="text/javascript" src="./js/ShimejiManager.js"></script>
+<script type="text/javascript" src="./js/web.js"></script>
+
+<script type="text/javascript" src="./js/login.js"></script>
+<script type="text/javascript" src="./js/Game.js"></script>
+<script type="text/javascript" src="./js/Game_Dino.js"></script>
+<script type="text/javascript" src="./js/checkAge.js"></script>
+<script type="text/javascript" src="./js/intro.js"></script>
+<script type="text/javascript" src="./js/story.js"></script>
+<script type="text/javascript" src="./js/chartAndRelationList.js"></script>
+<script type="text/javascript" src="./js/profile.js"></script>
+<script type="text/javascript" src="./js/timeline.js"></script>
+<script type="text/javascript" src="./js/iframetab.js"></script>
+<script type="text/javascript" src="./js/initTabAppGallery.js"></script>
+
+</head>
+
+<body>
+    <div id="header">
+        <div class="menu-btn logo" id="site-logo" style="width:25px;height:25px;background-size: contain;background-repeat: no-repeat;"></div>
+        <div id="site-name" class="home-btn logo"></div>
+        <div id="login-name">尚未登入</div>
+    </div>
+    <div class="main-wrapper">
+        <div id="side-bar" class="side-bar">請登入
+        <!-- 頂部控制面板 -->
+            <div class="media-controls">
+                <div class="control-group">
+                    <label for="bgm-select" style="width: 45px;">BGM</label>
+                    <select id="bgm-select" class="nav-select" style="width: calc(100% - 50px) !important;">
+                        <option value="">關閉</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="shimeji-select" style="width: 45px;">桌寵</label>
+                    <select id="shimeji-select" class="nav-select" style="width: calc(100% - 50px) !important;">
+                        <option value="">關閉</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="container">
+            <div id="content-box"><!-- 載入內容的地方 --></div>
+        </div>
+    </div>
+<!-- 右下角固定懸浮音樂播放元件 -->
+    <!-- 懸浮音樂播放元件 -->
+    <div id="audio-widget" class="audio-widget">
+        <!-- 第一列：關閉按鈕 -->
+        <div class="widget-row-1">
+            <input type="range" id="widget-volume" class="volume-slider" min="0" max="1" step="0.01" value="0.8">
+            <button id="widget-close-btn" class="close-btn" title="關閉播放器">✖</button>
+        </div>
+
+        <!-- 第二列：GIF + 音效柱狀圖 + 音量條 -->
+        <div class="widget-row-2">
+            <canvas id="widget-canvas" class="visualizer-canvas"></canvas>
+            <img id="widget-gif" class="gif-avatar" src="" alt="GIF" style="display: none;">
+            
+        </div>
+    </div>
+    <!-- 燈箱遮罩結構（放於 </body> 前） -->
+    <div id="image-lightbox" class="lightbox-overlay">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" alt="放大原圖">
+    </div>
+<!-- ==================== 各分頁 HTML 框架 Template 集中 ==================== -->
+ <!-- Home -->
+<template id="tpl-Home">
+    <div id="mima" style="display: none; margin: 5px;">
+        <div style="color: var(--LoginPlzText-font); font-size: 50px; background: var(--LoginPlzText-bg);">
+            你還未登入!請輸入密碼
+        </div>
+        <br><br>
+        <div style="font-size: 20px; margin-bottom: 5px;">帳號:
+            <select id="account-select" style="margin:5px;height:30px;font-size: 18px;color:var(--LoginInput-font);background: var(--LoginInput-bg);border:var(--LoginInput-border);">
+            </select>
+        </div>
+        <div style="font-size: 20px;">密碼:
+            <input type="password" id="pwd" style="margin:5px;height:25px;width:100px;font-size: 20px;color:var(--LoginInput-font);caret-color: var(--LoginInput-caretColor);background: var(--LoginInput-bg);border:var(--LoginInput-border);">
+            <button onclick="setpwd()" style="height:30px;width:50px;font-size: 20px;color:var(--LoginBtn-font);background: var(--LoginBtn-bg);">確認</button>
+        </div>
+    </div>
+    <div class="page_article" style="display: none;"></div>
+    <div id="game-container" style="display: none;">
+        <div class="tabs-nav" id="game-tabs-nav"></div>
+        <div class="tabs-content" id="game-tabs-content"></div>
+    </div>
+</template> 
+ <!-- Intro -->
+<template id="tpl-Intro">
+    <div id="intro-container" style="width:90%; padding: 5px; margin: 5px;"></div>
+</template>
+ <!-- Story -->
+<template id="tpl-Story">
+    <div style="padding: 5px; margin: 5px;">
+        <div id="Story-container">
+            <div class="tab-container" id="comic-tabs"></div>
+            <div class="tab-content" id="comic-content"></div>
+        </div>
+    </div>
+</template>
+ <!-- char_rels -->
+<template id="tpl-charRels">
+    <div style="padding: 5px; margin: 5px;">
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="switchTab('char_Rel')">人物關係圖</button>
+            <button class="tab-btn" onclick="switchTab('char_List')">人物列表</button>
+        </div>
+        <div id="char_Rel" class="charRels_tab-content active charRels_chart">
+            <div class="relation-stage" id="relation-stage">
+                <svg class="relation-svg" id="relation-svg">
+                    <defs id="svg-defs"></defs>
+                    <g id="svg-lines"></g>
+                </svg>
+            </div>
+        </div>
+        <div id="char_List" class="charRels_tab-content character">
+            <div id="database-container"></div>
+        </div>
+    </div>
+</template>
+ <!-- char_profiles -->
+<template id="tpl-charProfiles">
+    <div class="profile-wrapper">
+        <div id="char-menu-bar"></div>
+        <div id="char-detail-panel">
+            <div class="detail-name-bar">
+                <span id="target-name">請選擇角色</span>
+                <!-- 右側 Toggle 容器 -->
+                <div class="toggle-container" id="adult-toggle-wrapper" style="display: none;">
+                    <span class="toggle-label" id="toggle-status-text">一般向</span>
+                    <label class="switch">
+                        <input type="checkbox" id="adult-toggle-input">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="detail-body">
+                <div class="detail-left-column">
+                    <div class="main-preview-container">
+                        <img src="" alt="立繪" class="main-preview-img bigImg" id="target-main-img">
+                    </div>
+                    <div class="thumb-scroll-bar" id="target-thumbs"></div>
+                </div>
+                <div class="detail-right-column">
+                    <h3 class="info-title" id="target-title">標題</h3>
+                    <div class="info-intro" id="target-intro">內容簡介</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+ <!-- Timeline -->
+<template id="tpl-Timeline">
+    <div id="timeline"></div>
+    <div id="timeline-tooltip" class="timeline-tooltip">
+        <div class="tooltip-title" id="tt-title"></div>
+        <div class="tooltip-time" id="tt-time"></div>
+        <div class="tooltip-desc" id="tt-desc"></div>
+    </div>
+</template>
+ <!-- Doc -->
+<template id="tpl-Doc">
+    <div class="tabs-container">
+        <div class="tabs-nav" id="tabs-menu"></div>
+        <div class="tabs-content" id="tabs-view"></div>
+    </div>
+</template>
+ <!-- Gallery -->
+<template id="tpl-Gallery">
+    <div style="padding: 5px; margin: 5px; display: flex; align-items: left;">
+        <div id="gallery-container">
+            <div class="tabs-container">
+                <div class="tabs-nav" id="tabs-menu"></div>
+                <div class="tabs-content" id="tabs-view"></div>
+            </div>
+        </div>
+    </div>
+</template>
+<div id="page-tooltip-wrapper" class="page-tooltip-wrapper" style="display: none;">
+    <div id="tooltip-trigger-btn" class="tooltip-trigger-btn"></div>
+
+    <div id="tooltip-panel" class="tooltip-panel" style="display: none;">
+        <div id="tooltip-content" class="tooltip-content">
+            <div id="tooltip-inner" class="tooltip-inner">
+                <div id="tooltip-text-body"></div>
+                <div class="tooltip-btn-wrapper">
+                    <button id="tooltip-close-btn" class="tooltip-close-btn">關閉說明</button>
+                </div>
+            </div>
+        </div>
+        <div id="tooltip-guide" class="tooltip-guide" style="display: none;"></div>
+    </div>
+</div>
+<!-- ==================== JavaScript 初始化數據 ==================== -->
+<script>
+    if (window.top !== window.self) {
+        // 如果是，強制把最外層視窗的網址，導向目前網頁的網址，破壞 iframe
+        window.top.location = window.self.location;
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+        // 優先讀取並應用全域設定檔 config.json
+        await initAppConfig();    
+        window.shimejiApp = new ShimejiManager();//桌寵初始化
+        window.bgmApp = new BGMPlayerManager();//BGM初始化
+
+        await window.shimejiApp.init("./data/Shimeji.json");
+        await window.bgmApp.init("./data/BGM.json");
+        // 預設載入 Home 頁面
+        /*  在頁面初始化時，優先檢查 URL 參數是否帶有自動登入資訊 */
+        const isAutoLoggedIn = checkUrlAutoLogin();
+        switchPage('首頁', 'Home');
+        // 若自動登入成功，會觸發 login() 並自動檢查是否有指定 page 進行跳轉
+        if (isAutoLoggedIn) {
+            login();
+        }
+        document.getElementById("side-bar").classList.add("hide");
+        //燈箱初始化
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.querySelector('.lightbox-close');
+        // 全局事件委派：只要點擊的元素帶有 bigImg class 就觸發
+        document.addEventListener('click', (e) => {
+            if (e.target && e.target.classList.contains('bigImg')) {
+                const src = e.target.getAttribute('src');
+                if (src) {
+                    lightboxImg.src = src;
+                    lightbox.classList.add('active');
+                    }
+                }
+            });
+        // 關閉燈箱（點擊關閉按鈕）
+        closeBtn.addEventListener('click', closeLightbox);
+        // 點擊背景空白處關閉
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+            closeLightbox();
+            }
+        });
+        // 按下 Esc 鍵關閉
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+            }
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            lightboxImg.src = '';
+        }
+    });
+    // 圖裂判斷
+window.addEventListener('error', (e) => {
+    const target = e.target;
+    if (target.tagName === 'IMG' && !target.dataset.hasFallback) {
+        target.dataset.hasFallback = 'true'; // 標記已處理過
+
+        // 1. 從 CSS 讀取 --default-fallback-img 變數
+        const cssVar = getComputedStyle(document.documentElement)
+                        .getPropertyValue('--defaultFallback-img')
+                        .trim();
+
+        // 2. 清除 CSS url(...) 的外殼語法 (去除 url("...") 或 url(...) 中的引號與外框)
+        const fallbackSrc = cssVar.replace(/^url\((['"]?)(.*?)\1\)$/, '$2');
+
+        // 3. 若有成功讀取到路徑，則替換；若讀不到則退回預設路徑
+        if (fallbackSrc) {
+            target.src = fallbackSrc;
+        } else {
+            target.src = "./img/Icon.ico"; 
+        }
+
+        target.alt = '圖片載入失敗';
+    }
+}, true);
+        
+</script>
+</body>
+</html>
+</html>
