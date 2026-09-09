@@ -1,0 +1,108 @@
+[
+  {
+    "page": "WebIntro",
+    "title": "功能介紹",
+    "path": "./data/WebIntro.json",
+    "func": "Doc",
+    "Tooltip_icon": "url('./img/Icon.png') no-repeat center / contain",
+    "Tooltip_icon2": "url('./img/guide.png') no-repeat center bottom / contain",
+    "Tooltip_bg": "#f08080",
+    "Tooltip_font": "#5a4338",
+    "Tooltip": "功能介紹的功能介紹….......?<br>每個分頁的球球都可以單獨設定CSS喔!"
+  },
+  {
+    "page": "Intro",
+    "title": "卡片式列表",
+    "path": "./data/Intro.json",
+    "func": "Intro",
+    "Tooltip_icon": "",
+    "Tooltip_icon2": "",
+    "Tooltip_bg": "",
+    "Tooltip_font": "",
+    "Tooltip": ""
+  },
+  {
+    "page": "Story",
+    "title": "多章節圖/文閱讀區",
+    "path": "./data/Story.json",
+    "func": "Story",
+    "Tooltip_icon": "",
+    "Tooltip_icon2": "",
+    "Tooltip_bg": "",
+    "Tooltip_font": "",
+    "Tooltip": ""
+  },
+  {
+    "title": "下方子項目的目錄",
+    "func": "menu",
+    "children": [
+      {
+        "page": "charRels",
+        "title": "角色關係圖/列表",
+        "path": [
+          "./data/charRels.json",
+          "./data/orgColor.json"
+        ],
+        "func": "charRels",
+        "Tooltip_icon": "url('./img/Icon.png') no-repeat center / contain",
+        "Tooltip_icon2": "url('./img/guide.png') no-repeat center bottom / contain",
+        "Tooltip_bg": "#BBFFFF",
+        "Tooltip_font": "#005757",
+        "Tooltip": "※箭頭樣式<br>╌╌╌ ：不公開關係<br>─── ：公開關係<br>角色圖片來自https://picsum.photos<br>的隨機圖片"
+      },
+      {
+        "page": "charProfiles",
+        "title": "角色設定檔案",
+        "path": "./data/charProfiles.json",
+        "func": "charProfiles",
+        "Tooltip_icon": "",
+        "Tooltip_icon2": "",
+        "Tooltip_bg": "",
+        "Tooltip_font": "",
+        "Tooltip": ""
+      }
+    ]
+  },
+  {
+    "title": "設定➤世界觀",
+    "func": "menu",
+    "children": [
+      {
+        "page": "Timeline",
+        "title": "事件表",
+        "path": [
+          "./data/timelineMilestones.json",
+          "./data/Timeline.json"
+        ],
+        "func": "Timeline",
+        "Tooltip_icon": "",
+        "Tooltip_icon2": "",
+        "Tooltip_bg": "",
+        "Tooltip_font": "",
+        "Tooltip": ""
+      },
+      {
+        "page": "Doc",
+        "title": "文件嵌入",
+        "path": "./data/Doc.json",
+        "func": "Doc",
+        "Tooltip_icon": "",
+        "Tooltip_icon2": "",
+        "Tooltip_bg": "",
+        "Tooltip_font": "",
+        "Tooltip": ""
+      }
+    ]
+  },
+  {
+    "page": "Gallery",
+    "title": "多媒體合輯",
+    "path": "./data/Gallery.json",
+    "func": "Gallery",
+    "Tooltip_icon": "",
+    "Tooltip_icon2": "",
+    "Tooltip_bg": "",
+    "Tooltip_font": "",
+    "Tooltip": ""
+  }
+]

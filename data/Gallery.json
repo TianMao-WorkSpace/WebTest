@@ -1,0 +1,160 @@
+[
+  {
+    "tabLabel": "圖",
+    "data": [
+      {
+        "title": "轉蛋",
+        "url": "",
+        "notes": "對圖片1的說明",
+        "Adult": "1",
+        "view": [
+          {
+            "title": "假裝這是成人向",
+            "type": "img",
+            "url": "https://picsum.photos/100?random=1",
+            "notes": "圖源:https://picsum.photos/100?random=1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "tabLabel": "文",
+    "data": [
+      {
+        "title": "文章1",
+        "url": "",
+        "notes": "沒有封面",
+        "Adult": "1",
+        "view": [
+          {
+            "title": "文章2",
+            "type": "txt",
+            "url": "",
+            "notes": "文:路徑沒放東西的情況"
+          }
+        ]
+      },
+      {
+        "title": "文章2",
+        "url": "https://picsum.photos/100?random=13",
+        "notes": "圖源:https://picsum.photos/100?random=13",
+        "Adult": "0",
+        "view": [
+          {
+            "title": "文章2",
+            "type": "txt",
+            "url": "./txt/test.txt",
+            "notes": "對局部2的說明"
+          },
+          {
+            "title": "局部2",
+            "type": "img",
+            "url": "https://picsum.photos/100?random=3",
+            "notes": "圖源:https://picsum.photos/100?random=3"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "tabLabel": "影音",
+    "data": [
+      {
+        "title": "音樂1",
+        "url": "https://picsum.photos/100?random=14",
+        "notes": "圖源:https://picsum.photos/100?random=14",
+        "Adult": "0",
+        "view": [
+          {
+            "title": "",
+            "type": "aud",
+            "url": "./aud/01.mp3",
+            "notes": "測試音樂失效<br>恩恩就是不會動…."
+          }
+        ]
+      },
+      {
+        "title": "金蛇狂舞",
+        "url": "https://picsum.photos/100?random=15",
+        "notes": "圖源:https://picsum.photos/100?random=15",
+        "Adult": "1",
+        "view": [
+          {
+            "title": "",
+            "type": "aud",
+            "url": "./aud/02.m4a",
+            "notes": "對局部2的說明",
+            "audioFreqColor": "#0080FF,#7D7DFF",
+            "audioWaveColor": "#FF7575"
+          }
+        ]
+      },
+      {
+        "title": "海洋生物",
+        "url": "",
+        "notes": "對影片1的說明",
+        "Adult": "0",
+        "view": [
+          {
+            "title": "局部2",
+            "type": "vid",
+            "url": "./vid/9681-1.mp4",
+            "notes": "對局部2的說明"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "tabLabel": "其他",
+    "data": [
+      {
+        "title": "影片2",
+        "url": "./img/Map/1.png",
+        "notes": "圖裂顯示",
+        "Adult": "0",
+        "view": [
+          {
+            "title": "局部2",
+            "type": "vid",
+            "url": "./vid/9681-1.mp4",
+            "notes": "對局部2的說明"
+          },
+          {
+            "title": "局部2",
+            "type": "img",
+            "url": "./img/Map/1.png",
+            "notes": "圖裂顯示"
+          }
+        ]
+      },
+      {
+        "title": "遷入2",
+        "url": "./img/Map/1.png",
+        "notes": "圖裂顯示",
+        "Adult": "0",
+        "view": [
+          {
+            "title": "局部2",
+            "type": "vid",
+            "url": "./vid/9681-1.mp4",
+            "notes": "對局部2的說明"
+          },
+          {
+            "title": "局部2",
+            "type": "img",
+            "url": "./img/Map/1.png",
+            "notes": "圖裂顯示"
+          },
+          {
+            "title": "嵌入",
+            "type": "iframe",
+            "url": "<iframewidth='560'height='315'src='https://www.youtube.com/embed/pT9McoRtyjc?si=grEsIzVgt2cOTInx'title='YouTubevideoplayer'frameborder='0'allow='accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share'referrerpolicy='strict-origin-when-cross-origin'allowfullscreen></iframe>",
+            "notes": "隨便放個影片看看<br>通常影片網站點【分享】時可能有【嵌入】這個選項，沒有的話應該也可以….........."
+          }
+        ]
+      }
+    ]
+  }
+]

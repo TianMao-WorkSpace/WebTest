@@ -1,0 +1,143 @@
+[
+  {
+    "name": "Man",
+    "img": [
+      {
+        "title": "立繪",
+        "url": "./img/profile/Man.png",
+        "Adult": "0",
+        "imgIntro": [
+          {
+            "title": "姓名",
+            "content": "Man"
+          },
+          {
+            "title": "生日",
+            "content": "2022/??/??"
+          },
+          {
+            "title": "種族",
+            "content": "火柴人"
+          },
+          {
+            "title": "職業",
+            "content": "小釣手"
+          },
+          {
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      {
+        "title": "BANANA",
+        "url": "./img/profile/Man1.png",
+        "Adult": "0",
+        "imgIntro": [
+          {
+            "title": "恩",
+            "content": "….....一時無話可說"
+          }
+        ]
+      },
+      {
+        "title": "BANANA_R",
+        "url": "./img/profile/Man1_R.png",
+        "Adult": "1",
+        "imgIntro": []
+      },
+      {
+        "title": "Orange",
+        "url": "./img/profile/Man2.png",
+        "Adult": "0",
+        "imgIntro": []
+      },
+      {
+        "title": "Orange_R",
+        "url": "./img/profile/Man2_R.png",
+        "Adult": "1",
+        "imgIntro": []
+      },
+      {
+        "title": "Apple",
+        "url": "./img/profile/Man3.png",
+        "Adult": "0",
+        "imgIntro": []
+      },
+      {
+        "title": "Apple_R",
+        "url": "./img/profile/Man3_R.png",
+        "Adult": "1",
+        "imgIntro": []
+      }
+    ]
+  },
+  {
+    "name": "Woman",
+    "img": [
+      {
+        "title": "立繪",
+        "url": "./img/profile/Woman.png",
+        "Adult": "0",
+        "imgIntro": [
+          {
+            "title": "姓名",
+            "content": "Woman"
+          },
+          {
+            "title": "生日",
+            "content": "2026/??/??"
+          },
+          {
+            "title": "種族",
+            "content": "火柴人"
+          },
+          {
+            "title": "職業",
+            "content": "小釣手"
+          },
+          {
+            "title": "",
+            "content": ""
+          }
+        ]
+      },
+      {
+        "title": "BANANA1",
+        "url": "./img/profile/Woman1.png",
+        "Adult": "0",
+        "imgIntro": []
+      },
+      {
+        "title": "BANANA1_R",
+        "url": "./img/profile/Woman1_R.png",
+        "Adult": "1",
+        "imgIntro": []
+      },
+      {
+        "title": "Orange1",
+        "url": "./img/profile/Woman2.png",
+        "Adult": "0",
+        "imgIntro": []
+      },
+      {
+        "title": "Orange1_R",
+        "url": "./img/profile/Woman2_R.png",
+        "Adult": "1",
+        "imgIntro": []
+      },
+      {
+        "title": "Apple1",
+        "url": "./img/profile/Woman3.png",
+        "Adult": "0",
+        "imgIntro": []
+      },
+      {
+        "title": "Apple1_R",
+        "url": "./img/profile/Woman3_R.png",
+        "Adult": "1",
+        "imgIntro": []
+      }
+    ]
+  }
+]

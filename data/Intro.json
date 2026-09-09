@@ -1,0 +1,60 @@
+[
+  {
+    "name": "人類A",
+    "url": "./img/Intro/author_A.png",
+    "font_color": "#e0c5c5",
+    "icon": "⊹",
+    "intro": [
+      {
+        "title": "星座",
+        "text": "我只是想試試看\n跳行能不能正常"
+      },
+      {
+        "title": "年齡",
+        "text": "提這個多冒昧啊"
+      }
+    ],
+    "web": [
+      {
+        "title": "PLURK",
+        "url": "https://www.plurk.com/portal",
+        "Subpage": [
+          {
+            "title": "噗浪ㄉ子連結",
+            "url": "https://www.plurk.com/p/3j203gejla"
+          },
+          {
+            "title": "依舊是噗浪ㄉ子連結",
+            "url": "https://www.plurk.com/p/3j1vtddqvt"
+          }
+        ]
+      },
+      {
+        "title": "Facebook",
+        "url": "https://www.facebook.com/?locale=zh_TW"
+      }
+    ]
+  },
+  {
+    "name": "人類B",
+    "url": "./img/Intro/author_B.png",
+    "font_color": "#6389a8",
+    "icon": "✦",
+    "intro": [
+      {
+        "title": "喜好",
+        "text": "我不造啊"
+      },
+      {
+        "title": "狀態",
+        "text": "絕讚躺平中"
+      }
+    ],
+    "web": [
+      {
+        "title": "X (Twitter)",
+        "url": "https://x.com"
+      }
+    ]
+  }
+]

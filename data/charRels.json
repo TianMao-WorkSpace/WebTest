@@ -1,0 +1,232 @@
+[
+  {
+    "id": 1,
+    "name": "角色A",
+    "url": "https://picsum.photos/100?random=1",
+    "org": [
+      {
+        "orgName": "組織A",
+        "orgRole": "在組織A<br>的身分",
+        "Status": "在職",
+        "date": "某年~",
+        "level": "等級",
+        "view": "對組織A<br>的看法"
+      },
+      {
+        "orgName": "組織B",
+        "orgRole": "在組織B的身分",
+        "Status": "離職",
+        "date": "某時期",
+        "level": "等級",
+        "view": "對組織B的看法"
+      }
+    ],
+    "role": "書中<br>定位",
+    "POS": "混亂善良",
+    "borderColer": "#ffcc00",
+    "Rel": [
+      {
+        "id": 2,
+        "rel": [
+          {
+            "name": "關係名稱1",
+            "is_public": "O",
+            "key_event": "關鍵<br>節點"
+          },
+          {
+            "name": "關係名稱1-1",
+            "is_public": "X",
+            "key_event": "關鍵<br>節點 2"
+          }
+        ],
+        "liking": "85",
+        "hide": "與角色B關係的<br>隱藏資訊",
+        "view": "對角色B的<br>看法"
+      },
+      {
+        "id": 3,
+        "rel": [
+          {
+            "name": "關係名稱2",
+            "is_public": "X",
+            "key_event": "關鍵節點"
+          }
+        ],
+        "liking": "-100",
+        "hide": "與角色C關係的隱藏資訊",
+        "view": "對角色C的看法"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "角色B",
+    "url": "https://picsum.photos/100?random=2",
+    "org": [
+      {
+        "orgName": "組織A",
+        "orgRole": "在組織A<br>的身分",
+        "Status": "曾借調",
+        "date": "某年某月~某月",
+        "level": "等級",
+        "view": "對組織A的看法"
+      },
+      {
+        "orgName": "組織B",
+        "orgRole": "在組織B的身分",
+        "Status": "離職",
+        "date": "某年~某年",
+        "level": "等級",
+        "view": "對組織B的看法"
+      }
+    ],
+    "role": "書中定位",
+    "POS": "中立善良",
+    "borderColer": "#00ffcc",
+    "Rel": [
+      {
+        "id": 1,
+        "rel": [
+          {
+            "name": "關係名稱3",
+            "is_public": "O",
+            "key_event": "關鍵節點"
+          },
+          {
+            "name": "關係名稱3.5",
+            "is_public": "X",
+            "key_event": "關鍵節點"
+          }
+        ],
+        "liking": "90",
+        "hide": "與角色A關係的隱藏資訊",
+        "view": "對角色A的看法"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "角色C",
+    "url": "https://picsum.photos/100?random=3",
+    "org": [
+      {
+        "orgName": "組織C",
+        "orgRole": "在組織C的身分",
+        "Status": "在職",
+        "date": "某年~",
+        "level": "等級",
+        "view": "對組織C的看法"
+      }
+    ],
+    "role": "書中定位",
+    "POS": "混亂中立",
+    "borderColer": "#ff00ff",
+    "Rel": [
+      {
+        "id": 1,
+        "rel": [
+          {
+            "name": "關係名稱4",
+            "is_public": "X",
+            "key_event": "關鍵節點"
+          }
+        ],
+        "liking": "-40",
+        "hide": "與角色A關係的隱藏資訊",
+        "view": "對角色A的看法"
+      },
+      {
+        "id": 5,
+        "rel": [
+          {
+            "name": "關係名稱5",
+            "is_public": "O",
+            "key_event": "關鍵節點"
+          }
+        ],
+        "liking": "20",
+        "hide": "與角色E關係的隱藏資訊",
+        "view": "對角色E的看法"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "name": "角色D",
+    "url": "https://picsum.photos/100?random=4",
+    "org": [
+      {
+        "orgName": "組織B",
+        "orgRole": "在組織B的身分",
+        "Status": "在職",
+        "date": "某年~",
+        "level": "等級",
+        "view": "對組織B的看法"
+      }
+    ],
+    "role": "書中定位",
+    "POS": "守序善良",
+    "borderColer": "#32ff7e",
+    "Rel": [
+      {
+        "id": 1,
+        "rel": [
+          {
+            "name": "關係名稱6",
+            "is_public": "O",
+            "key_event": "關鍵節點"
+          }
+        ],
+        "liking": "60",
+        "hide": "與角色A關係的隱藏資訊",
+        "view": "對角色A的看法"
+      },
+      {
+        "id": 2,
+        "rel": [
+          {
+            "name": "關係名稱7",
+            "is_public": "O",
+            "key_event": "關鍵節點"
+          }
+        ],
+        "liking": "95",
+        "hide": "與角色B關係的隱藏資訊",
+        "view": "對角色B的看法"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "name": "角色E",
+    "url": "https://picsum.photos/100?random=5",
+    "org": [
+      {
+        "orgName": "組織C",
+        "orgRole": "在組織C的身分",
+        "Status": "在職",
+        "date": "某年~某年",
+        "level": "等級",
+        "view": "對組織C的看法"
+      }
+    ],
+    "role": "書中定位",
+    "POS": "中立邪惡",
+    "borderColer": "#7efff5",
+    "Rel": [
+      {
+        "id": 1,
+        "rel": [
+          {
+            "name": "關係名稱8",
+            "is_public": "O",
+            "key_event": "關鍵節點"
+          }
+        ],
+        "liking": "40",
+        "hide": "與角色A關係的隱藏資訊",
+        "view": "對角色A的看法"
+      }
+    ]
+  }
+]

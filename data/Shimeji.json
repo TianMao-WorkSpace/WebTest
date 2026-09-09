@@ -1,0 +1,89 @@
+[
+  {
+    "id": "elf_01",
+    "title": "小精靈",
+    "color": "#975a56",
+    "cursor": "",
+    "physics": {
+      "gravity": 0.8,
+      "bounce": 0.3,
+      "friction": 0.98
+    },
+    "idleMotions": [
+      {
+        "id": "stand",
+        "name": "站立",
+        "url": "./img/shimeji/elf/stand.gif",
+        "weight": 30,
+        "minDuration": 3000,
+        "maxDuration": 6000
+      },
+      {
+        "id": "walk",
+        "name": "走路",
+        "url": "./img/shimeji/elf/walk.gif",
+        "weight": 30,
+        "minDuration": 4000,
+        "maxDuration": 8000,
+        "speed": 2
+      },
+      {
+        "id": "sit",
+        "name": "坐下",
+        "url": "./img/shimeji/elf/sit.gif",
+        "weight": 15,
+        "minDuration": 5000,
+        "maxDuration": 10000
+      },
+      {
+        "id": "read",
+        "name": "看書",
+        "url": "./img/shimeji/elf/read.gif",
+        "weight": 10,
+        "minDuration": 6000,
+        "maxDuration": 12000
+      },
+      {
+        "id": "sleep",
+        "name": "瞌睡",
+        "url": "./img/shimeji/elf/sleep.gif",
+        "weight": 10,
+        "minDuration": 8000,
+        "maxDuration": 15000
+      },
+      {
+        "id": "leave",
+        "name": "離場關閉",
+        "url": "./img/shimeji/elf/leave.gif",
+        "weight": 5,
+        "minDuration": 3000,
+        "maxDuration": 3000
+      }
+    ],
+    "interactions": {
+      "clickLight": {
+        "name": "盯著滑鼠",
+        "url": "./img/shimeji/elf/look.png",
+        "duration": 2000
+      },
+      "clickAngry": {
+        "name": "打滑鼠快步離開",
+        "url": "./img/shimeji/elf/slap_run.gif",
+        "duration": 3000,
+        "speed": 5
+      },
+      "drag": {
+        "calmUrl": "./img/shimeji/elf/drag_calm.gif",
+        "shakeUrl": "./img/shimeji/elf/drag_shake.gif",
+        "shakeThreshold": 15
+      },
+      "drop": {
+        "fallingUrl": "./img/shimeji/elf/fall.gif",
+        "landUrl": "./img/shimeji/elf/land_splat.gif",
+        "recoverUrl": "./img/shimeji/elf/get_up.gif",
+        "landDuration": 1500,
+        "recoverDuration": 1500
+      }
+    }
+  }
+]

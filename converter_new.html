@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Excel 轉 JSON 工具</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        .control-group { margin-bottom: 15px; }
+        textarea { width: 100%; height: 300px; font-family: monospace; }
+        button { padding: 8px 16px; cursor: pointer; margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+    <h2>📊 Excel 轉 JSON 轉換器</h2>
+
+    <div class="control-group">
+        <label>1. 選擇 Excel 檔案：</label>
+        <input type="file" id="excelFile" accept=".xlsx, .xls">
+    </div>
+
+    <div class="control-group">
+        <label>2. 選擇轉換功能模式：</label>
+        <select id="convertMode">
+            <option value="config">網站設定(config)</option>
+            <option value="pageData">側欄設定(pageData)</option>
+            <option value="BGM">背景音樂(BGM)</option>
+            <option value="Shimeji">桌寵(Shimeji)</option>
+            <option value="Game">遊戲主檔(Game)</option>
+            <option value="Intro">卡片式列表(Intro)</option>
+            <option value="Story">多章節圖/文閱讀區(Story)</option>
+            <option value="charRels">角色關係圖/列表(charRels)</option> 
+            <option value="charProfiles">角色設定檔案(charProfiles)</option>
+            <option value="Timeline">事件表(Timeline)</option>
+            <option value="Doc">文件嵌入(Doc)</option>
+            <option value="Gallery">多媒體合輯(Gallery)</option>
+        </select>
+    </div>
+
+    <div class="control-group">
+        <button id="convertBtn">【轉換】</button>
+    </div>
+    <hr>
+    <div class="control-group">
+        <label>3.<br>輸出結果1：</label>
+        <button id="copyBtn1">【複製內容】</button>
+        <button id="downloadBtn1">【下載 JSON 檔】</button>
+        <br><br>
+        <textarea id="outputJson1" readonly placeholder="轉換後的 JSON 將顯示於此..."></textarea>
+        
+        <label>輸出結果2：</label>
+        <button id="copyBtn2">【複製內容】</button>
+        <button id="downloadBtn2">【下載 JSON 檔】</button>
+        <br><br>
+        <textarea id="outputJson2" readonly placeholder="轉換後的 JSON 將顯示於此..."></textarea>
+    </div>
+
+<script>
+    let parsedWorkbook = null;
+    let uploadedFileName = 'output'; // 記錄檔名用（預設為 output）
+
+    // 1. 監聽檔案上傳
+    document.getElementById('excelFile').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // 擷取檔名（去掉副檔名 .xlsx 或 .xls）
+        uploadedFileName = file.name.replace(/\.[^/.]+$/, "");
+
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+            const data = new Uint8Array(evt.target.result);
+            parsedWorkbook = XLSX.read(data, { type: 'array' });
+            alert('Excel 讀取成功！請選擇功能並按下【轉換】');
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    // 2. 按下轉換按鈕
+    document.getElementById('convertBtn').addEventListener('click', () => {
+        if (!parsedWorkbook) {
+            alert('請先上傳 Excel 檔案！');
+            return;
+        }
+
+        const mode = document.getElementById('convertMode').value;
+        let output = { json1: null, json2: null };
+
+        if (mode === 'config') {
+            output = parseConfigJson(parsedWorkbook);
+        }else if (mode === 'pageData') {
+            output = parsePageDataJson(parsedWorkbook);
+        }else if (mode === 'BGM') {
+            output = parseBgmJson(parsedWorkbook);
+        }else if (mode === 'Shimeji') {
+            output = parseShimejiJson(parsedWorkbook);
+        }else if (mode === 'Game') {
+            output = parseGameJson(parsedWorkbook);
+        }else if (mode === 'Intro') {
+            output = parseIntroJson(parsedWorkbook);
+        }else if (mode === 'Story') {
+            output = parseStoryJson(parsedWorkbook);
+        }else if (mode === 'charRels') {
+            output = parseCharRelsJson(parsedWorkbook);
+        }else if (mode === 'charProfiles') {
+            output = parseCharProfilesJson(parsedWorkbook);
+        }else if (mode === 'Timeline') {
+            output = parseTimelineJson(parsedWorkbook);
+        }else if (mode === 'Doc') {
+            output = parseDocJson(parsedWorkbook);
+        }else if (mode === 'Gallery') {
+            output = parseGalleryJson(parsedWorkbook);
+        }
+
+        // 清空並輸出至畫面
+        document.getElementById('outputJson1').value = output.json1 
+            ? JSON.stringify(output.json1, null, 2) 
+            : '';
+            
+        document.getElementById('outputJson2').value = output.json2 
+            ? JSON.stringify(output.json2, null, 2) 
+            : '';
+
+        if (output.json1 || output.json2) {
+            alert('轉換成功！');
+        }
+    });
+
+    // 3. 一鍵複製
+    document.getElementById('copyBtn1').addEventListener('click', () => {
+        const jsonText = document.getElementById('outputJson1').value;
+        if (!jsonText) return;
+
+        navigator.clipboard.writeText(jsonText).then(() => {
+            alert('已複製到剪貼簿！');
+        });
+    });
+    document.getElementById('copyBtn2').addEventListener('click', () => {
+        const jsonText = document.getElementById('outputJson2').value;
+        if (!jsonText) return;
+
+        navigator.clipboard.writeText(jsonText).then(() => {
+            alert('已複製到剪貼簿！');
+        });
+    });
+
+    // 4. 下載 JSON 通用函式
+    function downloadJson(elementId, suffix = '') {
+        const jsonText = document.getElementById(elementId).value;
+        if (!jsonText) {
+            alert('無可下載的 JSON 內容！');
+            return;
+        }
+
+        const blob = new Blob([jsonText], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        
+        // 檔名設定為：原檔名 + 後綴 (例如: demo_1.json)
+        a.href = url;
+        a.download = `${uploadedFileName}${suffix}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // 5. 綁定下載按鈕點擊事件
+    document.getElementById('downloadBtn1').addEventListener('click', () => {
+        const hasJson2 = document.getElementById('outputJson2').value.trim() !== '';
+        // 若有輸出2，則檔名加上 _1 區分，否則直接用原檔名
+        downloadJson('outputJson1', hasJson2 ? '_1' : '');
+    });
+
+    document.getElementById('downloadBtn2').addEventListener('click', () => {
+        downloadJson('outputJson2', '_2');
+    });
+
+// ─── Option: Config 跨表解析函式 ──────────────────────────────────────
+function parseConfigJson(workbook) {
+  // 1. 解析 Sheet 1: Config (主表)
+  const wsConfig = workbook.Sheets[workbook.SheetNames[0]];
+  const rowsConfig = wsConfig ? XLSX.utils.sheet_to_json(wsConfig, { range: 1, defval: "", raw: false }) : [];
+
+  const configObj = {
+    title: "",
+    icon: "",
+    sidebarFuncBullet:"",
+    sidebarMenuBullet:"",
+    sidebarChildBullet:"",
+    account: [],
+    password_adult: "",
+    home: "",
+    OGP: {},
+    color: {}
+  };
+
+  rowsConfig.forEach(row => {
+    // 檢查啟用欄位
+    const enableKey = Object.keys(row).find(k => k.includes('啟用') || k.toLowerCase() === 'enable');
+    if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+    const rawKey = String(row['key'] || '').trim();
+    if (!rawKey) return;
+
+    let rawVal = String(row['value'] || '');
+
+    // 判斷是否為 color 物件屬性
+    if (rawKey.startsWith('color.')) {
+      const colorProp = rawKey.replace('color.', '');
+      // color 屬性值保留內部與前後空格，僅去除前後斷行
+      configObj.color[colorProp] = rawVal.trim();
+    }
+    // 判斷是否為 OGP 物件屬性
+    else if (rawKey.startsWith('OGP.')) {
+      const ogpProp = rawKey.replace('OGP.', '');
+      if (ogpProp === 'description') {
+        configObj.OGP[ogpProp] = rawVal.trim(); // 保留文字中間空格
+      } else {
+        configObj.OGP[ogpProp] = rawVal.replace(/\s+/g, ''); // 去除所有空格
+      }
+    }
+    // 一般單一鍵值對
+    else {
+        if(!rawKey.includes("sidebar"))
+            configObj[rawKey] = rawVal.replace(/\s+/g, '');
+        else 
+            configObj[rawKey] = rawVal;
+        }
+  });
+
+  // 2. 解析 Sheet 2: Account (帳號表)
+  if (workbook.SheetNames.length > 1) {
+    const wsAccount = workbook.Sheets[workbook.SheetNames[1]];
+    const rowsAccount = XLSX.utils.sheet_to_json(wsAccount, { range: 1, defval: "", raw: false });
+
+    // 換行轉 <br> 輔助函式
+    const formatBr = (val) => {
+      if (!val) return "";
+      return String(val).trim().replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+    };
+
+    rowsAccount.forEach(row => {
+      const enableKey = Object.keys(row).find(k => k.includes('啟用') || k.toLowerCase() === 'enable');
+      if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+      const rawId = row['id'];
+      if (rawId === undefined || rawId === null || String(rawId).trim() === '') return;
+
+      // adult 布林值轉換
+      const rawAdult = String(row['adult'] || '').trim().toLowerCase();
+      const isAdult = rawAdult === 'true' || rawAdult === '1';
+
+      configObj.account.push({
+        id: String(rawId).replace(/\s+/g, ''),
+        name: String(row['name'] || '').replace(/\s+/g, ''),
+        pwd: String(row['pwd'] || '').replace(/\s+/g, ''),
+        adult: isAdult,
+        page: String(row['page'] || '').replace(/\s+/g, ''),
+        Welcome: formatBr(row['Welcome']) // 保留空格並將 Enter 轉為 <br>
+      });
+    });
+  }
+
+  return { json1: configObj, json2: null };
+}
+// ─── option: pageData 側欄設定解析函式 ──────────────────────────────────────
+    function parsePageDataJson(workbook) {
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        
+        // 讀取原始陣列（包含 Header）
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "", raw: false });
+        
+        const result = [];
+        let currentMenuMap = new Map(); // 用於暫存父選單與 children 的關聯
+
+        for (let i = 2; i < rows.length; i++) {
+            const row = rows[i];
+            if (!row || row.length === 0) continue;
+
+            // A 欄：啟用狀態
+            const isEnable = String(row[0] || '').trim();
+            if (isEnable !== '是') continue;
+            // B 欄：欄位說明 -> 跳過
+            // C 欄：主選單標題 (保留空格)
+            const page = String(row[2] || '').replace(/\s+/g, '');
+            const mainTitle = String(row[3] || '').trim();
+            // D 欄：子選單標題 (保留空格)
+            const childTitle = String(row[4] || '').trim();
+            // E 欄：功能類型 (去除空格)
+            const func = String(row[5] || '').replace(/\s+/g, '');
+            // F 欄：路徑 (去除空格並處理多筆路徑)
+            const pathRaw = String(row[6] || '').trim();
+            const Tooltip_icon = String(row[7] || '').trim();
+            const Tooltip_icon2 = String(row[8] || '').trim();
+            const Tooltip_bg = String(row[9] || '').trim();
+            const Tooltip_font = String(row[10] || '').trim();
+            let Tooltip = String(row[11] || '');
+            Tooltip =Tooltip.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+            let pathObj = null;
+
+            if (pathRaw) {
+            // 依換行符號或逗號切割路徑，並去除每項的空格
+            const paths = pathRaw.split(/[\r\n,]+/)
+                                .map(p => p.replace(/\s+/g, ''))
+                                .filter(p => p.length > 0);
+            
+            if (paths.length > 1) {
+                pathObj = paths; // 多筆轉成陣列
+            } else if (paths.length === 1) {
+                pathObj = paths[0]; // 單筆轉成字串
+            }
+            } else {
+                pathObj = ""; // 空值
+            }
+
+            if (!mainTitle) continue;
+
+            // ─── 邏輯判斷：父選單 (menu) 或 普通主選單 ───
+            if (func === 'menu') {
+                // 建立父選單物件
+                const menuItem = {
+                    title: mainTitle,
+                    func: func,
+                    children: []
+                };
+            result.push(menuItem);
+            currentMenuMap.set(mainTitle, menuItem);
+            } 
+            // ─── 邏輯判斷：子選單項目 (屬於某個 menu) ───
+            else if (childTitle && currentMenuMap.has(mainTitle)) {
+            const childItem = {
+                page:page,
+                title: childTitle,
+                path: pathObj,
+                func: func,
+                Tooltip_icon:Tooltip_icon,
+                Tooltip_icon2:Tooltip_icon2,
+                Tooltip_bg:Tooltip_bg,
+                Tooltip_font,Tooltip_font,
+                Tooltip:Tooltip
+            };
+            // 將子選單推入對應父選單的 children 中
+            currentMenuMap.get(mainTitle).children.push(childItem);
+            } 
+            // ─── 邏輯判斷：一般獨立主選單 ───
+            else {
+            const item = {
+                page:page,
+                title: mainTitle,
+                path: pathObj,
+                func: func,
+                Tooltip_icon:Tooltip_icon,
+                Tooltip_icon2:Tooltip_icon2,
+                Tooltip_bg:Tooltip_bg,
+                Tooltip_font,Tooltip_font,
+                Tooltip:Tooltip
+            };
+            result.push(item);
+            }
+        }
+
+        return { json1: result, json2: null };
+    }
+// ─── option: BGM 背景音樂解析函式 ──────────────────────────────────────────
+    function parseBgmJson(workbook) {
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        
+        // 讀取原始陣列（包含 Header）
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "", raw: false });
+        
+        const result = [];
+        // i = 1 跳過第 1 列標頭
+        for (let i = 2; i < rows.length; i++) {
+            const row = rows[i];
+            if (!row || row.length === 0) continue;
+            // A 欄：啟用狀態
+            const isEnable = String(row[0] || '').trim();
+            if (isEnable !== '是') continue;
+            // B 欄：欄位說明 -> 直接跳過不處理
+            // C 欄：音樂標題 (title) -> 保留空格，僅去除前後首尾空白
+            const title = String(row[2] || '').trim();
+            // D 欄：檔案路徑 (url) -> 去除所有空格
+            const url = String(row[3] || '').replace(/\s+/g, '');
+            // 標題與路徑若有缺點則跳過，確保資料完整
+            if (!title && !url) continue;
+            result.push({
+                title: title,
+                url: url
+            });
+        }
+
+        return { json1: result, json2: null };
+    }
+// ─── option: Shimeji 桌寵設定解析函式 (展平欄位優化版) ──────────────────────
+    function parseShimejiJson(workbook) {
+        const wsMain = workbook.Sheets[workbook.SheetNames[0]];
+        const wsMotions = workbook.Sheets[workbook.SheetNames[1]];
+
+        // 1. 自動讀取首列作為欄位標題 (Header)
+        const rowsMain = XLSX.utils.sheet_to_json(wsMain, { range: 1,raw: false });
+        const rowsMotions = wsMotions ? XLSX.utils.sheet_to_json(wsMotions, { range: 1,raw: false }) : [];
+
+        // 自動判別數字與字串
+        const parseVal = (val) => {
+            if (val === undefined || val === null || val === "") return undefined;
+            const str = String(val).trim();
+            if (!isNaN(str) && str !== "") return Number(str);
+            return str;
+        };
+
+        const shimejiMap = new Map();
+
+        // 2. 解析主表 (自動將點號分隔的 Header 轉為深層物件)
+        rowsMain.forEach(row => {
+            // 檢查啟用狀態 (假設第一欄為 '啟用' 或 'isEnable')
+            const enableKey = Object.keys(row).find(k => k.includes('啟用') || k === 'enable');
+            if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+            const id = String(row['id'] || '').replace(/\s+/g, '');
+            if (!id) return;
+
+            const item = {
+            id: id,
+            title: String(row['title'] || '').trim(), // title 保留空格
+            color: String(row['color'] || '').replace(/\s+/g, ''),
+            cursor: String(row['cursor'] || '').replace(/\s+/g, ''),
+            physics: {
+                gravity: parseVal(row['physics.gravity']),
+                bounce: parseVal(row['physics.bounce']),
+                friction: parseVal(row['physics.friction'])
+            },
+            idleMotions: [],
+            interactions: {
+                clickLight: {
+                name: String(row['clickLight.name'] || '').trim(),
+                url: String(row['clickLight.url'] || '').replace(/\s+/g, ''),
+                duration: parseVal(row['clickLight.duration'])
+                },
+                clickAngry: {
+                name: String(row['clickAngry.name'] || '').trim(),
+                url: String(row['clickAngry.url'] || '').replace(/\s+/g, ''),
+                duration: parseVal(row['clickAngry.duration']),
+                speed: parseVal(row['clickAngry.speed'])
+                },
+                drag: {
+                calmUrl: String(row['drag.calmUrl'] || '').replace(/\s+/g, ''),
+                shakeUrl: String(row['drag.shakeUrl'] || '').replace(/\s+/g, ''),
+                shakeThreshold: parseVal(row['drag.shakeThreshold'])
+                },
+                drop: {
+                fallingUrl: String(row['drop.fallingUrl'] || '').replace(/\s+/g, ''),
+                landUrl: String(row['drop.landUrl'] || '').replace(/\s+/g, ''),
+                recoverUrl: String(row['drop.recoverUrl'] || '').replace(/\s+/g, ''),
+                landDuration: parseVal(row['drop.landDuration']),
+                recoverDuration: parseVal(row['drop.recoverDuration'])
+                }
+            }
+            };
+
+            // 清除 interactions 內部未填寫的 undefined 欄位，保持 JSON 乾淨
+            ['clickLight', 'clickAngry', 'drag', 'drop'].forEach(key => {
+            Object.keys(item.interactions[key]).forEach(k => {
+                if (item.interactions[key][k] === undefined || item.interactions[key][k] === "") {
+                delete item.interactions[key][k];
+                }
+            });
+            });
+
+            shimejiMap.set(id, item);
+        });
+
+        // 3. 解析動作表 (Sheet 2)
+        rowsMotions.forEach(row => {
+            const enableKey = Object.keys(row).find(k => k.includes('啟用') || k === 'enable');
+            if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+            const shimejiId = String(row['shimeji_id'] || '').replace(/\s+/g, '');
+            if (!shimejiId || !shimejiMap.has(shimejiId)) return;
+
+            const motionObj = {
+            id: String(row['id'] || '').replace(/\s+/g, ''),
+            name: String(row['name'] || '').trim(),
+            url: String(row['url'] || '').replace(/\s+/g, ''),
+            weight: parseVal(row['weight']),
+            minDuration: parseVal(row['minDuration']),
+            maxDuration: parseVal(row['maxDuration'])
+            };
+
+            if (row['speed'] !== undefined && row['speed'] !== "") {
+            motionObj.speed = parseVal(row['speed']);
+            }
+
+            shimejiMap.get(shimejiId).idleMotions.push(motionObj);
+        });
+
+        return { json1: Array.from(shimejiMap.values()), json2: null };
+    }
+// ─── option: Game 遊戲主檔解析函式 (支援 menu/game intro 換行轉 <br>) ────────
+    function parseGameJson(workbook) {
+        const wsMain = workbook.Sheets[workbook.SheetNames[0]];
+        const wsRoles = workbook.Sheets[workbook.SheetNames[1]];
+
+        const rowsMain = XLSX.utils.sheet_to_json(wsMain, { header: 1, defval: "", raw: false });
+        const rowsRoles = wsRoles ? XLSX.utils.sheet_to_json(wsRoles, { header: 1, defval: "", raw: false }) : [];
+
+        // 工具函式：解析多行 Key: Value 浮動物件
+        const parseKVBlock = (rawText, keepValueSpace = false) => {
+            const obj = {};
+            if (!rawText) return obj;
+
+            const lines = String(rawText).split(/\r?\n/);
+            lines.forEach(line => {
+            const colonIndex = line.indexOf(':');
+            if (colonIndex !== -1) {
+                const key = line.substring(0, colonIndex).replace(/\s+/g, '');
+                let value = line.substring(colonIndex + 1);
+
+                if (keepValueSpace) {
+                value = value.trim();
+                } else {
+                value = value.replace(/\s+/g, '');
+                }
+
+                if (key) {
+                obj[key] = value;
+                }
+            }
+            });
+            return obj;
+        };
+
+        const gameMap = new Map();
+        const result = [];
+
+        // 1. 解析主表 (Game_Main)
+        for (let i = 1; i < rowsMain.length; i++) {
+            const row = rowsMain[i];
+            if (!row || row.length === 0) continue;
+
+            // A 欄：啟用狀態
+            if (String(row[0] || '').trim() !== '是') continue;
+
+            // C 欄：type
+            const type = String(row[2] || '').replace(/\s+/g, '');
+            // D 欄：name (保留空格)
+            const name = String(row[3] || '').trim();
+
+            if (!type || !name) continue;
+
+            // 處理 Intro/intro 的換行轉 <br>
+            let introVal = String(row[6] || '').trim();
+            introVal = introVal.replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+
+            if (type === 'menu') {
+            const menuItem = {
+                type: 'menu',
+                name: name,
+                cover: String(row[5] || ''),
+                Intro: introVal, // menu 的 intro 支援換行轉 <br>
+                scoreItem_bg: String(row[10] || '').trim()
+            };
+            result.push(menuItem);
+            } else if (type === 'game') {
+            const gameItem = {
+                type: 'game',
+                name: name,
+                logo: String(row[4] || '').replace(/\s+/g, ''),
+                cover: String(row[5] || ''),
+                Intro: introVal, // game 的 Intro 支援換行轉 <br>
+                playBtn: String(row[7] || '').replace(/\s+/g, ''),
+                playBtnText: String(row[8] || '').trim(),
+                show: String(row[9] || '').replace(/\s+/g, ''),
+                role: []
+            };
+
+            result.push(gameItem);
+            gameMap.set(name, gameItem);
+            }
+        }
+
+        // 2. 解析角色頁 (Game_Roles)
+        for (let i = 1; i < rowsRoles.length; i++) {
+            const row = rowsRoles[i];
+            if (!row || row.length === 0) continue;
+
+            // A 欄：啟用狀態
+            if (String(row[0] || '').trim() !== '是') continue;
+
+            const gameName = String(row[2] || '').trim();
+            const roleName = String(row[3] || '').trim();
+
+            if (!gameName || !gameMap.has(gameName)) continue;
+
+            const roleItem = {
+            roleName: roleName,
+            rolelogo: String(row[4] || '').replace(/\s+/g, ''),
+            Pass: String(row[5] || '').replace(/\s+/g, ''),
+            LocalStorage: String(row[6] || '').replace(/\s+/g, ''),
+            mechanism: parseKVBlock(row[7], false),
+            css: parseKVBlock(row[8], true)
+            };
+
+            gameMap.get(gameName).role.push(roleItem);
+        }
+
+        return { json1: result, json2: null };
+    }
+// ─── option: Intro 作者簡介解析函式 ──────────────────────────────────────────
+    function parseIntroJson(workbook) {
+        const ws = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(ws, { header: 1, defval: "", raw: false });
+
+        // 1. 解析 intro 欄位 (支援 text 換行轉 \n)
+        const parseIntroBlock = (rawText) => {
+            if (!rawText) return [];
+            const result = [];
+            
+            // 切分每一組 title:text
+            // 透過尋找「換行且後面跟著非空格字元與冒號」來拆分不同的項目
+            const lines = String(rawText).split(/\r?\n/);
+            let currentItem = null;
+
+            lines.forEach(line => {
+            const colonIndex = line.indexOf(':');
+            // 如果包含冒號，且冒號前沒有換行痕跡，視為新的 intro 項目
+            if (colonIndex !== -1 && !line.startsWith(' ') && !line.startsWith('\t')) {
+                if (currentItem) result.push(currentItem);
+                const title = line.substring(0, colonIndex).trim(); // title 保留空格
+                const text = line.substring(colonIndex + 1).trim(); // text 保留空格
+                currentItem = { title, text };
+            } else if (currentItem) {
+                // 如果沒有冒號，代表是前一個 text 的換行內容，以 \n 連接
+                currentItem.text += '\n' + line.trim();
+            }
+            });
+
+            if (currentItem) result.push(currentItem);
+            return result;
+        };
+
+        // 2. 解析 web 欄位 (包含 Subpage 子連結)
+        const parseWebBlock = (rawText) => {
+            if (!rawText) return [];
+            const webList = [];
+            const lines = String(rawText).split(/\r?\n/);
+            let currentWeb = null;
+
+            lines.forEach(line => {
+            const trimmedLine = line.trim();
+            if (!trimmedLine) return;
+
+            // 檢查是否為 Subpage 子連結 (開頭為 - 或 *)
+            if (trimmedLine.startsWith('-') || trimmedLine.startsWith('*')) {
+                if (!currentWeb) return; // 若無主連結則跳過
+                const content = trimmedLine.replace(/^[-*]\s*/, '');
+                const pipeIndex = content.indexOf('|');
+                if (pipeIndex !== -1) {
+                const subTitle = content.substring(0, pipeIndex).trim(); // Subpage title 保留空格
+                const subUrl = content.substring(pipeIndex + 1).replace(/\s+/g, ''); // Subpage url 去除空格
+                
+                if (!currentWeb.Subpage) currentWeb.Subpage = [];
+                currentWeb.Subpage.push({ title: subTitle, url: subUrl });
+                }
+            } else {
+                // 主連結解析
+                const pipeIndex = trimmedLine.indexOf('|');
+                if (pipeIndex !== -1) {
+                const mainTitle = trimmedLine.substring(0, pipeIndex).trim(); // title 保留空格
+                const mainUrl = trimmedLine.substring(pipeIndex + 1).replace(/\s+/g, ''); // url 去除空格
+                
+                currentWeb = { title: mainTitle, url: mainUrl };
+                webList.push(currentWeb);
+                }
+            }
+            });
+
+            return webList;
+        };
+
+        const result = [];
+
+        // 解析 Excel 資料列 (跳過第 1 列標頭)
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            if (!row || row.length === 0) continue;
+
+            // A 欄：啟用狀態
+            if (String(row[0] || '').trim() !== '是') continue;
+
+            // C 欄：name
+            const name = String(row[2] || '').trim(); // name 保留空格
+            if (!name) continue;
+
+            const item = {
+            name: name,
+            url: String(row[3] || '').replace(/\s+/g, ''), // url 去除空格
+            font_color: String(row[4] || '').replace(/\s+/g, ''), // font_color 去除空格
+            icon: String(row[5] || '').trim(), // icon 保留空格
+            intro: parseIntroBlock(row[6]),
+            web: parseWebBlock(row[7])
+            };
+
+            result.push(item);
+        }
+
+        return { json1: result, json2: null };
+    }
+// ─── option: Story 故事與章節解析函式 (防主資訊衝突 & 允許後續列留空版) ─────
+    function parseStoryJson(workbook) {
+        const ws = workbook.Sheets[workbook.SheetNames[0]];
+        
+        // 指定 range: 1，跳過第 1 列分類標頭，使用第 2 列當作 Header 欄位名稱
+        const rows = XLSX.utils.sheet_to_json(ws, { range: 1, defval: "", raw: false });
+
+        // 輔助工具：處理換行字元轉 <br>
+        const formatBr = (val) => {
+            if (!val) return "";
+            return String(val).trim().replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+        };
+
+        // 輔助工具：轉換布林值
+        const parseBool = (val) => {
+            if (typeof val === 'boolean') return val;
+            const str = String(val).trim().toLowerCase();
+            return str === 'true' || str === '1' || str === '是';
+        };
+
+        const storyMap = new Map();
+
+        rows.forEach(row => {
+            // 檢查啟用狀態
+            const enableKey = Object.keys(row).find(k => k.includes('啟用') || k.toLowerCase() === 'enable');
+            if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+            // 主故事 ID（數值）
+            const idVal = row['id'];
+            if (idVal === undefined || idVal === null || String(idVal).trim() === '') return;
+            const id = Number(idVal);
+
+            const chapterNumVal = row['num'];
+            const currentNum = chapterNumVal !== undefined && chapterNumVal !== null && String(chapterNumVal).trim() !== '' 
+            ? Number(chapterNumVal) 
+            : null;
+
+            // 判斷是否需要建立/更新主故事基本資訊：
+            // 1. 該 ID 尚未存在 Map 中
+            // 2. 或者遇到了 num === 1 (以第一章填寫的文字為最高優先權)
+            if (!storyMap.has(id) || currentNum === 1) {
+                const mainInfo = {
+                    id: id,
+                    title: String(row['title'] || '').trim(),
+                    cover: String(row['cover'] || '').replace(/\s+/g, ''),
+                    cover_back: String(row['cover_back'] || '').replace(/\s+/g, ''),
+                    Intro: formatBr(row['Intro']),
+                    Rating: String(row['Rating'] || '').trim(),
+                    Archive_Warning: formatBr(row['Archive_Warning']),
+                    Category: String(row['Category'] || '').trim(),
+                    Fandom: String(row['Fandom'] || '').trim(),
+                    Relationship: String(row['Relationship'] || '').trim(),
+                    Characters: String(row['Characters'] || '').trim(),
+                    Additional_Tags: String(row['Additional_Tags'] || '').trim(),
+                    Language: String(row['Language'] || '').trim(),
+                    cmt_url: String(row['cmt_url'] || '').trim(),
+                    // 保留原有的 Chapter 陣列，避免 num === 1 晚出現時蓋掉已存的章節
+                    Chapter: storyMap.has(id) ? storyMap.get(id).Chapter : []
+                };
+
+            storyMap.set(id, mainInfo);
+            }
+
+            const currentStory = storyMap.get(id);
+
+            // 解析章節資訊 (Chapter)
+            if (currentNum !== null) {
+            const typeVal = String(row['type'] || '').replace(/\s+/g, '').toLowerCase();
+
+            const chapterObj = {
+                num: currentNum,
+                type: typeVal,
+                title: String(row['title_1'] || row['Chapter_title'] || row['title'] || '').trim(),
+                author: String(row['author'] || '').trim(),
+                cover: String(row['cover_1'] || row['Chapter_cover'] || row['cover'] || '').replace(/\s+/g, ''),
+                Published: String(row['Published'] || '').trim(),
+                Summary: formatBr(row['Summary']),
+                Notes: formatBr(row['Notes']),
+                cmt: parseBool(row['cmt']),
+                End: parseBool(row['End'])
+            };
+
+            if (typeVal === 'comic') {
+                const rawImgText = String(row['img'] || '');
+                const imgList = [];
+
+                if (rawImgText.trim() !== '') {
+                const lines = rawImgText.split(/\r?\n/);
+                lines.forEach(line => {
+                    const cleanUrl = line.replace(/\s+/g, '');
+                    if (cleanUrl) {
+                    imgList.push({ url: cleanUrl });
+                    }
+                });
+                }
+                chapterObj.img = imgList;
+            } else if (typeVal === 'novel') {
+                chapterObj.url = String(row['url'] || '').replace(/\s+/g, '');
+            }
+
+            currentStory.Chapter.push(chapterObj);
+            }
+        });
+
+        return { json1: Array.from(storyMap.values()), json2: null };
+    }
+// ─── Option: CharRels 展平列解析函式 ──────────────────────────────────────
+    function parseCharRelsJson(workbook) {
+        const wsChar = workbook.Sheets[workbook.SheetNames[0]];
+        const wsOrg = workbook.Sheets[workbook.SheetNames[1]];
+
+        // 雙層 Header：設定 range: 1 跳過 Row 1 說明欄
+        const rowsChar = XLSX.utils.sheet_to_json(wsChar, { range: 1, defval: "", raw: false });
+        const rowsOrg = wsOrg ? XLSX.utils.sheet_to_json(wsOrg, { range: 1, defval: "", raw: false }) : [];
+
+        // 輔助函式：換行轉 <br>
+        const formatBr = (val) => {
+            if (!val) return "";
+            return String(val).trim().replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+        };
+
+        // 1. 解析 Sheet 2: OrgColor 並建立合法組織名稱清單
+        const orgColorList = [];
+        const validOrgNames = new Set();
+
+        rowsOrg.forEach(row => {
+            const enableKey = Object.keys(row).find(k => k.includes('啟用') || k.toLowerCase() === 'enable');
+            if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+            const orgName = String(row['org'] || '').trim();
+            if (!orgName) return;
+
+            validOrgNames.add(orgName);
+            orgColorList.push({
+            org: orgName,
+            borderColer: String(row['borderColer'] || '').replace(/\s+/g, ''),
+            bg: String(row['bg'] || '').trim(),
+            color: String(row['color'] || '').replace(/\s+/g, '')
+            });
+        });
+
+        // 2. 解析 Sheet 1: CharRels（按 ID 聚合）
+        const charMap = new Map(); // 用於暫存同 ID 角色的主資料、org 陣列與 Rel 字典
+
+        rowsChar.forEach(row => {
+            const enableKey = Object.keys(row).find(k => k.includes('啟用') || k.toLowerCase() === 'enable');
+            if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+            const rawId = row['id'];
+            if (rawId === undefined || rawId === null || String(rawId).trim() === '') return;
+
+            const charId = Number(String(rawId).replace(/\s+/g, ''));
+
+            // 初始化角色物件
+            if (!charMap.has(charId)) {
+            charMap.set(charId, {
+                id: charId,
+                name: "",
+                url: "",
+                org: [],
+                role: "",
+                POS: "",
+                borderColer: "",
+                relMap: new Map() // 用於累積處理不同/相同 Rel.id 的關係
+            });
+            }
+
+            const charItem = charMap.get(charId);
+
+            // ─── A. 主資料補齊（第一筆優先，空值則順延補齊） ───
+            if (!charItem.name && row['name']) charItem.name = String(row['name']).trim();
+            if (!charItem.url && row['url']) charItem.url = String(row['url']).replace(/\s+/g, '');
+            if (!charItem.role && row['role']) charItem.role = formatBr(row['role']);
+            if (!charItem.POS && row['POS']) charItem.POS = String(row['POS']).trim();
+            if (!charItem.borderColer && row['borderColer']) charItem.borderColer = String(row['borderColer']).replace(/\s+/g, '');
+
+            // ─── B. 處理組織資料 (orgName 有值才處理) ───
+            const orgName = String(row['orgName'] || '').trim();
+            if (orgName) {
+            // 驗證 orgName 是否存在於 orgColor.json
+            if (validOrgNames.size === 0 || validOrgNames.has(orgName)) {
+                charItem.org.push({
+                orgName: orgName,
+                orgRole: formatBr(row['orgRole']),
+                Status: String(row['Status'] || '').trim(),
+                date: String(row['date'] || '').trim(),
+                level: formatBr(row['level']),
+                view: formatBr(row['view'])
+                });
+            }
+            }
+
+            // ─── C. 處理關係資料 (Rel.id 有值才處理) ───
+            const rawRelId = row['Rel.id'];
+            if (rawRelId !== undefined && rawRelId !== null && String(rawRelId).trim() !== '') {
+            const targetRelId = Number(String(rawRelId).replace(/\s+/g, ''));
+
+            // 若尚未建立對該目標角色的關係物件
+            if (!charItem.relMap.has(targetRelId)) {
+                charItem.relMap.set(targetRelId, {
+                id: targetRelId,
+                rel: [],
+                liking: String(row['Rel.liking'] || '').replace(/\s+/g, ''),
+                hide: formatBr(row['Rel.hide']),
+                view: formatBr(row['Rel.view'])
+                });
+            }
+
+            const targetRelObj = charItem.relMap.get(targetRelId);
+
+            // 解析 Rel.rel（可能包含多筆 【rel.name】: rel.is_public | key_event，且內部可能換行）
+            const rawRelString = String(row['Rel.rel'] || '');
+            if (rawRelString.trim()) {
+                // 使用 Regular Expression 提取 【名稱】: 內容
+                const relRegex = /【([^】]+)】:\s*([\s\S]*?)(?=(?:【[^】]+】:|$))/g;
+                let match;
+
+                while ((match = relRegex.exec(rawRelString)) !== null) {
+                const relName = match[1].trim();
+                const content = match[2].trim();
+
+                // 用 "|" 切割 is_public 與 key_event
+                const parts = content.split('|');
+                const isPublicRaw = parts[0] ? parts[0].replace(/\s+/g, '').toUpperCase() : 'O';
+                const keyEventRaw = parts.slice(1).join('|'); // 預防 key_event 內部含有 |
+
+                targetRelObj.rel.push({
+                    name: relName,
+                    is_public: isPublicRaw === 'X' ? 'X' : 'O',
+                    key_event: formatBr(keyEventRaw)
+                });
+                }
+            }
+            }
+        });
+
+        // 3. 組合最後輸出的 charRels JSON 陣列
+        const charRelsList = Array.from(charMap.values()).map(char => {
+            return {
+            id: char.id,
+            name: char.name,
+            url: char.url,
+            org: char.org,
+            role: char.role,
+            POS: char.POS,
+            borderColer: char.borderColer,
+            Rel: Array.from(char.relMap.values())
+            };
+        });
+
+        return { json1: charRelsList, json2: orgColorList };
+    }
+// ─── Option: CharProfiles 解析函式 ──────────────────────────────────────
+    function parseCharProfilesJson(workbook) {
+        console.log("嗨");
+        const ws = workbook.Sheets[workbook.SheetNames[0]];
+
+        // 雙層 Header：設定 range: 1 跳過 Row 1 說明欄
+        const rows = XLSX.utils.sheet_to_json(ws, { range: 1, defval: "", raw: false });
+
+        // 輔助函式：換行轉 <br>
+        const formatBr = (val) => {
+            if (!val) return "";
+            return String(val).trim().replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+        };
+
+        const charMap = new Map(); // 用於按 name 聚合角色圖片
+
+        rows.forEach(row => {
+            // 檢查啟用狀態
+            const enableKey = Object.keys(row).find(k => k.includes('啟用') || k.toLowerCase() === 'enable');
+            if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+            const charName = String(row['name'] || '').trim();
+            if (!charName) return;
+
+            // 初始化角色物件
+            if (!charMap.has(charName)) {
+            charMap.set(charName, {
+                name: charName,
+                img: []
+            });
+            }
+
+            const charObj = charMap.get(charName);
+
+            // 解析 imgIntro (採用 【title】: content 格式)
+            const rawImgIntro = String(row['imgIntro'] || '');
+            const imgIntroList = [];
+
+            if (rawImgIntro.trim()) {
+            // 正規表達式：匹配 【title】: content（支援跨行 content）
+            const introRegex = /【([^】]*)】:\s*([\s\S]*?)(?=(?:【[^】]*】:|$))/g;
+            let match;
+
+            while ((match = introRegex.exec(rawImgIntro)) !== null) {
+                const titleVal = match[1].trim();
+                const contentVal = match[2].trim();
+
+                imgIntroList.push({
+                title: titleVal,
+                content: formatBr(contentVal) // 內容中的 Enter 自動轉成 <br>
+                });
+            }
+            }
+
+            // 清除 url 與 Adult 的空格
+            const cleanUrl = String(row['url'] || '').replace(/\s+/g, '');
+            const cleanAdult = String(row['Adult'] || '').replace(/\s+/g, '') || "0";
+
+            // 寫入 img 陣列
+            charObj.img.push({
+            title: String(row['title'] || '').trim(),
+            url: cleanUrl,
+            Adult: cleanAdult,
+            imgIntro: imgIntroList
+            });
+        });
+        return { json1: Array.from(charMap.values()), json2: null };
+    }
+
+// ─── Option: Timeline & Milestones 跨表解析函式 (忽略對照欄位) ──────────────
+    function parseTimelineJson(workbook) {
+        // 換行轉 <br> 輔助函式
+        const formatBr = (val) => {
+            if (!val) return "";
+            return String(val).trim().replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+        };
+
+        // 1. 解析 Sheet 1: Timeline (事件表)
+        const wsTimeline = workbook.Sheets[workbook.SheetNames[0]];
+        const rowsTimeline = wsTimeline ? XLSX.utils.sheet_to_json(wsTimeline, { range: 1, defval: "", raw: false }) : [];
+
+        const timelineList = [];
+
+        rowsTimeline.forEach(row => {
+            // 檢查啟用欄位
+            const enableKey = Object.keys(row).find(k => k.includes('啟用') || k.toLowerCase() === 'enable');
+            if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+            // 必須有 startId
+            const startId = String(row['startId'] || '').replace(/\s+/g, '');
+            if (!startId) return;
+
+            // 只提取所需的欄位，對照欄位 (如 startName, endName) 會自然被忽略
+            timelineList.push({
+            startId: startId,
+            endId: String(row['endId'] || '').replace(/\s+/g, ''),
+            title: String(row['title'] || '').trim(),
+            type: String(row['type'] || '').replace(/\s+/g, ''),
+            desc: formatBr(row['desc']) // 保留內部空格並將 Enter 轉為 <br>
+            });
+        });
+
+        // 2. 解析 Sheet 2: timelineMilestones (里程碑表)
+        const milestoneList = [];
+
+        if (workbook.SheetNames.length > 1) {
+            const wsMilestone = workbook.Sheets[workbook.SheetNames[1]];
+            const rowsMilestone = XLSX.utils.sheet_to_json(wsMilestone, { range: 1, defval: "", raw: false });
+
+            rowsMilestone.forEach(row => {
+            const enableKey = Object.keys(row).find(k => k.includes('啟用') || k.toLowerCase() === 'enable');
+            if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+            const id = String(row['id'] || '').replace(/\s+/g, '');
+            if (!id) return;
+
+            const rawSortOrder = String(row['sortOrder'] || '').replace(/\s+/g, '');
+
+            milestoneList.push({
+                id: id,
+                name: String(row['name'] || '').trim(),
+                sortOrder: rawSortOrder !== '' ? Number(rawSortOrder) : 0
+            });
+            });
+        }
+
+        return { json1: timelineList, json2: milestoneList };
+        // {
+        //     timeline: timelineList,
+        //     timelineMilestones: milestoneList
+        // };
+    }
+    // ─── option: BGM 背景音樂解析函式 ──────────────────────────────────────────
+    function parseDocJson(workbook) {
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+                // 輔助工具：處理換行字元轉 <br>
+        const formatBr = (val) => {
+            if (!val) return "";
+            return String(val).trim().replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+        };
+        // 讀取原始陣列（包含 Header）
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "", raw: false });
+        
+        const result = [];
+        // i = 1 跳過第 1 列標頭
+        for (let i = 2; i < rows.length; i++) {
+            const row = rows[i];
+            if (!row || row.length === 0) continue;
+            // A 欄：啟用狀態
+            const isEnable = String(row[0] || '').trim();
+            if (isEnable !== '是') continue;
+            // B 欄：欄位說明 -> 直接跳過不處理
+            // C 欄：音樂標題 (title) -> 保留空格，僅去除前後首尾空白
+            const title = String(row[2] || '').trim();
+            const intro = String(row[3] || '');
+            // D 欄：檔案路徑 (url) -> 去除所有空格
+            const url = String(row[4] || '').replace(/\s+/g, '');
+            // 標題與路徑若有缺點則跳過，確保資料完整
+            if (!title && !url) continue;
+            result.push({
+                title: title,
+                intro:formatBr(intro),
+                url: url
+            });
+        }
+
+        return { json1: result, json2: null };
+    }
+    // ─── Option: Gallery 多 Sheet 展平解析函式 ──────────────────────────────
+    function parseGalleryJson(workbook) {
+        // 換行轉 <br> 輔助函式
+        const formatBr = (val) => {
+            if (!val) return "";
+            return String(val).trim().replace(/\r\n/g, '<br>').replace(/\n/g, '<br>');
+        };
+
+        const galleryList = [];
+
+        // 遍歷 Excel 中的每個工作表 (每個 Sheet 代表一個 tabLabel)
+        workbook.SheetNames.forEach(sheetName => {
+            const ws = workbook.Sheets[sheetName];
+            if (!ws) return;
+
+            // 讀取工作表資料 (跳過前兩列標頭)
+            const rows = XLSX.utils.sheet_to_json(ws, { range: 1, defval: "", raw: false });
+
+            // 判斷是否為空工作表 (沒有資料列則直接跳過)
+            if (!rows || rows.length === 0) return;
+
+            const tabDataMap = new Map(); // 用於依據 data.title 聚合
+
+            rows.forEach(row => {
+            // 1. 檢查啟用欄位
+            const enableKey = Object.keys(row).find(k => k.includes('啟用') || k.toLowerCase() === 'enable');
+            if (enableKey && String(row[enableKey]).trim() !== '是') return;
+
+            // 2. 獲取 data.title
+            const dataTitle = String(row['data.title'] || '').trim();
+            if (!dataTitle) return;
+            // 清理 data 相關屬性
+            const cleanDataUrl = String(row['data.url'] || '').replace(/\s+/g, '');
+            const rawDataNotes = formatBr(row['data.notes']);
+            const cleanDataAdult = String(row['data.Adult'] || '').replace(/\s+/g, '');
+
+            // 若該 data.title 尚未建立，則初始化
+            if (!tabDataMap.has(dataTitle)) {
+                tabDataMap.set(dataTitle, {
+                title: dataTitle,
+                url: cleanDataUrl,
+                notes: rawDataNotes,
+                Adult: cleanDataAdult || "0",
+                view: []
+                });
+            } else {
+                // 同群組自動補齊：若第一筆資料部分欄位為空，嘗試由後續列補齊
+                const existingData = tabDataMap.get(dataTitle);
+                if (!existingData.url && cleanDataUrl) existingData.url = cleanDataUrl;
+                if (!existingData.notes && rawDataNotes) existingData.notes = rawDataNotes;
+                if ((!existingData.Adult || existingData.Adult === "0") && cleanDataAdult) {
+                existingData.Adult = cleanDataAdult;
+                }
+            }
+
+            const currentData = tabDataMap.get(dataTitle);
+
+            // 3. 解析 view 相關屬性
+            const viewType = String(row['view.type'] || '').replace(/\s+/g, '');
+            const viewUrl = String(row['view.url'] || '').replace(/\s+/g, '');
+            const viewTitle = String(row['view.title'] || '').trim();
+            const rawViewNotes = formatBr(row['view.notes']);
+
+            // 只有當 view 欄位中有填寫資料時才建立 viewItem
+            if (viewType || viewUrl || viewTitle || rawViewNotes) {
+                const viewItem = {
+                title: viewTitle,
+                type: viewType,
+                url: viewUrl,
+                notes: rawViewNotes
+                };
+                console.log(viewItem);
+                // 僅在 view.type 等於 "aud" 時，才讀取音訊顏色欄位
+                if (viewType === 'aud') {
+                    const freqColor = String(row['view.audioFreqColor'] || '').replace(/\s+/g, '');
+                    const waveColor = String(row['view.audioWaveColor'] || '').replace(/\s+/g, '');
+
+                    // 只有當欄位有值（不為空字串）時，才寫入物件中；若為空則直接忽略
+                    if (freqColor !== '') viewItem.audioFreqColor = freqColor;
+                    if (waveColor !== '') viewItem.audioWaveColor = waveColor;
+                }
+
+                currentData.view.push(viewItem);
+            }
+            });
+            // 如果該 Sheet 解析後有有效的 data，才寫入最終陣列
+            if (tabDataMap.size > 0) {
+                galleryList.push({
+                    tabLabel: sheetName.trim(),
+                    data: Array.from(tabDataMap.values())
+                });
+            }
+        });
+
+        return { json1: galleryList, json2: null };
+    }
+</script>
+</body>
+</html>

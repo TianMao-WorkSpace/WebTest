@@ -1,0 +1,5 @@
+[
+    { "org": "組織A", "borderColer": "#ff4d4d", "bg": "rgba(255, 77, 77, 0.12)", "color": "#ffffff" },
+    { "org": "組織B", "borderColer": "#4da6ff", "bg": "rgba(77, 166, 255, 0.12)", "color": "#ffffff" },
+    { "org": "組織C", "borderColer": "#ff00ff", "bg": "rgba(255, 0, 255, 0.12)", "color": "#ffffff" }
+]

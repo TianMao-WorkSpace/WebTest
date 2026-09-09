@@ -1,0 +1,10 @@
+[
+  { "id": "M1", "name": "AAA-1", "sortOrder": 1 },
+  { "id": "M2", "name": "AAA-2", "sortOrder": 2 },
+  { "id": "M3", "name": "AAA-3", "sortOrder": 3 },
+  { "id": "M4", "name": "AAA-4", "sortOrder": 4 },
+  { "id": "M5", "name": "AAB-1", "sortOrder": 5 },
+  { "id": "M6", "name": "AAB-2", "sortOrder": 6 },
+  { "id": "M7", "name": "AAB-3", "sortOrder": 7 },
+  { "id": "M8", "name": "AAB-4", "sortOrder": 8 }
+]

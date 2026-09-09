@@ -1,0 +1,204 @@
+[
+  {
+    "id": 1,
+    "title": "故事A",
+    "cover": "./img/Story_A/cover.png",
+    "cover_back": "",
+    "Intro": "故事A簡介<br>第二行",
+    "Rating": "輔導級 (PG-15)",
+    "Archive_Warning": "作品內容的地雷<br>與風險提示",
+    "Category": "Gen",
+    "Fandom": "原創",
+    "Relationship": "無固定CP",
+    "Characters": "角色A, 角色B, 角色C",
+    "Additional_Tags": "作品內容的附加標籤",
+    "Language": "繁體中文",
+    "cmt_url": "https://docs.google.com/forms/d/e/1FAIpQLSfbuMfL8kwWMm_xBxIvKCNv2Ql5D2l7WQpxg8KJREqqraxZrA/viewform?usp=pp_url&entry.1967387983=",
+    "Chapter": [
+      {
+        "num": 1,
+        "type": "comic",
+        "title": "衣裳已施行看盡",
+        "author": "作者A,作者B",
+        "cover": "./img/Story_A/Chapter_1/cover01.jpg",
+        "Published": "2026-01-01",
+        "Summary": "章節簡介<br>第二行",
+        "Notes": "後記內容<br>第二行",
+        "cmt": true,
+        "End": false,
+        "img": [
+          {
+            "url": "./img/Story_A/Chapter_1/01.jpg"
+          },
+          {
+            "url": "./img/Story_A/Chapter_1/02.jpg"
+          },
+          {
+            "url": "./img/Story_A/Chapter_1/03.jpg"
+          },
+          {
+            "url": "./img/Story_A/Chapter_1/04.jpg"
+          },
+          {
+            "url": "./img/Story_A/Chapter_1/05.jpg"
+          }
+        ]
+      },
+      {
+        "num": 2,
+        "type": "novel",
+        "title": "悔教夫婿覓封侯",
+        "author": "作者A",
+        "cover": "./img/Story_A/Chapter_1/cover02.jpg",
+        "Published": "2026-02-15",
+        "Summary": "章節簡介",
+        "Notes": "後記內容",
+        "cmt": true,
+        "End": false,
+        "url": "./txt/test.txt"
+      },
+      {
+        "num": 3,
+        "type": "novel",
+        "title": "劍外忽傳收薊北",
+        "author": "作者A",
+        "cover": "./img/Story_A/Chapter_1/cover03.jpg",
+        "Published": "2026-02-16",
+        "Summary": "章節簡介",
+        "Notes": "後記內容",
+        "cmt": false,
+        "End": false,
+        "url": "./txt/test.txt"
+      },
+      {
+        "num": 4,
+        "type": "novel",
+        "title": "鸚鵡前頭不敢言",
+        "author": "作者A",
+        "cover": "./img/Story_A/Chapter_1/cover04.jpg",
+        "Published": "2026-02-17",
+        "Summary": "章節簡介",
+        "Notes": "後記內容",
+        "cmt": true,
+        "End": false,
+        "url": "./txt/test.txt"
+      },
+      {
+        "num": 5,
+        "type": "novel",
+        "title": "身無彩鳳雙飛翼",
+        "author": "作者A",
+        "cover": "./img/Story_A/Chapter_1/cover05.jpg",
+        "Published": "2026-02-18",
+        "Summary": "章節簡介",
+        "Notes": "後記內容",
+        "cmt": true,
+        "End": false,
+        "url": "./txt/test.txt"
+      },
+      {
+        "num": 6,
+        "type": "novel",
+        "title": "欲取蕪城作帝家",
+        "author": "作者A",
+        "cover": "./img/Story_A/Chapter_1/cover06.jpg",
+        "Published": "2026-02-19",
+        "Summary": "章節簡介",
+        "Notes": "後記內容",
+        "cmt": true,
+        "End": false,
+        "url": "./txt/test.txt"
+      },
+      {
+        "num": 7,
+        "type": "novel",
+        "title": "他年錦里經祠廟",
+        "author": "作者A",
+        "cover": "./img/Story_A/Chapter_1/cover07.jpg",
+        "Published": "2026-02-20",
+        "Summary": "章節簡介",
+        "Notes": "後記內容",
+        "cmt": true,
+        "End": false,
+        "url": "./txt/test.txt"
+      },
+      {
+        "num": 8,
+        "type": "novel",
+        "title": "卻話巴山夜雨時",
+        "author": "作者A",
+        "cover": "./img/Story_A/Chapter_1/cover08.jpg",
+        "Published": "2026-02-21",
+        "Summary": "章節簡介",
+        "Notes": "後記內容",
+        "cmt": true,
+        "End": false,
+        "url": "./txt/test.txt"
+      },
+      {
+        "num": 9,
+        "type": "novel",
+        "title": "關城曙色催寒近",
+        "author": "作者A",
+        "cover": "./img/Story_A/Chapter_1/cover09.jpg",
+        "Published": "2026-02-22",
+        "Summary": "章節簡介",
+        "Notes": "後記內容",
+        "cmt": true,
+        "End": false,
+        "url": "./txt/test.txt"
+      },
+      {
+        "num": 10,
+        "type": "novel",
+        "title": "南浦清江萬里橋",
+        "author": "作者A",
+        "cover": "./img/Story_A/Chapter_1/cover10.jpg",
+        "Published": "2026-02-23",
+        "Summary": "章節簡介",
+        "Notes": "後記內容",
+        "cmt": true,
+        "End": true,
+        "url": "./txt/test.txt"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "故事B",
+    "cover": "",
+    "cover_back": "",
+    "Intro": "故事B簡介",
+    "Rating": "限制級 (R-18)",
+    "Archive_Warning": "",
+    "Category": "Other",
+    "Fandom": "原創",
+    "Relationship": "A/B,C/D",
+    "Characters": "A,B,C,D",
+    "Additional_Tags": "死鴿子別吃",
+    "Language": "繁體中文",
+    "cmt_url": "",
+    "Chapter": [
+      {
+        "num": 1,
+        "type": "comic",
+        "title": "章一",
+        "author": "作者A",
+        "cover": "",
+        "Published": "2026-03-10",
+        "Summary": "章節簡介",
+        "Notes": "後記內容",
+        "cmt": true,
+        "End": false,
+        "img": [
+          {
+            "url": "./img/Story_2/Chapter_1/0.png"
+          },
+          {
+            "url": "./img/Story_2/Chapter_1/1.png"
+          }
+        ]
+      }
+    ]
+  }
+]
