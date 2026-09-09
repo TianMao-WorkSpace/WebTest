@@ -1,0 +1,177 @@
+/* 作者卡片外框容器 */
+.intro-card {
+	width: 90%;
+	max-width: 750px;
+	/* min-height: 400px; */
+	margin-top: 10px;
+	border-radius: 8px;
+	background: hsl(from var(--intro-color) h calc(s + 0.005) calc(l - 0.1) / 0.45);
+	color: var(--intro-color);
+	padding :10px;
+	box-sizing: border-box;
+    }
+    /* 基礎區塊設定 */
+.intro-block {
+	height: 200px;
+	overflow-y: auto;
+	word-wrap: break-word;
+	word-break: break-all;
+	/* padding: 5px; */
+	box-sizing: border-box;
+	background: hsl(from var(--intro-color) h s calc(l + 0.95) / 0.85);
+	border-radius: 4px;
+	font-size: 13px;
+    }
+.intro-section-title {/* 基礎區塊標題 */
+	font-size: 24px;
+	font-weight: bold;
+	border-bottom: 1px dashed rgb(from var(--intro-color) calc(255 - r) calc(255 - g) calc(255 - b));
+	padding-bottom: 2px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	color: var(--intro-color);
+    }
+.intro-row1{/* 第一列 */
+	width: 100%;
+	display: flex;
+	background:none;
+	border-radius: 8px;
+	box-sizing: border-box;
+	gap: 10px;
+    }
+    /* 第一列:左邊區塊(頭像+姓名) */
+.intro-block-left {
+	width: 150px;
+	height: 200px;
+	display: flex;
+	flex-direction: column; /* 如果子元素要上下排列 */
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 150px;
+	padding:10px;
+	box-sizing: border-box;
+	background: hsl(from var(--intro-color) h calc(s - 40) calc(l + 50) / 0.5);
+	border-radius: 6px;
+
+    }
+.intro-avatar {
+	width: 130px;
+	height: 130px;
+	object-fit: cover;
+	border-radius: 6px;
+    }
+.intro-name {
+	font-size: 24px;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	/* line-height: 1.2; */
+    }
+
+    /* 第一列:中間區塊(外站連結) */
+.intro-block-middle {
+	width: calc(100% - 160px);
+	height: 200px;
+	padding: 8px;
+	background: hsl(from var(--intro-color) h calc(s - 40) calc(l + 50) / 0.5);
+	border-radius: 6px;
+    }
+.intro-web-main {
+	height: auto;		/* 強制讓高度由內容決定 */
+	width: 100%;
+	/* gap: 4px;    */
+    } 
+    
+.intro-web-title {    
+	display: block;
+	width: 100%;
+	padding: 5px;
+	font-weight: bold;
+	color: var(--intro-color);
+	text-decoration: none;
+	cursor: pointer;
+	gap: 4px;			/* 圖示與文字的距離 */
+	line-height: 1.2;	/* 限制行高在正常範圍 */
+	font-size: 16px;
+	transition: color 0.1s;
+    }
+    
+.intro-web-title:hover {
+	background: hsl(from var(--intro-color) h calc(s - 40) calc(l + 5) / 0.6);
+	color: hsl(from var(--intro-color) h calc(s - 40) calc(l + 60));
+    }
+    
+    /* 子連結列表（縮排） */
+.intro-subpage-list {
+	padding-left: 30px;
+	font-size: 14px;
+    }
+.intro-subpage-item a {
+	display: block;
+	width: 100%;
+	color: var(--intro-color);
+	text-decoration: none;
+	opacity: 0.9;
+    }
+.intro-subpage-item a:hover {
+	background: hsl(from var(--intro-color) h calc(s - 40) calc(l + 5) / 0.6);
+	color: hsl(from var(--intro-color) h calc(s - 40) calc(l + 60));
+    }
+
+.intro-row2{
+	background: hsl(from var(--intro-color) h calc(s - 40) calc(l + 50) / 0.5);
+	border-radius: 8px;
+	margin-top: 10px;
+	padding: 10px;
+	box-sizing: border-box;
+    }
+.intro-intro-list {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+    } 
+.intro-intro-item {
+	display: flex;
+	gap: 8px;
+	font-size: 0.95rem;
+    }
+	/* 簡介標籤：自動產生同色系淺色背景與深色粗體字 */
+.intro-intro-title {
+	padding: 5px;
+	font-weight: bold;
+	border-radius: 4px;
+	color: var(--intro-color);
+	background: hsl(from var(--intro-color) h calc(s - 40) calc(l + 15) / 0.5);
+	white-space: nowrap; /* 強制文字不換行 */
+	display: inline-block; /* 讓 div 寬度由內部內容自動撐開 */
+	align-self: flex-start;
+    }
+
+.intro-intro-text {
+	padding: 5px;
+	color: var(--intro-color);
+	white-space: pre-wrap;/* 保持空白字元與換行符號 */
+	word-break: break-all;/* 強制溢出的單字自動換行 */
+    }
+    
+    /* === RWD 響應式：當視窗小於 650px 時，三區塊轉換為單列直排 === */
+@media (max-width: 650px) {
+	.intro-card {
+	    flex-direction: column;
+	    min-height: auto;
+		}
+    
+	.intro-block-left {
+	    width: 100%;
+	    flex: 1 1 100%;
+	    padding: 15px 0;
+		}
+    
+	.intro-block-middle,
+	.intro-block-right {
+	    width: 100%;
+	    flex: 1 1 100%;
+	    border-left: none;
+	    border-top: var(--introBlock-borderTop);
+		}
+    }

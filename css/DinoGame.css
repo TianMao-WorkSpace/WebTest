@@ -1,0 +1,99 @@
+/* 遊戲舞台 */
+#DinoGame-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 90%; /* 加寬舞台，給多個仙人掌更多移動空間 */
+    max-width: 600px;
+    height: 200px;
+    border-bottom: var(--gameContainer-borderBottom);
+    position: relative;
+    overflow: hidden;
+    background: var(--DinoGameContainer-bg);
+    box-shadow: var(--gameContainer-boxShadow);
+    margin:5px;
+}
+
+/* 小恐龍 */
+#dino {
+    width: 25px;
+    height: 43px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    border-radius: 4px;
+}
+/* 🦖 恐龍狀態圖片切換 (請替換為你的實際圖片路徑) */
+#dino.running {
+    background-image: var(--dinoRunning-bgimg); /* 走路 GIF */
+}
+
+#dino.jumping {
+    background-image: var(--dinoJumping-bgimg); /* 跳躍 PNG/JPG */
+}
+#dino.dead {
+    background-image: var(--dinoDead-bgimg); /* 跳躍 PNG/JPG */
+}
+
+/* 仙人掌基礎設定 */
+.cactus {
+    position: absolute;
+    bottom: 0;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+}
+
+/* 樣式 1：標準矮仙人掌 */
+.cactus.type-1 {
+    width: 15px;
+    height: 35px;
+    background-image: var(--cactusType1-bgimg);
+}
+
+/* 樣式 2：高瘦仙人掌 */
+.cactus.type-2 {
+    width: 18px;
+    height: 48px;
+    background-image: var(--cactusType2-bgimg);
+}
+
+/* 樣式 3：寬胖仙人掌組合 */
+.cactus.type-3 {
+    width: 30px;
+    height: 40px;
+    background-image: var(--cactusType3-bgimg);
+}
+
+/* 計分板與提示 */
+#score-board {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-family: monospace;
+    font-size: 20px;
+    color: var(--scoreBoard);
+    font-weight: bold;
+}
+
+#game-over-text {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--gameOver-font);
+    z-index: 10;
+}
+
+#game-over-text h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+#game-over-text p {
+    font-size: 14px;
+    color: var(--gameOverP-font);
+}

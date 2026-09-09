@@ -1,0 +1,20 @@
+/* 1. 外層容器：設定顯示的畫面大小與範圍 */
+.comment-container {
+	width: 640px;
+	height: 370px;
+	overflow: hidden;
+	position: relative;
+	border: var(--commentContainer-border);
+	display: flex;
+	align-content: flex-end;
+}
+
+/* 2. 內層 iframe：往負方向偏移，將不需要的區域推出容器外 */
+.comment-container iframe {
+	width: 640px;    /* 原網頁的原始寬度 */
+	height: 900px; /* 原網頁的原始高度 */
+	border: none;
+	position: absolute;
+	top: -210px;    /* 隱藏頂部內容 */
+	
+}

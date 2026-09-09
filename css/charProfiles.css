@@ -1,0 +1,320 @@
+.profile-wrapper {
+	width: 90%;
+	margin: 5px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+/* 上方頂部人物大頭/立繪橫向選單 */
+.profile-wrapper #char-menu-bar {
+	display: flex;
+	gap: 15px;
+	padding: 15px;
+	height:400px;
+	background:var(--profileCharMenuBar-bg);
+	/*溢出產生橫向卷軸 */
+	overflow-x: auto;
+	white-space: nowrap;
+}
+
+
+/* 選單中的單一角色外殼 */
+.profile-wrapper .char-menu-item {
+	height:360px;
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	cursor: pointer;
+	padding: 5px;
+	border-radius: 6px;
+	transition: all 0.2s ease;
+	flex-shrink: 0; /*防止在橫向排版中被壓扁 */
+}
+
+.profile-wrapper .char-menu-item:hover, .char-menu-item.active {
+	background: var(--profileCharMenuItem-hoverActive-bg);
+	border: var(--profileCharMenuItem-hoverActive-border);
+	transform: translateY(-2px);
+}
+
+/* 選單角色縮圖 */
+.profile-wrapper .char-menu-img {
+	height: 345px;
+	width: auto;
+	object-fit: contain; /* 確保圖片不變形*/
+}
+/* .profile-wrapper .char-menu-item.active .char-menu-img {
+	
+} */
+
+.profile-wrapper .char-menu-name {
+	margin-top: 10px;
+	font-size: 13px;
+}
+
+/* 下方角色詳細資料展示面板 (固定尺寸) */
+.profile-wrapper #char-detail-panel {
+	width: 100%;
+	min-height: 750px;
+	background: var(--profileCharDetailPanel-bg);
+	border-radius: 8px;
+	box-shadow: var(--profileCharDetailPanel-boxShadow);
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+/* 最上方：姓名列 */
+.profile-wrapper .detail-name-bar {
+	width: 100%;
+	background: var(--profileDetailNameBar-bg);
+	color:var(--profileDetailNameBar-font);
+	padding: 15px 20px;
+	font-size: 22px;
+	font-weight: bold;
+	box-sizing: border-box;
+	letter-spacing: 1px;
+	flex-shrink: 0; /* 防止被擠壓 */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	transition: background 0.3s ease;
+}
+/* 開關容器與標籤 */
+.profile-wrapper .toggle-container {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 15px;
+	font-weight: normal;
+}
+
+/* Switch 圓弧滑塊核心樣式 */
+.profile-wrapper .switch {
+	position: relative;
+	display: inline-block;
+	width: 50px;
+	height: 26px;
+}
+
+.profile-wrapper .switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+.profile-wrapper .toggle-label {
+	color:var(--profileToggleLabel-font);
+}
+.profile-wrapper .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0; left: 0; right: 0; bottom: 0;
+	background-color: var(--profileSlider-bg); 
+	transition: .4s;
+}
+.profile-wrapper .slider:before {
+	position: absolute;
+	content: "";
+	height: 20px;
+	width: 20px;
+	left: 3px;
+	bottom: 3px;
+	background-color: var(--profileSlider-before-bg);
+	transition: .4s;
+}
+
+.profile-wrapper .slider.round {
+	border-radius: 34px;
+}
+
+.profile-wrapper .slider.round:before {
+	border-radius: 50%;
+}
+
+/* 切換到成人向（Checked）時的開關顏色 */
+.profile-wrapper input:checked + .slider {
+	background-color: var(--profileSlider-checked-bg); /* 成人向：桃紅色 */
+}
+
+.profile-wrapper input:checked + .slider:before {
+	transform: translateX(24px);
+}
+/* 姓名列下方的雙欄容器 */
+.profile-wrapper .detail-body {
+	display: flex;
+	flex-grow: 1;
+	box-sizing: border-box;
+	/* 預設水平並排 */
+	flex-direction: row;
+}
+
+/*左欄：立繪展示與小圖預覽 */
+.profile-wrapper .detail-left-column {
+	width: 50%; /* 固定寬度比例 */
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	box-sizing: border-box;
+}
+
+/* 主要大立繪容器 */
+.profile-wrapper .main-preview-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: var(--profileMainPreviewContainer-bg);
+	border-radius: 6px;
+	border: var(--profileMainPreviewContainer-border);
+	overflow: hidden;
+	height: 520px; /*固定高度，防止塌陷*/
+}
+
+.profile-wrapper .main-preview-img {
+	max-width: 100%;    /*圖片自動縮小到div範圍內 */
+	max-height: 100%;
+	object-fit: contain; /* 保持原圖比例完整縮放 */
+}
+
+/* 其他圖片小圖預覽區 */
+.profile-wrapper .thumb-scroll-bar {
+	display: flex;
+	gap: 10px;
+	padding: 5px 0;
+	/*超過欄位寬度會產生水平卷軸 */
+	overflow-x: auto; 
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* 每個正方形小圖 */
+.profile-wrapper .thumb-item {
+	width: 60px;
+	height: 60px;
+	object-fit: cover;
+	border-radius: 4px;
+	border: var(--profileThumbItem-border);
+	cursor: pointer;
+	flex-shrink: 0;
+	transition: border-color 0.1s;
+}
+.profile-wrapper .thumb-item:hover {
+	border: var(--profileThumbItem-hover-border);
+}
+.profile-wrapper .thumb-item.active {
+	border: var(--profileThumbItem-active-border);
+}
+/*右欄：對應文字資料 */
+.profile-wrapper .detail-right-column {
+	width: 50%;
+	height: 690px; /* 配合大畫面時的固定高度 */
+	/* height: 100%; */
+	padding: 25px;
+	/*超過容器長度會有垂直卷軸 */
+	overflow-y: auto; 
+	box-sizing: border-box;
+	background: var(--profileDetailRightColumn-bg);
+}
+
+.profile-wrapper .info-title {
+	font-size: 24px;
+	font-weight: bold;
+	margin: 0 0 15px 0;
+	color: var(--profileInfoTitle-font);
+	border-bottom: var(--profileInfoTitle-borderBottom);
+	padding-bottom: 8px;
+}
+.profile-wrapper .data{
+	display: flex;
+	width: 90%;
+	margin: 5px;
+	border-bottom: var(--profileData-borderBottom);
+	min-height: 20px;
+	line-height: 1.2;
+	white-space: pre-wrap;
+	}
+.profile-wrapper .data_title{
+	color:var(--profileDataTitle-font);
+	font-size: 18px;
+	padding: 5px;
+	background: var(--profileDataTitle-bg);
+	}
+.profile-wrapper .data_article{
+	padding: 5px;
+	font-size: 15px;
+	color: var(--profileDataArticle-font);
+	}
+/* ==========================================
+   成人向色系覆蓋 (.mode-adult)
+   黑色 + 深灰底，搭配桃紅主色
+========================================== */
+.profile-wrapper #char-detail-panel.mode-adult {
+	background: var(--profileCharDetailPanelAdult-bg);
+	color: var(--profileCharDetailPanelAdult-font);
+	transition: all 0.3s ease;
+}
+
+.profile-wrapper #char-detail-panel.mode-adult .detail-name-bar {
+	background: var(--profileDetailNameBarAdult-bg);
+	color: var(--profileDetailNameBarAdult-font);
+}
+
+.profile-wrapper #char-detail-panel.mode-adult .main-preview-container {
+	background: var(--profileMainPreviewContainerAdult-bg);
+	border: var(--profileMainPreviewContainerAdult-border);
+}
+
+/* 每個正方形小圖 */
+.profile-wrapper #char-detail-panel.mode-adult .thumb-item {
+	border: var(--profileThumbItemAdult-border);
+}
+.profile-wrapper #char-detail-panel.mode-adult .thumb-item:hover {
+	border: var(--profileThumbItemAdult-hover-border);
+}
+.profile-wrapper #char-detail-panel.mode-adult .thumb-item.active {
+	border: var(--profileThumbItemAdult-active-border);
+}
+
+.profile-wrapper #char-detail-panel.mode-adult .detail-right-column {
+	background: var(--profileDetailRightColumnAdult-bg);
+}
+
+.profile-wrapper #char-detail-panel.mode-adult .info-title {
+	color: var(--profileInfoTitleAdult-font);
+	border-bottom: var(--profileInfoTitleAdult-borderBottom);
+}
+
+.profile-wrapper #char-detail-panel.mode-adult .data {
+	border-bottom: var(--profileDataAdult);
+}
+
+.profile-wrapper #char-detail-panel.mode-adult .data_title {
+	color: var(--profileDataTitleAdult-font);
+	background: var(--profileDataTitleAdult-bg);
+}
+
+.profile-wrapper #char-detail-panel.mode-adult .data_article {
+	color: var(--profileDataArticleAdult-font);
+}
+@media (max-width: 768px) {
+	/* 雙欄容器從左右並排變成上下垂直排列*/
+	.profile-wrapper .detail-body {
+		flex-direction: column;
+	}
+
+	/* 左欄與右欄的寬度全部強制吃滿 100% 寬度 */
+	.profile-wrapper .detail-left-column, 
+	.profile-wrapper .detail-right-column {
+		width: 100% !important;
+		height: auto !important; /* 釋放高度，讓內容自然往下長 */
+		border-right: none;	    /* 拔除右邊框線 */
+	}
+
+	/* 在垂直排列時，右欄隱藏捲軸，由最外層的 #content-box 去滾動 */
+	.profile-wrapper .detail-right-column {
+		overflow-y: visible !important; 
+		border-top: var(--profileDetailRightColumn-borderTop); 
+		padding-top: 20px;
+	}
+}

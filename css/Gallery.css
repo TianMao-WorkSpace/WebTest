@@ -1,0 +1,328 @@
+#gallery-container {/* 全域容器 */
+	width:95%;
+	max-width: 1200px;
+}
+
+#gallery-container .display-main-box {/* 上方：大展示區 (預設隱藏，點擊下方縮圖後顯示) */
+	display: flex;
+	min-height: 750px;
+	background: var(--galleryDisplayMainBox-bg);
+	border-radius: 8px;
+	box-shadow: var(--galleryDisplayMainBox-boxShadow);
+	margin-bottom: 25px;
+	overflow: hidden;
+}
+
+#gallery-container .exhibit-primary-panel {/* 左側：主圖區 */
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+#gallery-container .exhibit-title {
+	width: 100%;
+	background: var(--galleryExhibitTitle-bg);
+	padding: 15px 20px;
+	font-size: 22px;
+	font-weight: bold;
+	box-sizing: border-box;
+	letter-spacing: 1px;
+	flex-shrink: 0; /* 防止被擠壓 */
+}
+#gallery-container .exhibit-image-wrapper {
+	margin: 10px;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--galleryExhibitImageWrapper-bg);
+	border-radius: 6px;
+	border: var(--galleryExhibitImageWrapper-border);
+	overflow: hidden;
+	padding: 10px;
+}
+#gallery-container .exhibit-large-img {
+	max-width: auto;
+	max-height: 500px;
+	object-fit: contain;
+}
+#gallery-container .exhibit-notes {
+	background: var(--galleryExhibitNotes-bg);
+	padding: 15px;
+	margin: 10px;
+}
+
+#gallery-container .exhibit-side-panel {/* 右側：其他圖清單區 */
+	width: 200px;
+	flex-shrink: 0;
+	padding: 10px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	max-height: 750px;
+}
+
+#gallery-container .gallery-thumbs-grid {/* 下方：全部項目縮圖排列區 */
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	padding: 5px;
+	border-radius: 8px;
+}
+
+#gallery-container .thumb-card-item {/* 正方形卡片項目(通用) */
+	width: 120px;
+	background: var(--galleryThumbCardItem-bg);
+	border: var(--galleryThumbCardItem-border);
+	border-radius: 6px;
+	overflow: hidden;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	transition: all 0.2s ease;
+	position: relative; /* 必須設定 */
+	overflow: hidden;     /* 讓切掉邊框的效果生效 */
+}
+
+#gallery-container .thumb-card-item:hover {
+	border: var(--galleryThumbCardItem-hover-border);
+	transform: translateY(-2px);
+}
+
+#gallery-container .thumb-card-item.selected {/*    被選中狀態的樣式 */
+	border: var(--galleryThumbCardItem-selected-border) !important;
+	box-shadow: var(--galleryThumbCardItem-selected-boxShadow);
+	background: var(--galleryThumbCardItem-selected-bg);
+}
+
+#gallery-container .PanelLeft{
+	width: 180px;
+	height: 180px;
+}
+
+
+#gallery-container .thumb-card-title {/* 卡片內部的文字與圖片配置 */
+	padding: 5px;
+	text-align: center;
+	white-space: normal;
+	word-break: break-all;
+	overflow: hidden;
+	position: relative;
+	z-index: 2; /* 讓標題文字維持在水印上方 */
+	overflow: hidden; /* 關鍵：讓 🔞 超出標題列高/寬的部分自動裁切，不影響下方縮圖 */
+}
+/* 2. 標題文字層級高於水印，確保讀取清晰 */
+#gallery-container .thumb-card-title-text {
+	position: relative;
+	z-index: 2;
+    }
+#gallery-container .thumb-card-img {
+	width: 100%;
+	height: 116px; /* 扣除文字與邊框後逼近正方形 */
+	object-fit: cover;
+	display: block;
+}
+/* === 頁籤 (Tabs) 架構樣式 === */
+#gallery-container .tab-panel {
+	display: none;
+    }
+#gallery-container .tab-panel.active {
+	display: block;
+    }
+  /* R18 限制級縮圖模糊 */
+#gallery-container .adult-blurred-img {
+  filter: blur(10px);
+  transition: filter 0.3s ease;
+}
+
+/* === 縮圖卡片覆蓋層 (影片/音樂/多頁標籤) === */
+#gallery-container .thumb-card-img-wrapper {
+	position: relative;
+	width: 100%;
+	height: 116px;
+	overflow: hidden;
+    }
+#gallery-container .thumb-card-img-wrapper img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+    }
+/* 播放按鈕圖示 overlay */
+#gallery-container .play-icon-overlay {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 36px;
+	height: 36px;
+	background: var(--galleryPlayIcon-bg) center / contain no-repeat; 
+	pointer-events: none;
+	border-radius: 50%;
+    }
+    /* 右下角類型標籤 (影片/音樂) */
+#gallery-container .thumb-type-tag {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	background: var(--galleryTypeTag-bg);
+	color: var(--galleryTypeTag-font);
+	font-size: 11px;
+	padding: 2px 6px;
+	border-radius: 4px;
+    }
+    /* 複數檔案資料夾標籤 (🗂️) */
+#gallery-container .thumb-folder-tag {
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	background: var(--galleryThumbFolderTag-bg);
+	font-size: 15px;
+	/* padding: 2px 4px; */
+	border-radius: 4px;
+    }
+/* 🔞 大尺寸背景半透明標籤（切邊效果） */
+#gallery-container .thumb-adult-bg-tag {
+	position: absolute;
+	top: -10px;		    /* 向上超出邊框，產生切邊感 */
+	left: -17px;		 /* 向左超出邊框，產生切邊感 */
+	font-size: 45px;	/* 大尺寸水印 */
+	line-height: 1;
+	opacity: 0.35;	    /* 半透明效果 */
+	z-index: 1;		 /* 壓在卡片背景上、文字下方 */
+	pointer-events: none; /* 不影響滑鼠點擊卡片 */
+	user-select: none;    /* 防止拖拽或選取圖示 */
+	/*filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));    增加與背景的對比 */
+    }
+    
+    /* === 展示區多媒材元件 (TXT / 影片 / 音樂) ===
+#gallery-container .exhibit-large-img {
+	cursor: zoom-in;
+    }
+    
+/* TXT 小說/文章樣式 */
+#gallery-container .exhibit-text-container {
+	width: 100%;
+	max-width: 700px;
+	min-height: 300px;
+	max-height: 500px; 
+	overflow-y: auto;
+	background: var(--galleryExhibitTextContainer-bg);
+	border: var(--galleryExhibitTextContainer-border);
+	padding: 20px;
+	box-sizing: border-box;
+	/* border-radius: 6px; */
+	white-space: pre-wrap;
+	word-break: break-word;
+	line-height: 1.8;
+	font-size: 16px;
+	font-family: var(--galleryExhibitTextContainer-fontFamily);
+	color: var(--galleryExhibitTextContainer-font);
+    
+    }
+    
+/* 影片與播放容器 */
+#gallery-container .exhibit-video-wrapper {
+	width: 100%;
+	max-width: 750px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+    }
+#gallery-container .exhibit-video-player {
+	width: 100%;
+	height: 420px;
+	border: none;
+	border-radius: 6px;
+	background: var(--galleryExhibitVideoPlayer-bg);
+    }
+    
+/* 音樂與聲波圖疊加樣式 */
+#gallery-container .exhibit-audio-wrapper {
+	position: relative;
+	width: 100%;
+	max-width: 600px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+    }
+#gallery-container .audio-cover-box {
+	position: relative;
+	width: 100%;
+	max-height: 400px;
+	overflow: hidden;
+	border-radius: 6px;
+    }
+#gallery-container .audio-cover-box img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+    }
+#gallery-container .audio-canvas-overlay {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100px;
+	background: var(--galleryAudioCanvas-bg);
+	pointer-events: none;
+    }
+#gallery-container .audio-controls-bar {
+	width: 100%;
+	margin-top: 10px;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+    }
+#gallery-container .audio-controls-bar audio {
+	flex: 1;
+    }
+#gallery-container .audio-mode-select {
+	padding: 6px 10px;
+	background: var(--galleryAudioModeSelect-bg);
+	color: var(--galleryAudioModeSelect-font);
+	border: --galleryAudioModeSelect-border;
+	border-radius: 4px;
+	cursor: pointer;
+    }
+/* iframe 展示容器與元素樣式 */
+#gallery-container .exhibit-iframe-wrapper {
+	width: 100%;
+	height: 100%;
+	min-height: 450px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+    }
+    
+#gallery-container .exhibit-iframe-wrapper iframe {
+	width: 100%;
+	height: 100%;
+	min-height: 450px;
+	border: none;
+	border-radius: 6px;
+    }
+    /* === 全域 Modal 放大彈窗 (圖片/影片) === */
+.gallery-modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: var(--galleryModalOverlay-bg);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+    }
+.gallery-modal-content {
+	max-width: 90vw;
+	max-height: 90vh;
+	object-fit: contain;
+    }
+.gallery-modal-video {
+	width: 80vw;
+	height: 80vh;
+    }

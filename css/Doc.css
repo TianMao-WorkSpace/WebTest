@@ -1,0 +1,29 @@
+.Doc-Containter{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+}
+
+.tab-iframe {/* 滿版 Iframe 樣式 */
+	width: 100%;
+	height: 100%;/* 固定高度，讓 Google 文件的滾動條鎖在內部 */
+	border: none;
+	display: block;
+}
+
+.Doc_intro-box {/* 滿版 Iframe 樣式 */
+	background: var(--DocIntroBox-bg);
+	border: var(--DocIntroBox-border);
+	color:var(--DocIntroBox-font);
+	border-width:1px 1px 1px 4px;
+	padding: 15px;
+	margin-bottom: 20px;
+	border-radius: 4px;
+	word-break: break-all;
+	font-size: 15px;
+	line-height: 1.6;
+    width: 90%;
+	max-width: 800px;
+}

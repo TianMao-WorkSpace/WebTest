@@ -1,0 +1,160 @@
+/* 網格大容器 */
+#timeline{
+	padding: 5px;
+	width: 100% !important;	 /*強制寬度吃滿父層 */
+	box-sizing: border-box;
+	max-width: 100% !important; /*防止被任何外層樣式強行限制固定寬度 */
+	display: block !important;    /* 確保獨立以觸發滾動條 */
+	overflow-x: auto !important;/*強制開啟水平滾動 */
+	overflow-y: visible !important; /* 上下滾動交給父層處理 */
+	padding:5px;
+
+}
+#timeline .timeline-grid-container {
+	display: grid;
+	position: relative;
+	gap: 15px; 
+	padding-top: 15px;
+	padding-bottom: 15px;
+	min-width: 100% !important;
+	background: var(--timeline-bg);
+}
+
+/* 左側時間方塊 */
+#timeline .grid-time-cell {
+	color: var(--timelineGridTimeCell-font);
+	font-weight: bold;
+	padding: 10px 10px;
+	text-align: left;
+	border-right: var(--timelineGridTimeCell-borderRight); 
+	display: flex;
+	align-items: top;
+	justify-content: center;
+}
+
+/* 一般事件包裹盒 */
+#timeline .grid-events-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: flex-start;
+}
+
+/* 基礎事件卡片 */
+#timeline .event-card {
+	background: var(--timelineEventCard-bg);
+	border: var(--timelineEventCard-border);
+	border-width:1px 1px 1px 4px;
+	padding: 10px;
+	border-radius: 0 4px 4px 0;
+	/*當滑鼠移到事件卡片上時，卡片變換游標 */
+	cursor: pointer;
+	transition: transform 0.1s ease, box-shadow 0.1s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+/* 基礎事件卡片-其他 */
+#timeline .event-card-other {
+	background: var(--timelineEventCardOther-bg);
+	border: solid var(--timelineEventCardOther-border);
+	border-width:1px 1px 1px 4px;
+	padding: 10px;
+	border-radius: 0 4px 4px 0;
+}
+
+#timeline .event-title {
+	font-weight: bold;
+	height: 100%;
+	color: var(--timelineEventTitle-font); 
+	white-space: nowrap;	     /* 強制文字不換行 */
+	overflow: hidden;		    /* 隱藏超出容器的文字 */
+	text-overflow: ellipsis;     /* 溢出時顯示「...」 */
+	display: block;
+}
+#timeline .event-card-other .event-title {
+	color:var(--timelineEventCardOther-font);
+}
+#timeline .long-term-event .event-title {
+	color:var(--timelineLongTermEvent-font);
+}
+#timeline .long-term-event-other .event-title {
+	color:var(--timelineLongTermEventOver-font);
+}
+#timeline .event-card:hover {
+	transform: translateY(-2px); /* 輕微浮起特效 */
+	box-shadow: var(--timelineEventCard-hover-boxShadow);
+}
+
+/*跨度事件樣式：被 Grid 自動拉長*/
+#timeline .long-term-event {
+	background: var(--timelineLongTermEvent-bg);
+	border: var(--timelineLongTermEvent-border);
+	border-width:1px 1px 1px 4px;
+	height: 100%; /* 卡片塞滿整段跨度的高度 */
+	box-sizing: border-box;
+}
+/*跨度事件樣式：被 Grid 自動拉長*/
+#timeline .long-term-event-other {
+	background: var(--timelineLongTermEventOther-bg);
+	border: var(--timelineLongTermEventOther-border);
+	border-width:1px 1px 1px 4px;
+	height: 100%; /* 卡片塞滿整段跨度的高度 */
+	box-sizing: border-box;
+}
+/* 懸浮說明框主體 */
+.timeline-tooltip {
+	/*改成固定在瀏覽器視窗上，不跟隨任何捲軸滾動 */
+	position: fixed !important;
+	top: 40px !important;
+	right: 0px !important;
+	display: none;
+	background:var(--timelineTooltip-bg);
+	border-left: var(--timelineTooltip-borderleft);
+	box-shadow: var(--timelineTooltip-boxShadow);
+	padding: 10px; 
+	border-radius: 4px;
+	width: 280px;
+	height: 90%;
+	box-sizing: border-box;
+	overflow-y: auto;
+	z-index: 999;
+}
+/* 2. 為了解決選單破版與定位干擾，確保大容器有相對定位點 */
+.timeline-tooltip .timeline-grid-container {
+	position: relative;	 /*讓懸浮框的 top/left 參照大畫布計算，不亂飄 */
+	display: grid;
+	gap: 15px; 
+	width: 100%;
+	max-width: 1200px; 
+	margin: 0 auto;
+}
+/* 懸浮框內的文字樣式 */
+.timeline-tooltip .tooltip-title {
+	font-size: 16px;
+	font-weight: bold;
+	color: var(--timelineTooltipTitle-font);
+	display: block;
+	line-height: 1.2;
+	margin-top: 0px;
+	padding: 0px;
+	margin-bottom: 4px;
+}
+
+.timeline-tooltip .tooltip-time {
+	font-size: 12px;
+	color: var(--timelineTooltipTime-font);
+	font-weight: bold;
+	display: block;
+	line-height: 1.2;
+	margin-top: 0px;
+	margin-bottom: 1px;
+	border-bottom: var(--timelineTooltipTime-borderBottom);
+	padding-bottom: 2px; 
+}
+
+.timeline-tooltip .tooltip-desc {
+	font-size: 13px;
+
+	line-height: 1.6;
+}

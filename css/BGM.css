@@ -1,0 +1,141 @@
+/* 控制選單區域容器 */
+.media-controls {
+    gap: 15px;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 32px;
+}
+
+/* 右下角固定懸浮元件 */
+.audio-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 500px;
+    box-sizing: border-box;
+    background: var(--audioWidget-bg);
+    backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 8px 12px;
+    display: none;
+    flex-direction: column;
+    z-index: 9999;
+    box-shadow: var(-audioWidget-boxShadow);
+}
+
+.audio-widget.active {
+    display: flex;
+}
+
+/* 窄螢幕 (<= 600px) 佔據全寬 */
+@media (max-width: 600px) {
+    .audio-widget {
+        width: calc(100% - 20px);
+        right: 10px;
+        bottom: 10px;
+    }
+}
+
+/* 第一列: 關閉按鈕 */
+.audio-widget .widget-row-1 {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.audio-widget .close-btn {
+    background: none;
+    border: none;
+    color:var(--audioWidgetCloseBtn-font);
+    cursor: pointer;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.audio-widget .close-btn:hover {
+    opacity: 1;
+}
+
+
+/* 第二列: 主內容軌道 */
+.audio-widget .widget-row-2 {
+    position: relative;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+/* 背景柱狀圖 Canvas */
+.audio-widget .visualizer-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 動態 GIF */
+.audio-widget .gif-avatar {
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+    height: 40px;
+    width: auto;
+    z-index: 2;
+    transition: transform 0.1s linear;
+    pointer-events: none;
+}
+
+/* 客製化音量條 */
+.audio-widget .volume-slider {
+    position: relative;
+    z-index: 3;
+    margin-right: 5px;
+    width: 70px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.audio-widget .volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--audioWidgetVolumeWebkitSliderThumb-bg);
+    cursor: pointer;
+    box-shadow: var(--audioWidgetVolumeWebkitSliderThumb-boxShadow);
+}
+
+.audio-widget .volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--audioWidgetVolumeMozRangeThumb-bg);
+    cursor: pointer;
+    border: none;
+}
+
+
+

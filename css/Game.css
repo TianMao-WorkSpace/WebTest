@@ -1,0 +1,122 @@
+/* 🌟 新增：遊戲專區外層容器 */
+#game-container {
+    max-width: 800px;
+    width: 100%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* RWD 頁籤名稱切換 */
+@media (max-width: 600px) {
+    #game-container .tab-btn .tab-title { display: none; }
+    #game-container .tab-btn .tab-short-name { display: inline; }
+}
+@media (min-width: 601px) {
+    #game-container .tab-btn .tab-short-name { display: none; }
+}
+
+/* 🌟 新增：第二列 內容展示區 */
+#game-container .tabs-content {
+    width: 100%;
+    max-width:90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 遊戲首頁內容版面 */
+.game-menu-view {
+    height: 500px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+/* 排行榜 */
+.game-score-list {
+    margin-top: 10px;
+    min-width: 60%;
+    font-family: monospace;
+}
+.game-score-item {/* 遊戲名稱 */
+    height:35px;
+    padding: 5px;
+    margin-bottom: 8px;
+    font-size:15px;
+    display: flex; 
+    align-items: center;
+    gap:5px;
+}
+.role-score-item {
+    padding-left: 20px;
+    font-size: 0.95em;
+    display: flex; 
+    align-items: center;
+    gap:5px;
+}
+
+/* 遊戲準備與選角介面 */
+.game-init-panel {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+}
+
+.role-select-list {
+    display: flex;
+    justify-content: center; /* 水平置中 */
+    gap: 15px;
+    overflow-x: auto;
+    width: 100%;
+    padding: 10px;
+}
+
+.role-card {
+    cursor: pointer;
+    padding: 5px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: transform 0.2s, background-color 0.2s;
+    flex-shrink: 0;
+}
+
+.role-card:hover {
+    transform: scale(1.1);
+}
+
+.role-card.selected {
+    transform: scale(1.1);
+    background: var(--roleCard-selected-bg); /* 點擊加透明黑色遮罩 */
+    border-color: var(--roleCard-selected-border);
+}
+
+.role-card img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+.game-init-panel .tab-btn{
+    padding:5px 15px;
+    margin-bottom: 10px;
+    border: var(--gameInitPanelTabBtn-border);/*帶改*/
+}
+/* 遊戲進行中計分抬頭 */
+.game-play-header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 5px 15px;
+    font-weight: bold;
+    box-sizing: border-box;
+}
